@@ -19,11 +19,13 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// 2. RAZORPAY CONFIG
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET
-});
+// 2. RAZORPAY CONFIG (Safe startup agar key abhi na dali ho)
+const razorpay = process.env.RAZORPAY_KEY_ID
+  ? new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET
+    })
+  : null;
 
 // 3. MONGODB CONNECTION + 15-DAY AUTO DELETE SCHEMA
 mongoose.connect(process.env.MONGO_URI)
@@ -204,3 +206,4 @@ app.get('/card/:id', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
