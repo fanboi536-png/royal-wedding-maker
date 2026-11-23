@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create Royal Wedding Invitation | 15-Day Free Animated Card</title>
@@ -148,51 +149,71 @@
     const openCardLink = document.getElementById('openCardLink');
 
     form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Generating Royal Card...';
+  e.preventDefault();
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Opening Payment (₹10)...';
 
-      const formData = new FormData(form);
+  try {
+    // 1. Server se ₹10 ka Razorpay Order banwayein
+    const orderRes = await fetch('/api/create-order', { method: 'POST' });
+    const orderData = await orderRes.json();
+    if (!orderRes.ok) throw new Error(orderData.error);
 
-      // Selected functions collect karein
-      const selectedEvents = [];
-      document.querySelectorAll('#functionsContainer > div').forEach((box) => {
-        const checkbox = box.querySelector('.fn-check');
-        if (checkbox.checked) {
-          selectedEvents.push({
-            type: checkbox.dataset.type,
-            date: box.querySelector('.fn-date').value.trim(),
-            venue: box.querySelector('.fn-venue').value.trim()
-          });
-        }
-      });
-      formData.append('eventsJson', JSON.stringify(selectedEvents));
+    // 2. Razorpay UPI Popup kholein
+    const options = {
+      key: orderData.keyId,
+      amount: orderData.amount,
+      currency: 'INR',
+      name: 'Royal Wedding Card',
+      description: '15-Day Animated Wedding Invitation',
+      order_id: orderData.orderId,
+      handler: async function (response) {
+        submitBtn.textContent = 'Payment Done! Creating Card...';
 
-      try {
+        const formData = new FormData(form);
+        formData.append('razorpay_order_id', response.razorpay_order_id);
+        formData.append('razorpay_payment_id', response.razorpay_payment_id);
+        formData.append('razorpay_signature', response.razorpay_signature);
+
+        const selectedEvents = [];
+        document.querySelectorAll('#functionsContainer > div').forEach((box) => {
+          const checkbox = box.querySelector('.fn-check');
+          if (checkbox.checked) {
+            selectedEvents.push({
+              type: checkbox.dataset.type,
+              date: box.querySelector('.fn-date').value.trim(),
+              venue: box.querySelector('.fn-venue').value.trim()
+            });
+          }
+        });
+        formData.append('eventsJson', JSON.stringify(selectedEvents));
+
         const res = await fetch('/api/create-card', { method: 'POST', body: formData });
         const data = await res.json();
-
-        if (!res.ok) throw new Error(data.error || 'Error creating card');
+        if (!res.ok) throw new Error(data.error);
 
         const fullUrl = `${window.location.origin}${data.cardUrl}`;
         generatedLinkInput.value = fullUrl;
         openCardLink.href = fullUrl;
         resultBox.classList.remove('hidden');
         resultBox.scrollIntoView({ behavior: 'smooth' });
-      } catch (err) {
-        alert(err.message);
-      } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = '✦ Generate My Royal Wedding Card ✦';
-      }
-    });
+        submitBtn.textContent = '✦ Pay ₹10 & Generate Royal Card ✦';
+      },
+      modal: {
+        ondismiss: function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = '✦ Pay ₹10 & Generate Royal Card ✦';
+        }
+      },
+      theme: { color: '#700914' }
+    };
 
-    document.getElementById('copyBtn').addEventListener('click', () => {
-      generatedLinkInput.select();
-      navigator.clipboard.writeText(generatedLinkInput.value);
-      document.getElementById('copyBtn').textContent = 'Copied ✓';
-      setTimeout(() => (document.getElementById('copyBtn').textContent = 'Copy Link'), 2000);
-    });
-  </script>
-</body>
-</html>
+    const rzp = new Razorpay(options);
+    rzp.open();
+  } catch (err) {
+    alert(err.message);
+    submitBtn.disabled = false;
+    submitBtn.textContent = '✦ Pay ₹10 & Generate Royal Card ✦';
+  }
+});
