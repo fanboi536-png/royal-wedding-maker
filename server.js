@@ -1,61 +1,107 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
 const crypto = require('crypto');
-const cron = require('node-cron');
+const mongoose = require('mongoose');
+const cloudinary = require('cloudinary').v2;
+const Razorpay = require('razorpay');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Zaroori folders auto-create karein
-const DATA_DIR = path.join(__dirname, 'data');
-const UPLOAD_DIR = path.join(__dirname, 'uploads');
-if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  if (req.method === 'OPTIONS') return res.sendStatus(200);
-  next();
-});
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(UPLOAD_DIR));
 
-// -------------------------------------------------------------
-// 1. MULTER SETUP (Image Upload - Max 3MB per photo)
-// -------------------------------------------------------------
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, UPLOAD_DIR),
-  filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${crypto.randomBytes(4).toString('hex')}${path.extname(file.originalname)}`;
-    cb(null, uniqueName);
-  }
+// 1. CLOUDINARY CONFIG
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+// 2. RAZORPAY CONFIG
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET
+});
+
+// 3. MONGODB CONNECTION + 15-DAY AUTO DELETE SCHEMA
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('✅ MongoDB Connected'))
+  .catch((err) => console.error('❌ MongoDB Error:', err));
+
+const cardSchema = new mongoose.Schema({
+  id: { type: String, unique: true, required: true },
+  groomName: String,
+  groomParents: String,
+  brideName: String,
+  brideParents: String,
+  weddingDate: String,
+  venueName: String,
+  venueAddress: String,
+  whatsappNumber: String,
+  groomPhoto: String,
+  bridePhoto: String,
+  events: Array,
+  blessings: Array,
+  paymentId: String,
+  // 15 din (1296000 seconds) baad MongoDB is card ko apne aap delete kar dega
+  createdAt: { type: Date, default: Date.now, expires: 1296000 }
+});
+
+const Card = mongoose.model('Card', cardSchema);
+
+// Multer Memory Storage (Disk use nahi hogi, seedha Cloudinary par jayega)
 const upload = multer({
-  storage,
-  limits: { fileSize: 3 * 1024 * 1024 }, // 3MB max per image
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) cb(null, true);
-    else cb(new Error('Sirf image files allowed hain!'));
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 3 * 1024 * 1024 }
+});
+
+function uploadToCloudinary(buffer) {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: 'royal_wedding_cards', quality: 'auto' },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result.secure_url);
+      }
+    );
+    stream.end(buffer);
+  });
+}
+
+// 4. API: RAZORPAY ₹10 ORDER CREATE KAREIN
+app.post('/api/create-order', async (req, res) => {
+  try {
+    const order = await razorpay.orders.create({
+      amount: 1000, // 1000 paise = ₹10
+      currency: 'INR',
+      receipt: `rcpt_${Date.now()}`
+    });
+    res.json({
+      orderId: order.id,
+      amount: order.amount,
+      keyId: process.env.RAZORPAY_KEY_ID
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Payment order create nahi ho paya.' });
   }
 });
 
-// -------------------------------------------------------------
-// 2. API: NAYA WEDDING CARD CREATE KAREIN
-// -------------------------------------------------------------
+// 5. API: PAYMENT VERIFY KAREIN AUR CARD BANAYEIN
 app.post(
   '/api/create-card',
   upload.fields([
     { name: 'groomPhoto', maxCount: 1 },
     { name: 'bridePhoto', maxCount: 1 }
   ]),
-  (req, res) => {
+  async (req, res) => {
     try {
       const {
+        razorpay_order_id,
+        razorpay_payment_id,
+        razorpay_signature,
         groomName,
         groomParents,
         brideName,
@@ -67,28 +113,30 @@ app.post(
         eventsJson
       } = req.body;
 
-      if (!groomName || !brideName || !weddingDate) {
-        return res.status(400).json({ error: 'Groom, Bride aur Wedding Date zaroori hai.' });
+      // Payment Signature Verify Karein (Security Check)
+      const expectedSig = crypto
+        .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+        .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+        .digest('hex');
+
+      if (expectedSig !== razorpay_signature) {
+        return res.status(400).json({ error: 'Payment verification failed!' });
       }
 
-      // Unique readable slug: e.g. rahul-weds-kanika-a4f91c
+      // Photos Cloudinary par upload karein
+      let groomPhotoUrl = '';
+      let bridePhotoUrl = '';
+      if (req.files['groomPhoto']) {
+        groomPhotoUrl = await uploadToCloudinary(req.files['groomPhoto'][0].buffer);
+      }
+      if (req.files['bridePhoto']) {
+        bridePhotoUrl = await uploadToCloudinary(req.files['bridePhoto'][0].buffer);
+      }
+
       const clean = (str) => str.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 15) || 'royal';
       const cardId = `${clean(groomName)}-weds-${clean(brideName)}-${crypto.randomBytes(3).toString('hex')}`;
 
-      const groomFile = req.files['groomPhoto'] ? req.files['groomPhoto'][0].filename : null;
-      const brideFile = req.files['bridePhoto'] ? req.files['bridePhoto'][0].filename : null;
-
-      let events = [];
-      try {
-        events = JSON.parse(eventsJson || '[]');
-      } catch (e) {
-        events = [];
-      }
-
-      const FIFTEEN_DAYS_MS = 15 * 24 * 60 * 60 * 1000;
-      const now = Date.now();
-
-      const cardData = {
+      const newCard = await Card.create({
         id: cardId,
         groomName: groomName.trim(),
         groomParents: groomParents?.trim() || '',
@@ -98,130 +146,61 @@ app.post(
         venueName: venueName?.trim() || 'Royal Palace',
         venueAddress: venueAddress?.trim() || '',
         whatsappNumber: (whatsappNumber || '').replace(/\D/g, ''),
-        groomPhoto: groomFile ? `/uploads/${groomFile}` : '',
-        bridePhoto: brideFile ? `/uploads/${brideFile}` : '',
-        groomFileName: groomFile,
-        brideFileName: brideFile,
-        events,
+        groomPhoto: groomPhotoUrl,
+        bridePhoto: bridePhotoUrl,
+        events: JSON.parse(eventsJson || '[]'),
+        paymentId: razorpay_payment_id,
         blessings: [
           {
             name: 'Family & Well-Wishers',
             status: 'Joyfully Attending',
-            wish: `Wishing ${groomName.trim()} & ${brideName.trim()} a lifetime of love, happiness, and royal togetherness!`
+            wish: `Wishing ${groomName.trim()} & ${brideName.trim()} a lifetime of love and royal togetherness!`
           }
-        ],
-        createdAt: now,
-        expiresAt: now + FIFTEEN_DAYS_MS
-      };
-
-      fs.writeFileSync(path.join(DATA_DIR, `${cardId}.json`), JSON.stringify(cardData, null, 2));
-
-      res.json({
-        success: true,
-        cardId,
-        cardUrl: `/card/${cardId}`,
-        expiresAt: cardData.expiresAt
+        ]
       });
+
+      res.json({ success: true, cardId: newCard.id, cardUrl: `/card/${newCard.id}` });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: 'Card create karne mein error aaya.' });
+      res.status(500).json({ error: 'Card banane mein error aaya.' });
     }
   }
 );
 
-// -------------------------------------------------------------
-// 3. API: CARD DATA FETCH KAREIN
-// -------------------------------------------------------------
-app.get('/api/card/:id', (req, res) => {
-  const filePath = path.join(DATA_DIR, `${req.params.id}.json`);
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).json({ error: 'Card nahi mila ya 15 din baad expire ho chuka hai.' });
+// 6. API: CARD FETCH KAREIN
+app.get('/api/card/:id', async (req, res) => {
+  try {
+    const card = await Card.findOne({ id: req.params.id });
+    if (!card) return res.status(404).json({ error: 'Card expire ho chuka hai ya nahi mila.' });
+    res.json(card);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
   }
-
-  const card = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-
-  // Extra check: Agar 15 din poore ho gaye hon toh turant delete kar dein
-  if (Date.now() > card.expiresAt) {
-    deleteCardFiles(card, filePath);
-    return res.status(410).json({ error: 'Ye invitation link 15 din baad expire ho chuka hai.' });
-  }
-
-  res.json(card);
 });
 
-// -------------------------------------------------------------
-// 4. API: GUEST BLESSINGS SAVE KAREIN (Server par)
-// -------------------------------------------------------------
-app.post('/api/card/:id/blessing', (req, res) => {
-  const filePath = path.join(DATA_DIR, `${req.params.id}.json`);
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).json({ error: 'Card not found' });
+// 7. API: BLESSINGS SAVE KAREIN
+app.post('/api/card/:id/blessing', async (req, res) => {
+  try {
+    const { name, status, wish } = req.body;
+    const card = await Card.findOne({ id: req.params.id });
+    if (!card) return res.status(404).json({ error: 'Card not found' });
+
+    card.blessings.unshift({
+      name: String(name).slice(0, 60),
+      status: String(status || 'Joyfully Attending').slice(0, 40),
+      wish: String(wish || 'Best wishes!').slice(0, 300)
+    });
+    card.blessings = card.blessings.slice(0, 50);
+    await card.save();
+
+    res.json({ success: true, blessings: card.blessings });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
   }
-
-  const card = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-  const { name, status, wish } = req.body;
-  if (!name) return res.status(400).json({ error: 'Name required' });
-
-  card.blessings.unshift({
-    name: String(name).slice(0, 60),
-    status: String(status || 'Joyfully Attending').slice(0, 40),
-    wish: String(wish || 'Best wishes!').slice(0, 300)
-  });
-
-  // Max 50 blessings rakhein taaki file badi na ho
-  card.blessings = card.blessings.slice(0, 50);
-
-  fs.writeFileSync(filePath, JSON.stringify(card, null, 2));
-  res.json({ success: true, blessings: card.blessings });
 });
 
-// -------------------------------------------------------------
-// 5. CARD VIEW PAGE ROUTE
-// -------------------------------------------------------------
 app.get('/card/:id', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'card.html'));
 });
 
-// -------------------------------------------------------------
-// 6. AUTO-DELETE LOGIC (15 DIN PURANE CARDS & PHOTOS DELETE)
-// -------------------------------------------------------------
-function deleteCardFiles(card, jsonPath) {
-  try {
-    if (card.groomFileName) {
-      const gPath = path.join(UPLOAD_DIR, card.groomFileName);
-      if (fs.existsSync(gPath)) fs.unlinkSync(gPath);
-    }
-    if (card.brideFileName) {
-      const bPath = path.join(UPLOAD_DIR, card.brideFileName);
-      if (fs.existsSync(bPath)) fs.unlinkSync(bPath);
-    }
-    if (fs.existsSync(jsonPath)) fs.unlinkSync(jsonPath);
-    console.log(`🗑️ Deleted expired card: ${card.id}`);
-  } catch (err) {
-    console.error('Delete error:', err);
-  }
-}
-
-function cleanupExpiredCards() {
-  const files = fs.readdirSync(DATA_DIR);
-  const now = Date.now();
-  files.forEach((file) => {
-    if (!file.endsWith('.json')) return;
-    const filePath = path.join(DATA_DIR, file);
-    try {
-      const card = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-      if (now > card.expiresAt) {
-        deleteCardFiles(card, filePath);
-      }
-    } catch (e) {}
-  });
-}
-
-// Har 6 ghante mein automatic cleanup chalega + server start hone par bhi
-cron.schedule('0 */6 * * *', cleanupExpiredCards);
-cleanupExpiredCards();
-
-app.listen(PORT, () => {
-  console.log(`🚀 Royal Wedding Maker running at http://localhost:${PORT}`);
-
-});
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
