@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create Royal Wedding Invitation | 15-Day Animated Card</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     body {
@@ -27,7 +26,7 @@
       <p class="text-[#f3d078] text-xs tracking-[0.25em] uppercase mb-2">Royal E-Invite Generator</p>
       <h1 class="font-cinzel text-3xl sm:text-4xl text-[#f9e79f] font-bold">Apna Royal Wedding Card Banayein</h1>
       <p class="text-xs sm:text-sm text-[#f7eedc]/75 mt-2">
-        Details aur photos bharein — sirf <strong class="text-[#f3d078]">₹10</strong> mein 15 din ke liye animated wedding card link payein.
+        Pehle <strong class="text-[#f3d078]">Free Preview</strong> dekhein — pasand aaye toh sirf <strong class="text-[#f3d078]">₹10</strong> mein watermark hatakar 15 din ka shareable link payein.
       </p>
     </div>
 
@@ -158,22 +157,9 @@
       </div>
 
       <button type="submit" id="submitBtn" class="w-full gold-btn font-cinzel font-bold py-4 rounded-2xl text-sm tracking-widest uppercase shadow-xl cursor-pointer hover:opacity-95 transition">
-        ✦ Pay ₹10 & Generate Royal Card ✦
+        ✦ Create Free Preview Card ✦
       </button>
     </form>
-
-    <!-- Generated Link Result Box -->
-    <div id="resultBox" class="hidden mt-8 p-6 rounded-2xl bg-emerald-950/80 border border-emerald-400/50 text-center space-y-4">
-      <h2 class="font-cinzel text-xl text-emerald-300 font-bold">🎉 Aapka Royal Card Taiyaar Hai!</h2>
-      <p class="text-xs text-emerald-100/80">Ye link 15 din tak active rahega, uske baad server se auto-delete ho jayega.</p>
-      <div class="flex flex-col sm:flex-row gap-2">
-        <input id="generatedLinkInput" type="text" readonly class="flex-1 bg-[#1f0205] border border-emerald-400/40 rounded-xl px-4 py-2.5 text-xs text-white" />
-        <button id="copyBtn" type="button" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-xs font-semibold cursor-pointer">Copy Link</button>
-      </div>
-      <a id="openCardLink" href="#" target="_blank" class="inline-block gold-btn font-cinzel font-bold text-xs px-8 py-3 rounded-full uppercase tracking-wider">
-        Open Animated Card →
-      </a>
-    </div>
   </div>
 
   <!-- FOOTER WITH POLICY LINKS (For Razorpay & AdSense) -->
@@ -200,83 +186,38 @@
   <script>
     const form = document.getElementById('builderForm');
     const submitBtn = document.getElementById('submitBtn');
-    const resultBox = document.getElementById('resultBox');
-    const generatedLinkInput = document.getElementById('generatedLinkInput');
-    const openCardLink = document.getElementById('openCardLink');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Opening Payment (₹10)...';
+      submitBtn.textContent = 'Creating Your Preview Card...';
 
       try {
-        const orderRes = await fetch('/api/create-order', { method: 'POST' });
-        const orderData = await orderRes.json();
-        if (!orderRes.ok) throw new Error(orderData.error || 'Payment setup error');
-
-        const options = {
-          key: orderData.keyId,
-          amount: orderData.amount,
-          currency: 'INR',
-          name: 'Royal Wedding E-Invite',
-          description: '15-Day Animated Wedding Invitation',
-          order_id: orderData.orderId,
-          handler: async function (response) {
-            submitBtn.textContent = 'Payment Done! Creating Card...';
-
-            const formData = new FormData(form);
-            formData.append('razorpay_order_id', response.razorpay_order_id);
-            formData.append('razorpay_payment_id', response.razorpay_payment_id);
-            formData.append('razorpay_signature', response.razorpay_signature);
-
-            const selectedEvents = [];
-            document.querySelectorAll('#functionsContainer > div').forEach((box) => {
-              const checkbox = box.querySelector('.fn-check');
-              if (checkbox.checked) {
-                selectedEvents.push({
-                  type: checkbox.dataset.type,
-                  date: box.querySelector('.fn-date').value.trim(),
-                  venue: box.querySelector('.fn-venue').value.trim()
-                });
-              }
+        const formData = new FormData(form);
+        const selectedEvents = [];
+        document.querySelectorAll('#functionsContainer > div').forEach((box) => {
+          const checkbox = box.querySelector('.fn-check');
+          if (checkbox.checked) {
+            selectedEvents.push({
+              type: checkbox.dataset.type,
+              date: box.querySelector('.fn-date').value.trim(),
+              venue: box.querySelector('.fn-venue').value.trim()
             });
-            formData.append('eventsJson', JSON.stringify(selectedEvents));
+          }
+        });
+        formData.append('eventsJson', JSON.stringify(selectedEvents));
 
-            const res = await fetch('/api/create-card', { method: 'POST', body: formData });
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || 'Card creation failed');
+        const res = await fetch('/api/create-preview', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Preview creation failed');
 
-            const fullUrl = `${window.location.origin}${data.cardUrl}`;
-            generatedLinkInput.value = fullUrl;
-            openCardLink.href = fullUrl;
-            resultBox.classList.remove('hidden');
-            resultBox.scrollIntoView({ behavior: 'smooth' });
-            submitBtn.disabled = false;
-            submitBtn.textContent = '✦ Pay ₹10 & Generate Royal Card ✦';
-          },
-          modal: {
-            ondismiss: function () {
-              submitBtn.disabled = false;
-              submitBtn.textContent = '✦ Pay ₹10 & Generate Royal Card ✦';
-            }
-          },
-          theme: { color: '#700914' }
-        };
-
-        const rzp = new Razorpay(options);
-        rzp.open();
+        // Seedha watermark wale preview card par bhej dein
+        window.location.href = data.cardUrl;
       } catch (err) {
         alert(err.message);
         submitBtn.disabled = false;
-        submitBtn.textContent = '✦ Pay ₹10 & Generate Royal Card ✦';
+        submitBtn.textContent = '✦ Create Free Preview Card ✦';
       }
-    });
-
-    document.getElementById('copyBtn').addEventListener('click', () => {
-      generatedLinkInput.select();
-      navigator.clipboard.writeText(generatedLinkInput.value);
-      document.getElementById('copyBtn').textContent = 'Copied ✓';
-      setTimeout(() => (document.getElementById('copyBtn').textContent = 'Copy Link'), 2000);
     });
 
     // POLICY MODAL DATA
@@ -291,15 +232,15 @@
       },
       privacy: {
         title: 'Privacy Policy',
-        body: '<p>We respect your privacy. Photos and wedding details uploaded by you are used solely to display your digital wedding invitation.</p><p>All uploaded card data is automatically deleted from our database after 15 days. Payments are securely processed via Razorpay; we do not store your card or UPI details.</p>'
+        body: '<p>We respect your privacy. Photos and wedding details uploaded by you are used solely to display your digital wedding invitation.</p><p>Unpaid previews are automatically deleted after 1 hour, and paid cards are deleted after 15 days. Payments are securely processed via Razorpay; we do not store your card or UPI details.</p>'
       },
       terms: {
         title: 'Terms & Conditions',
-        body: '<p>By using this service, you agree that the generated wedding invitation link remains active for 15 days from creation.</p><p>Please ensure all names, dates, and photos entered are accurate before completing payment.</p>'
+        body: '<p>By using this service, you agree that the unlocked wedding invitation link remains active for 15 days from payment.</p><p>Please review your free preview carefully before completing the ₹10 payment.</p>'
       },
       refund: {
         title: 'Refund & Cancellation Policy',
-        body: '<p>Since this is an instant digital product (₹10), once the animated wedding card link is successfully generated, no refunds or cancellations are applicable.</p><p>However, if ₹10 is deducted from your account and the card link is not generated due to a technical error, please contact us with your Payment ID and we will refund the amount within 5–7 business days.</p>'
+        body: '<p>Since we provide a free preview before payment, once the ₹10 payment is completed and the watermark is removed, no refunds or cancellations are applicable.</p><p>However, if ₹10 is deducted and the card is not unlocked due to a technical error, please contact us with your Payment ID and we will refund the amount within 5–7 business days.</p>'
       }
     };
 
