@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shahi Vivah Patrika — Royal Indian Wedding Invitation</title>
+
+    <!-- Tailwind CSS & Razorpay Checkout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- Royal Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Noto+Serif+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           ROYAL DESIGN TOKENS & TYPOGRAPHY
+           ========================================================================== */
+        :root {
+            --royal-night: #1c0205;
+            --royal-maroon: #4A0404;
+            --royal-crimson: #7A0C16;
+            --gold-light: #fff3c4;
+            --gold-mid: #D4AF37;
+            --gold-rich: #b8860b;
+            --gold-dark: #7a5205;
+            --parchment-light: #FBF3E0;
+            --parchment-mid: #f3dfba;
+            --parchment-edge: #d8b478;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: var(--royal-night);
+            background-image:
+                radial-gradient(circle at 50% 18%, rgba(122, 12, 22, 0.65) 0%, rgba(74, 4, 4, 0.88) 48%, rgba(22, 2, 5, 1) 100%);
+            font-family: 'Cormorant Garamond', serif;
+            color: #3a1a12;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .font-cinzel { font-family: 'Cinzel Decorative', serif; }
+        .font-vibes { font-family: 'Great Vibes', cursive; }
+        .font-serif-royal { font-family: 'Cormorant Garamond', serif; }
+        .font-hindi { font-family: 'Noto Serif Devanagari', serif; }
+
+        /* BIG LOW-OPACITY WATERMARK & FLOATING PAY BAR */
+        #previewWatermark {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            pointer-events: none;
+            overflow: hidden;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 95px;
+        }
+        .wm-text {
+            font-family: sans-serif;
+            font-size: clamp(2.2rem, 7.5vw, 4.8rem);
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.16);
+            transform: rotate(-28deg);
+            white-space: nowrap;
+            letter-spacing: 0.16em;
+            user-select: none;
+            text-transform: uppercase;
+        }
+        #unlockBar {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            width: 92%;
+            max-width: 460px;
+            background: rgba(20, 2, 5, 0.96);
+            border: 1.5px solid #f3d078;
+            border-radius: 18px;
+            padding: 12px 16px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.75);
+            color: #fff;
+            font-family: sans-serif;
+        }
+        #payUnlockBtn {
+            background: linear-gradient(135deg, #aa771c 0%, #f3d078 50%, #aa771c 100%);
+            color: #240206;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* ==========================================================================
+           AMBIENT BACKGROUND MANDALA & ROTATING HALOS
+           ========================================================================== */
+        .bg-mandala-spin { animation: slowSpinCenter 95s linear infinite; }
+        .bg-mandala-spin-reverse { animation: slowSpinCenter 135s linear infinite reverse; }
+        .halo-spin { animation: slowSpin 38s linear infinite; }
+        .halo-spin-reverse { animation: slowSpin 28s linear infinite reverse; }
+
+        @keyframes slowSpinCenter {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        @keyframes slowSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ==========================================================================
+           SHIMMERING METALLIC GOLD FOIL TEXT
+           ========================================================================== */
+        .gold-foil-text {
+            background: linear-gradient(110deg, #8f6310 0%, #c99a2e 20%, #fff0b3 38%, #d4af37 52%, #8c5e08 70%, #f6db82 88%, #9e6e14 100%);
+            background-size: 220% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: goldShimmer 5s linear infinite;
+            filter: drop-shadow(0 1px 1px rgba(60, 20, 5, 0.25));
+        }
+
+        .gold-foil-bright {
+            background: linear-gradient(110deg, #c99a2e 0%, #fff4c2 28%, #e0b84c 50%, #fff7d6 72%, #b8860b 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: goldShimmer 4.5s linear infinite;
+        }
+
+        @keyframes goldShimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 220% center; }
+        }
+
+        /* ==========================================================================
+           FLICKERING ANIMATED DIYA FLAME & GLOWING VARMALA HEART
+           ========================================================================== */
+        .diya-flame {
+            transform-origin: 50% 85%;
+            animation: flameFlicker 1.45s ease-in-out infinite alternate;
+        }
+        .diya-flame-delayed {
+            transform-origin: 50% 85%;
+            animation: flameFlicker 1.65s ease-in-out 0.35s infinite alternate;
+        }
+        .diya-glow {
+            animation: auraPulse 2.2s ease-in-out infinite alternate;
+        }
+
+        @keyframes flameFlicker {
+            0%   { transform: scale(1, 1) rotate(-2deg); opacity: 0.95; }
+            35%  { transform: scale(1.06, 0.94) rotate(2.5deg); opacity: 1; }
+            70%  { transform: scale(0.95, 1.09) rotate(-1.5deg); opacity: 0.92; }
+            100% { transform: scale(1.04, 1.03) rotate(1.5deg); opacity: 1; }
+        }
+
+        @keyframes auraPulse {
+            0%   { opacity: 0.45; transform: scale(0.92); }
+            100% { opacity: 0.85; transform: scale(1.12); }
+        }
+
+        .varmala-pulse { animation: heartGlow 2.4s ease-in-out infinite; }
+        @keyframes heartGlow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.55)); }
+            50% { transform: scale(1.12); filter: drop-shadow(0 0 14px rgba(196, 24, 58, 0.75)); }
+        }
+
+        /* ==========================================================================
+           ANIMATED EQUALIZER BARS FOR MUSIC BUTTON
+           ========================================================================== */
+        .eq-bar {
+            width: 3px;
+            border-radius: 2px;
+            background: #fde68a;
+            height: 4px;
+            transition: height 0.2s ease;
+        }
+        .music-playing .eq-bar-1 { animation: eqBounce 0.65s ease-in-out infinite alternate; }
+        .music-playing .eq-bar-2 { animation: eqBounce 0.45s ease-in-out 0.15s infinite alternate; }
+        .music-playing .eq-bar-3 { animation: eqBounce 0.75s ease-in-out 0.3s infinite alternate; }
+        .music-playing .eq-bar-4 { animation: eqBounce 0.55s ease-in-out 0.1s infinite alternate; }
+
+        @keyframes eqBounce {
+            0%   { height: 4px; }
+            100% { height: 15px; }
+        }
+
+        /* ==========================================================================
+           3D CARVED GOLD & ROSEWOOD SCROLL ROLLERS
+           ========================================================================== */
+        .roller-rod {
+            position: relative;
+            height: 36px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #47120e 0%, #7e241b 16%, #a33b2c 28%, #5c1610 55%, #290705 85%, #170302 100%);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.72), 0 4px 10px rgba(0, 0, 0, 0.5), inset 0 2px 3px rgba(255, 226, 150, 0.35), inset 0 -3px 6px rgba(0, 0, 0, 0.75);
+            z-index: 30;
+        }
+
+        .roller-gold-band {
+            position: absolute;
+            top: -2px;
+            bottom: -2px;
+            width: 18px;
+            border-radius: 4px;
+            background: linear-gradient(180deg, #825708 0%, #e3ba4b 20%, #fff2be 38%, #c49424 60%, #694304 88%, #3d2401 100%);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        }
+
+        .roller-center-medallion {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 58px;
+            height: 40px;
+            border-radius: 20px;
+            background: linear-gradient(180deg, #9e6e14 0%, #f8df89 25%, #fff7d4 40%, #c89624 68%, #6b4505 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ffe99e;
+        }
+
+        .tassel-sway { transform-origin: top center; animation: tasselSwing 4.2s ease-in-out infinite; }
+        .tassel-sway-delayed { transform-origin: top center; animation: tasselSwing 4.6s ease-in-out 0.7s infinite; }
+        @keyframes tasselSwing {
+            0%, 100% { transform: rotate(-4deg); }
+            50% { transform: rotate(4.5deg); }
+        }
+
+        /* ==========================================================================
+           ANTIQUE PARCHMENT PAPER TEXTURE & DAMASK WATERMARK
+           ========================================================================== */
+        .scroll-parchment-wrapper {
+            position: relative;
+            width: 92%;
+            margin: -10px auto -10px auto;
+            overflow: hidden;
+            z-index: 20;
+            height: 118px;
+            transition: height 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 22px 58px rgba(0, 0, 0, 0.78), -8px 0 20px rgba(0, 0, 0, 0.45), 8px 0 20px rgba(0, 0, 0, 0.45);
+        }
+
+        .scroll-parchment-wrapper.is-dragging { transition: none !important; }
+
+        .parchment-surface {
+            position: relative;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(255, 250, 234, 0.94) 0%, rgba(251, 243, 224, 0.94) 55%, rgba(226, 196, 140, 0.98) 100%),
+                linear-gradient(90deg, #d7b272 0%, #f8ebd0 7%, #FBF3E0 50%, #f8ebd0 93%, #d7b272 100%);
+            min-height: 118px;
+        }
+
+        .parchment-grain {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.38;
+            mix-blend-mode: multiply;
+            filter: url(#parchmentNoise);
+            z-index: 1;
+        }
+
+        .parchment-damask {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.06;
+            background-image: radial-gradient(#7A0C16 1px, transparent 1px), radial-gradient(#b8860b 1px, transparent 1px);
+            background-size: 32px 32px;
+            background-position: 0 0, 16px 16px;
+            z-index: 2;
+        }
+
+        .parchment-vignette {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            box-shadow:
+                inset 0 28px 34px -10px rgba(68, 32, 8, 0.65),
+                inset 0 -28px 34px -10px rgba(68, 32, 8, 0.65),
+                inset 18px 0 26px -12px rgba(105, 58, 18, 0.42),
+                inset -18px 0 26px -12px rgba(105, 58, 18, 0.42);
+            z-index: 4;
+        }
+
+        .royal-inner-frame {
+            position: relative;
+            z-index: 5;
+            margin: 14px;
+            padding: 22px 14px;
+            border: 2px solid #b8860b;
+            box-shadow:
+                inset 0 0 0 4px rgba(251, 243, 224, 0.78),
+                inset 0 0 0 5.5px rgba(184, 134, 11, 0.85),
+                0 0 18px rgba(184, 134, 11, 0.15);
+            background: rgba(255, 250, 238, 0.34);
+        }
+
+        @media (min-width: 640px) {
+            .royal-inner-frame { margin: 24px; padding: 36px 32px; }
+        }
+
+        /* ==========================================================================
+           EMBOSSED ROYAL WAX SEAL & PULL PROMPT
+           ========================================================================== */
+        .wax-seal-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 35;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, rgba(74, 4, 4, 0.2) 0%, rgba(74, 4, 4, 0.38) 50%, rgba(74, 4, 4, 0.2) 100%);
+            cursor: pointer;
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            touch-action: none;
+        }
+
+        .wax-seal-overlay.broken {
+            opacity: 0;
+            transform: scale(1.48) rotate(14deg);
+            pointer-events: none;
+        }
+
+        .royal-ribbon-band {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 36px;
+            background: linear-gradient(90deg, #4A0404 0%, #7A0C16 30%, #b51c38 50%, #7A0C16 70%, #4A0404 100%);
+            border-left: 1.5px solid #e0b84c;
+            border-right: 1.5px solid #e0b84c;
+            box-shadow: 0 0 14px rgba(0, 0, 0, 0.55);
+        }
+
+        .wax-seal-disc {
+            position: relative;
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #d42640 0%, #9c1127 42%, #5e0615 80%, #3b020c 100%);
+            box-shadow:
+                0 8px 22px rgba(0, 0, 0, 0.72),
+                inset 0 2px 4px rgba(255, 196, 196, 0.45),
+                inset 0 -4px 8px rgba(35, 0, 8, 0.8),
+                0 0 0 3px #D4AF37,
+                0 0 24px rgba(212, 175, 55, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: sealPulse 2.4s ease-in-out infinite;
+        }
+
+        @keyframes sealPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 8px 22px rgba(0,0,0,0.72), 0 0 0 3px #D4AF37, 0 0 16px rgba(212,175,55,0.45);
+            }
+            50% {
+                transform: scale(1.07);
+                box-shadow: 0 10px 26px rgba(0,0,0,0.8), 0 0 0 4px #ffe899, 0 0 32px rgba(255,215,100,0.88);
+            }
+        }
+
+        .bounce-down { animation: gentleBounce 1.8s ease-in-out infinite; }
+        @keyframes gentleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(6px); }
+        }
+
+        .scroll-section {
+            opacity: 0;
+            transform: translateY(28px) scale(0.985);
+            transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .scroll-open .scroll-section.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .jodi-frame-ring {
+            background: conic-gradient(from 0deg, #8c5e08, #f6db82, #D4AF37, #fff3c4, #9e6e14, #e3ba4b, #8c5e08);
+            padding: 4px;
+            box-shadow: 0 10px 24px rgba(74, 4, 4, 0.25), 0 0 0 2px rgba(122, 12, 22, 0.25);
+        }
+
+        .arch-countdown-box {
+            background: linear-gradient(180deg, #fffaf0 0%, #f5e1b5 75%, #dfb764 100%);
+            border: 2px solid #a87616;
+            border-radius: 36px 36px 12px 12px;
+            box-shadow: 0 6px 14px rgba(74, 4, 4, 0.2), inset 0 2px 5px rgba(255, 255, 255, 0.85), inset 0 -3px 6px rgba(130, 82, 8, 0.28);
+            transition: transform 0.3s ease;
+        }
+        .arch-countdown-box:hover { transform: translateY(-3px); }
+
+        .timeline-node {
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.28), 0 0 14px rgba(212, 175, 55, 0.75);
+            animation: nodeGlow 2.6s ease-in-out infinite alternate;
+        }
+        @keyframes nodeGlow {
+            0%   { box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.22), 0 0 10px rgba(212, 175, 55, 0.55); }
+            100% { box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.42), 0 0 18px rgba(212, 175, 55, 0.95); }
+        }
+
+        .ceremony-card {
+            background: linear-gradient(145deg, rgba(255, 252, 244, 0.92) 0%, rgba(247, 232, 198, 0.78) 100%);
+            border: 1.5px solid rgba(184, 134, 11, 0.65);
+            box-shadow: 0 6px 20px rgba(72, 24, 12, 0.09);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+        .ceremony-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            border-color: #7A0C16;
+            box-shadow: 0 14px 28px rgba(122, 12, 22, 0.16);
+        }
+
+        .game-stage-frame {
+            background: radial-gradient(circle at 50% 25%, #5c0912 0%, #2b0308 75%, #160104 100%);
+            border: 2.5px solid #D4AF37;
+            box-shadow: 0 12px 30px rgba(74, 4, 4, 0.35), inset 0 0 24px rgba(0, 0, 0, 0.65);
+        }
+
+        #bottomRoller { cursor: grab; touch-action: none; user-select: none; }
+        #bottomRoller:active { cursor: grabbing; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1c0205; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #D4AF37, #7a5205); border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased selection:bg-amber-200 selection:text-rose-950">
+
+    <!-- INLINE SVG FILTERS (REALISTIC ANTIQUE PAPER GRAIN) -->
+    <svg class="hidden" width="0" height="0" aria-hidden="true">
+        <defs>
+            <filter id="parchmentNoise" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch" result="noise"/>
+                <feColorMatrix type="matrix" values="
+                    0.55 0    0    0 0.25
+                    0    0.45 0    0 0.18
+                    0    0    0.25 0 0.08
+                    0    0    0    0.45 0" in="noise" result="coloredNoise"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- AMBIENT BACKGROUND WATERMARK MANDALAS & PARTICLE CANVAS -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+        <svg class="absolute top-1/4 left-1/2 w-[780px] h-[780px] opacity-[0.075] text-amber-300 bg-mandala-spin" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="0.6">
+            <circle cx="100" cy="100" r="92" stroke-dasharray="3 3"/>
+            <circle cx="100" cy="100" r="76"/>
+            <circle cx="100" cy="100" r="56" stroke-dasharray="2 2"/>
+            <circle cx="100" cy="100" r="34"/>
+            <path d="M100 8 C112 32, 112 52, 100 66 C88 52, 88 32, 100 8 Z"/>
+            <path d="M100 192 C112 168, 112 148, 100 134 C88 148, 88 168, 100 192 Z"/>
+            <path d="M8 100 C32 88, 52 88, 66 100 C52 112, 32 112, 8 100 Z"/>
+            <path d="M192 100 C168 88, 148 88, 134 100 C148 112, 168 112, 192 100 Z"/>
+            <path d="M35 35 C58 42, 72 56, 76 76 C56 72, 42 58, 35 35 Z"/>
+            <path d="M165 165 C142 158, 128 144, 124 124 C144 128, 158 142, 165 165 Z"/>
+            <path d="M165 35 C158 58, 144 72, 124 76 C128 56, 142 42, 165 35 Z"/>
+            <path d="M35 165 C42 142, 56 128, 76 124 C72 144, 58 158, 35 165 Z"/>
+        </svg>
+
+        <svg class="absolute top-1/2 left-1/2 w-[1080px] h-[1080px] opacity-[0.045] text-amber-200 bg-mandala-spin-reverse" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="0.45">
+            <circle cx="100" cy="100" r="95" stroke-dasharray="1 4"/>
+            <polygon points="100,10 120,75 185,75 132,115 152,180 100,140 48,180 68,115 15,75 80,75"/>
+            <polygon points="100,190 120,125 185,125 132,85 152,20 100,60 48,20 68,85 15,125 80,125"/>
+        </svg>
+    </div>
+
+    <canvas id="ambientCanvas" class="fixed inset-0 pointer-events-none z-40"></canvas>
+
+    <!-- FLOATING ROYAL CONTROLS -->
+    <div class="fixed top-4 right-4 z-50 flex items-center gap-2 sm:gap-2.5">
+        <button id="topRollUpBtn" onclick="closeScroll()" title="Roll Up Scroll"
+            class="hidden items-center gap-1.5 px-3 py-2 rounded-full bg-[#4A0404]/90 hover:bg-[#7A0C16] text-amber-200 border border-amber-400/60 shadow-lg backdrop-blur-md transition-all text-xs sm:text-sm font-cinzel tracking-wider cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
+            </svg>
+            <span class="hidden sm:inline">Roll Up</span>
+        </button>
+
+        <button id="musicToggleBtn" onclick="toggleRoyalMusic()" title="Toggle Indian Wedding Shehnai & Tabla Music"
+            class="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#4A0404]/90 hover:bg-[#7A0C16] text-amber-200 border border-amber-400/60 shadow-lg backdrop-blur-md transition-all text-xs sm:text-sm font-cinzel cursor-pointer">
+            <span id="musicEq" class="flex items-end gap-[2.5px] h-4 w-4 justify-center">
+                <span class="eq-bar eq-bar-1"></span>
+                <span class="eq-bar eq-bar-2"></span>
+                <span class="eq-bar eq-bar-3"></span>
+                <span class="eq-bar eq-bar-4"></span>
+            </span>
+            <span id="musicLabel" class="hidden sm:inline tracking-wider">Shehnai: Off</span>
+        </button>
+    </div>
+
+    <!-- MAIN STAGE: CENTERED ROYAL SCROLL -->
+    <main id="mainStage" class="relative z-10 min-h-screen flex flex-col items-center justify-center px-3 sm:px-6 py-16 sm:py-24 transition-all duration-700">
+
+        <div id="closedHeader" class="text-center mb-6 sm:mb-8 transition-all duration-700">
+            <p class="font-hindi text-amber-300/90 text-sm sm:text-base tracking-widest mb-1">|| श्री गणेशाय नमः ||</p>
+            <h1 class="font-cinzel gold-foil-bright text-xl sm:text-3xl tracking-[0.18em] uppercase font-bold">
+                Shahi Vivah Patrika
+            </h1>
+            <p class="text-amber-100/80 text-sm sm:text-base italic mt-1 tracking-wide">
+                A Royal Invitation Awaits Your Gracious Presence
+            </p>
+        </div>
+
+        <!-- THE INTERACTIVE ROYAL SCROLL ASSEMBLY -->
+        <div id="scrollAssembly" class="w-full max-w-[710px] mx-auto relative">
+
+            <!-- TOP 3D ROLLER -->
+            <div id="topRoller" class="relative w-full flex items-center justify-center select-none">
+                <div class="relative flex-shrink-0 -mr-1.5 z-30">
+                    <svg class="w-10 h-11 sm:w-14 sm:h-12 drop-shadow-[0_6px_8px_rgba(0,0,0,0.75)]" viewBox="0 0 60 50">
+                        <defs>
+                            <linearGradient id="finialGold" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#7a4e05"/>
+                                <stop offset="25%" stop-color="#f7dc84"/>
+                                <stop offset="45%" stop-color="#fff6cf"/>
+                                <stop offset="70%" stop-color="#c49120"/>
+                                <stop offset="100%" stop-color="#4f2f02"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M6 25 C12 18, 16 20, 20 14 C26 8, 36 10, 42 15 L58 12 L58 38 L42 35 C36 40, 26 42, 20 36 C16 30, 12 32, 6 25 Z" fill="url(#finialGold)" stroke="#5c3804" stroke-width="1"/>
+                        <circle cx="8" cy="25" r="4" fill="url(#finialGold)"/>
+                        <rect x="44" y="10" width="5" height="30" rx="2" fill="url(#finialGold)" stroke="#613b04" stroke-width="0.8"/>
+                    </svg>
+                    <svg class="w-6 h-16 absolute left-1.5 top-7 tassel-sway drop-shadow-md" viewBox="0 0 28 70">
+                        <line x1="14" y1="0" x2="14" y2="18" stroke="#e0b84c" stroke-width="2"/>
+                        <circle cx="14" cy="21" r="4.5" fill="#D4AF37" stroke="#7a5205" stroke-width="1"/>
+                        <path d="M10 25 L18 25 L23 64 C18 67, 10 67, 5 64 Z" fill="#7A0C16"/>
+                        <path d="M12 25 L16 25 L18 65 L10 65 Z" fill="#b81d38" opacity="0.6"/>
+                        <line x1="9" y1="30" x2="19" y2="30" stroke="#f5d77f" stroke-width="2"/>
+                    </svg>
+                </div>
+
+                <div class="roller-rod flex-grow">
+                    <div class="roller-gold-band left-3 sm:left-5"></div>
+                    <div class="roller-gold-band right-3 sm:right-5"></div>
+                    <div class="roller-center-medallion">
+                        <svg class="w-5 h-5 text-[#4A0404]" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L14.5 8.5L21 9.5L16 14L17.5 21L12 17.5L6.5 21L8 14L3 9.5L9.5 8.5L12 2Z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="relative flex-shrink-0 -ml-1.5 z-30">
+                    <svg class="w-10 h-11 sm:w-14 sm:h-12 drop-shadow-[0_6px_8px_rgba(0,0,0,0.75)] scale-x-[-1]" viewBox="0 0 60 50">
+                        <path d="M6 25 C12 18, 16 20, 20 14 C26 8, 36 10, 42 15 L58 12 L58 38 L42 35 C36 40, 26 42, 20 36 C16 30, 12 32, 6 25 Z" fill="url(#finialGold)" stroke="#5c3804" stroke-width="1"/>
+                        <circle cx="8" cy="25" r="4" fill="url(#finialGold)"/>
+                        <rect x="44" y="10" width="5" height="30" rx="2" fill="url(#finialGold)" stroke="#613b04" stroke-width="0.8"/>
+                    </svg>
+                    <svg class="w-6 h-16 absolute right-1.5 top-7 tassel-sway-delayed drop-shadow-md" viewBox="0 0 28 70">
+                        <line x1="14" y1="0" x2="14" y2="18" stroke="#e0b84c" stroke-width="2"/>
+                        <circle cx="14" cy="21" r="4.5" fill="#D4AF37" stroke="#7a5205" stroke-width="1"/>
+                        <path d="M10 25 L18 25 L23 64 C18 67, 10 67, 5 64 Z" fill="#7A0C16"/>
+                        <path d="M12 25 L16 25 L18 65 L10 65 Z" fill="#b81d38" opacity="0.6"/>
+                        <line x1="9" y1="30" x2="19" y2="30" stroke="#f5d77f" stroke-width="2"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- UNFURLING PARCHMENT BODY -->
+            <div id="scrollBody" class="scroll-parchment-wrapper">
+                <!-- Interactive Crimson Wax Seal Overlay -->
+                <div id="waxSealOverlay" class="wax-seal-overlay" onclick="openScroll()" role="button" aria-label="Tap or pull to open royal invitation">
+                    <div class="royal-ribbon-band"></div>
+                    <div class="wax-seal-disc" title="Tap to Break Royal Seal">
+                        <svg class="w-12 h-12 text-amber-200 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" viewBox="0 0 64 64" fill="none" stroke="currentColor">
+                            <circle cx="32" cy="32" r="27" stroke-width="1.5" stroke-dasharray="2.5 2"/>
+                            <path d="M22 24 C22 16, 42 16, 42 24 C42 29, 37 31, 35 34 C34 37, 38 40, 36 44 C34 47, 29 46, 28 43" stroke-width="2.6" stroke-linecap="round"/>
+                            <path d="M26 22 C28 14, 36 14, 38 22" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M20 26 C15 26, 15 35, 21 35" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M44 26 C49 26, 49 35, 43 35" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="32" cy="11" r="2.2" fill="currentColor"/>
+                            <path d="M24 50 Q32 54 40 50" stroke-width="1.8" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Textured Antique Parchment Surface -->
+                <div id="parchmentContent" class="parchment-surface">
+                    <div class="parchment-grain"></div>
+                    <div class="parchment-damask"></div>
+                    <div class="parchment-vignette"></div>
+
+                    <div class="royal-inner-frame">
+
+                        <!-- 4 Golden Corner Filigrees -->
+                        <svg class="w-12 h-12 sm:w-16 sm:h-16 absolute top-1.5 left-1.5 text-amber-700/85 pointer-events-none" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6">
+                            <path d="M6 74 L6 14 C6 8, 8 6, 14 6 L74 6"/><path d="M14 58 C14 28, 28 14, 58 14"/><path d="M18 18 C28 18, 34 24, 34 34 C24 34, 18 28, 18 18 Z" fill="currentColor" opacity="0.22"/><circle cx="24" cy="24" r="3" fill="currentColor"/>
+                        </svg>
+                        <svg class="w-12 h-12 sm:w-16 sm:h-16 absolute top-1.5 right-1.5 text-amber-700/85 scale-x-[-1] pointer-events-none" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6">
+                            <path d="M6 74 L6 14 C6 8, 8 6, 14 6 L74 6"/><path d="M14 58 C14 28, 28 14, 58 14"/><path d="M18 18 C28 18, 34 24, 34 34 C24 34, 18 28, 18 18 Z" fill="currentColor" opacity="0.22"/><circle cx="24" cy="24" r="3" fill="currentColor"/>
+                        </svg>
+                        <svg class="w-12 h-12 sm:w-16 sm:h-16 absolute bottom-1.5 left-1.5 text-amber-700/85 scale-y-[-1] pointer-events-none" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6">
+                            <path d="M6 74 L6 14 C6 8, 8 6, 14 6 L74 6"/><path d="M14 58 C14 28, 28 14, 58 14"/><path d="M18 18 C28 18, 34 24, 34 34 C24 34, 18 28, 18 18 Z" fill="currentColor" opacity="0.22"/><circle cx="24" cy="24" r="3" fill="currentColor"/>
+                        </svg>
+                        <svg class="w-12 h-12 sm:w-16 sm:h-16 absolute bottom-1.5 right-1.5 text-amber-700/85 scale-[-1] pointer-events-none" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6">
+                            <path d="M6 74 L6 14 C6 8, 8 6, 14 6 L74 6"/><path d="M14 58 C14 28, 28 14, 58 14"/><path d="M18 18 C28 18, 34 24, 34 34 C24 34, 18 28, 18 18 Z" fill="currentColor" opacity="0.22"/><circle cx="24" cy="24" r="3" fill="currentColor"/>
+                        </svg>
+
+                        <!-- SECTION 1: SHRI GANESHA -->
+                        <section class="text-center pt-2 pb-5 scroll-section">
+                            <p class="font-hindi text-[#7A0C16] font-semibold text-sm sm:text-base tracking-widest mb-3">|| श्री गणेशाय नमः ||</p>
+
+                            <div class="relative w-32 h-32 sm:w-36 sm:h-36 mx-auto mb-3 flex items-center justify-center">
+                                <svg class="absolute inset-0 w-full h-full text-amber-600/75 halo-spin" viewBox="0 0 140 140" fill="none" stroke="currentColor" stroke-width="1">
+                                    <circle cx="70" cy="70" r="65" stroke-dasharray="3 3"/>
+                                    <circle cx="70" cy="70" r="56" stroke-opacity="0.5"/>
+                                    <g stroke-width="0.9">
+                                        <path d="M70 5 L74 18 L66 18 Z" fill="#D4AF37" fill-opacity="0.45"/>
+                                        <path d="M70 135 L74 122 L66 122 Z" fill="#D4AF37" fill-opacity="0.45"/>
+                                        <path d="M5 70 L18 74 L18 66 Z" fill="#D4AF37" fill-opacity="0.45"/>
+                                        <path d="M135 70 L122 74 L122 66 Z" fill="#D4AF37" fill-opacity="0.45"/>
+                                    </g>
+                                </svg>
+
+                                <svg class="relative z-10 w-24 h-24 sm:w-28 sm:h-28 drop-shadow-[0_3px_6px_rgba(122,12,22,0.28)]" viewBox="0 0 120 120" fill="none">
+                                    <defs>
+                                        <linearGradient id="ganeshaGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#7A0C16"/><stop offset="50%" stop-color="#c99622"/><stop offset="100%" stop-color="#4A0404"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M46 35 L60 15 L74 35 Z" fill="url(#ganeshaGold)" opacity="0.92"/>
+                                    <path d="M42 38 Q60 30 78 38" stroke="#b8860b" stroke-width="2.5" stroke-linecap="round"/>
+                                    <circle cx="60" cy="13" r="3" fill="#b8860b"/>
+                                    <path d="M42 44 C26 42, 23 64, 38 66" stroke="url(#ganeshaGold)" stroke-width="3.2" stroke-linecap="round"/>
+                                    <path d="M78 44 C94 42, 97 64, 82 66" stroke="url(#ganeshaGold)" stroke-width="3.2" stroke-linecap="round"/>
+                                    <path d="M44 46 C44 36, 76 36, 76 46 C76 56, 66 59, 64 68 C62 76, 71 80, 68 87 C65 92, 55 92, 52 86" stroke="url(#ganeshaGold)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="52" cy="52" r="2" fill="#4A0404"/><circle cx="68" cy="52" r="2" fill="#4A0404"/>
+                                    <path d="M36 96 Q60 106 84 96" stroke="#b8860b" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+
+                            <p class="font-hindi text-[#7A0C16]/90 text-xs sm:text-sm leading-relaxed max-w-md mx-auto">
+                                वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ।<br/>
+                                निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा॥
+                            </p>
+                        </section>
+
+                        <!-- SECTION 2: MUGHAL JHAROKHA ARCH + DIYAS -->
+                        <section class="text-center py-4 scroll-section">
+                            <p class="uppercase tracking-[0.24em] text-[11px] sm:text-xs font-cinzel text-[#7A0C16] font-bold mb-2">
+                                With the Blessings of Elders &amp; Family
+                            </p>
+                            <p id="displayInviteMsg" class="text-sm sm:text-base text-stone-800 max-w-md mx-auto leading-relaxed">
+                                Together with our loving families, we cordially invite you to grace the auspicious Royal Wedding of
+                            </p>
+
+                            <div class="relative flex items-center justify-center gap-1 sm:gap-3 my-6">
+                                <!-- Left Diya -->
+                                <div class="hidden sm:flex flex-col items-center flex-shrink-0 -mr-2">
+                                    <svg class="w-14 h-20 overflow-visible" viewBox="0 0 60 80">
+                                        <defs>
+                                            <radialGradient id="flameAura" cx="50%" cy="50%" r="50%">
+                                                <stop offset="0%" stop-color="#ffbb33" stop-opacity="0.75"/><stop offset="60%" stop-color="#ff6600" stop-opacity="0.25"/><stop offset="100%" stop-color="#ff6600" stop-opacity="0"/>
+                                            </radialGradient>
+                                            <linearGradient id="flameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                                                <stop offset="0%" stop-color="#ff4500"/><stop offset="55%" stop-color="#ffae00"/><stop offset="100%" stop-color="#fff8c4"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <circle class="diya-glow" cx="30" cy="24" r="20" fill="url(#flameAura)"/>
+                                        <path class="diya-flame" d="M30 8 C37 18, 38 28, 30 35 C22 28, 23 18, 30 8 Z" fill="url(#flameGrad)"/>
+                                        <path class="diya-flame" d="M30 16 C33 22, 34 28, 30 33 C26 28, 27 22, 30 16 Z" fill="#fffce0"/>
+                                        <path d="M10 38 Q30 33 50 38 C46 52, 14 52, 10 38 Z" fill="#b8860b" stroke="#613b04" stroke-width="1.2"/>
+                                        <path d="M23 50 L37 50 L40 56 L20 56 Z" fill="#8c5e08"/>
+                                    </svg>
+                                </div>
+
+                                <!-- Center Mughal Jharokha Arch -->
+                                <div class="relative w-full max-w-[410px] px-5 pt-12 pb-8">
+                                    <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 320" preserveAspectRatio="none" fill="none">
+                                        <defs>
+                                            <linearGradient id="archStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#9e6e14"/><stop offset="50%" stop-color="#e3ba4b"/><stop offset="100%" stop-color="#8c5e08"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <path d="M22 308 L22 118 C22 86, 48 84, 58 66 C74 42, 108 46, 134 30 C162 16, 185 10, 200 4 C215 10, 238 16, 266 30 C292 46, 326 42, 342 66 C352 84, 378 86, 378 118 L378 308 Z" fill="rgba(122, 12, 22, 0.055)" stroke="url(#archStroke)" stroke-width="2.6"/>
+                                        <path d="M32 298 L32 122 C32 94, 56 92, 66 74 C80 54, 112 56, 138 40 C164 26, 186 20, 200 14 C214 20, 236 26, 262 40 C288 56, 320 54, 334 74 C344 92, 368 94, 368 122 L368 298 Z" stroke="#b8860b" stroke-width="1" stroke-dasharray="4 2" opacity="0.85"/>
+                                        <circle cx="200" cy="8" r="4" fill="#c99a2e"/>
+                                    </svg>
+
+                                    <div class="relative z-10">
+                                        <span class="block text-xs uppercase tracking-[0.28em] font-cinzel text-amber-800 mb-1">Shubh Vivah</span>
+                                        <h2 id="displayBrideName" class="font-vibes gold-foil-text text-5xl sm:text-6xl leading-tight py-1">Ananya</h2>
+                                        <div class="flex items-center justify-center gap-3 my-1">
+                                            <span class="h-[1px] w-10 bg-amber-700/60"></span>
+                                            <span class="font-cinzel text-[#7A0C16] font-bold text-lg sm:text-xl">&amp;</span>
+                                            <span class="h-[1px] w-10 bg-amber-700/60"></span>
+                                        </div>
+                                        <h2 id="displayGroomName" class="font-vibes gold-foil-text text-5xl sm:text-6xl leading-tight py-1">Vikramaditya</h2>
+                                        <p class="text-xs sm:text-sm italic text-stone-700 mt-1">Two Royal Hearts, One Eternal Journey</p>
+                                    </div>
+                                </div>
+
+                                <!-- Right Diya -->
+                                <div class="hidden sm:flex flex-col items-center flex-shrink-0 -ml-2">
+                                    <svg class="w-14 h-20 overflow-visible" viewBox="0 0 60 80">
+                                        <circle class="diya-glow" cx="30" cy="24" r="20" fill="url(#flameAura)"/>
+                                        <path class="diya-flame-delayed" d="M30 8 C37 18, 38 28, 30 35 C22 28, 23 18, 30 8 Z" fill="url(#flameGrad)"/>
+                                        <path class="diya-flame-delayed" d="M30 16 C33 22, 34 28, 30 33 C26 28, 27 22, 30 16 Z" fill="#fffce0"/>
+                                        <path d="M10 38 Q30 33 50 38 C46 52, 14 52, 10 38 Z" fill="#b8860b" stroke="#613b04" stroke-width="1.2"/>
+                                        <path d="M23 50 L37 50 L40 56 L20 56 Z" fill="#8c5e08"/>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="inline-block px-6 py-2.5 rounded-full border border-amber-700/60 bg-gradient-to-r from-amber-100/75 via-amber-50/95 to-amber-100/75 shadow-sm">
+                                <p id="displayWeddingDate" class="font-cinzel text-[#4A0404] font-bold text-sm sm:text-base tracking-[0.15em]">
+                                    SUNDAY, 14 FEBRUARY 2027
+                                </p>
+                            </div>
+                        </section>
+
+                        <!-- SECTION 3: SHAHI JODI — DULHA & DULHAN PHOTO FRAMES -->
+                        <section class="py-7 text-center scroll-section">
+                            <p class="font-hindi text-[#7A0C16] text-xs sm:text-sm mb-1">शाही जोड़ी</p>
+                            <h3 class="font-cinzel gold-foil-text text-xl sm:text-2xl font-bold tracking-[0.14em] uppercase mb-5">Shahi Jodi</h3>
+
+                            <div class="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-6">
+                                <!-- Dulhan Frame -->
+                                <div class="flex flex-col items-center">
+                                    <div class="relative">
+                                        <div class="jodi-frame-ring rounded-full w-36 h-36 sm:w-40 sm:h-40 flex items-center justify-center relative">
+                                            <div class="w-full h-full rounded-full overflow-hidden bg-gradient-to-b from-[#7A0C16] to-[#3a0408] flex items-center justify-center border-2 border-amber-100">
+                                                <img id="bridePhotoImg" src="" alt="Dulhan Portrait" class="hidden w-full h-full object-cover"/>
+                                                <svg id="brideDefaultSvg" class="w-full h-full" viewBox="0 0 160 160">
+                                                    <rect width="160" height="160" fill="#7A0C16"/>
+                                                    <circle cx="80" cy="68" r="44" fill="none" stroke="#D4AF37" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.7"/>
+                                                    <path d="M36 160 C34 105, 42 52, 80 34 C118 52, 126 105, 124 160 Z" fill="#9c0f24" stroke="#f2cf68" stroke-width="2.5"/>
+                                                    <ellipse cx="80" cy="76" rx="22" ry="26" fill="#f7cfa8"/>
+                                                    <circle cx="80" cy="69" r="2" fill="#b80f24"/>
+                                                    <path d="M74 88 Q80 93 86 88" stroke="#a81e30" stroke-width="2" fill="none" stroke-linecap="round"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <span class="absolute -bottom-2.5 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#7A0C16] text-amber-200 border border-amber-400 text-[10px] font-cinzel uppercase tracking-widest shadow">Dulhan</span>
+                                    </div>
+                                    <p id="jodiBrideLabel" class="font-vibes text-3xl text-[#4A0404] mt-3">Ananya</p>
+                                </div>
+
+                                <div class="flex flex-col items-center justify-center my-1 sm:my-0">
+                                    <div class="varmala-pulse w-14 h-14 rounded-full bg-gradient-to-br from-amber-100 via-amber-200 to-amber-400 border-2 border-[#7A0C16] flex items-center justify-center shadow-lg">
+                                        <svg class="w-8 h-8 text-[#7A0C16]" viewBox="0 0 32 32" fill="currentColor">
+                                            <path d="M16 27.5 C16 27.5 4 20.2 4 11.8 C4 7.6 7.3 4.5 11.2 4.5 C13.5 4.5 15.2 5.7 16 7.3 C16.8 5.7 18.5 4.5 20.8 4.5 C24.7 4.5 28 7.6 28 11.8 C28 20.2 16 27.5 16 27.5 Z"/>
+                                        </svg>
+                                    </div>
+                                    <span class="text-[10px] font-cinzel uppercase tracking-widest text-amber-900 font-bold mt-1">Weds</span>
+                                </div>
+
+                                <!-- Dulha Frame -->
+                                <div class="flex flex-col items-center">
+                                    <div class="relative">
+                                        <div class="jodi-frame-ring rounded-full w-36 h-36 sm:w-40 sm:h-40 flex items-center justify-center relative">
+                                            <div class="w-full h-full rounded-full overflow-hidden bg-gradient-to-b from-[#4A0404] to-[#240205] flex items-center justify-center border-2 border-amber-100">
+                                                <img id="groomPhotoImg" src="" alt="Dulha Portrait" class="hidden w-full h-full object-cover"/>
+                                                <svg id="groomDefaultSvg" class="w-full h-full" viewBox="0 0 160 160">
+                                                    <rect width="160" height="160" fill="#4A0404"/>
+                                                    <circle cx="80" cy="68" r="44" fill="none" stroke="#D4AF37" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.7"/>
+                                                    <path d="M36 160 C40 120, 58 110, 80 110 C102 110, 120 120, 124 160 Z" fill="#f7ecd4" stroke="#D4AF37" stroke-width="2.5"/>
+                                                    <ellipse cx="80" cy="76" rx="22" ry="25" fill="#efc096"/>
+                                                    <path d="M52 66 C48 44, 62 32, 80 32 C98 32, 112 44, 108 66 C98 58, 62 58, 52 66 Z" fill="#9c0f24" stroke="#D4AF37" stroke-width="2"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <span class="absolute -bottom-2.5 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-[#4A0404] text-amber-200 border border-amber-400 text-[10px] font-cinzel uppercase tracking-widest shadow">Dulha</span>
+                                    </div>
+                                    <p id="jodiGroomLabel" class="font-vibes text-3xl text-[#4A0404] mt-3">Vikramaditya</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- SECTION 4: LIVE COUNTDOWN + PHOOLON KI VARSHA -->
+                        <section class="py-6 text-center scroll-section">
+                            <p class="font-cinzel text-xs uppercase tracking-[0.24em] text-amber-900 font-bold mb-4">Counting Down to the Royal Union</p>
+                            <div class="grid grid-cols-4 gap-2 sm:gap-4 max-w-md mx-auto">
+                                <div class="arch-countdown-box py-3.5 px-1">
+                                    <div id="cdDays" class="font-cinzel text-2xl sm:text-3xl font-bold text-[#4A0404]">00</div>
+                                    <div class="text-[10px] sm:text-xs uppercase tracking-widest text-amber-950 font-semibold mt-0.5">Days</div>
+                                </div>
+                                <div class="arch-countdown-box py-3.5 px-1">
+                                    <div id="cdHours" class="font-cinzel text-2xl sm:text-3xl font-bold text-[#4A0404]">00</div>
+                                    <div class="text-[10px] sm:text-xs uppercase tracking-widest text-amber-950 font-semibold mt-0.5">Hours</div>
+                                </div>
+                                <div class="arch-countdown-box py-3.5 px-1">
+                                    <div id="cdMins" class="font-cinzel text-2xl sm:text-3xl font-bold text-[#4A0404]">00</div>
+                                    <div class="text-[10px] sm:text-xs uppercase tracking-widest text-amber-950 font-semibold mt-0.5">Mins</div>
+                                </div>
+                                <div class="arch-countdown-box py-3.5 px-1">
+                                    <div id="cdSecs" class="font-cinzel text-2xl sm:text-3xl font-bold text-[#4A0404]">00</div>
+                                    <div class="text-[10px] sm:text-xs uppercase tracking-widest text-amber-950 font-semibold mt-0.5">Secs</div>
+                                </div>
+                            </div>
+
+                            <div class="mt-7">
+                                <button onclick="triggerPhoolonKiVarsha(event)"
+                                    class="group relative inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-[#7A0C16] via-[#9e1424] to-[#7A0C16] hover:brightness-110 active:scale-95 text-amber-100 border-2 border-[#D4AF37] shadow-[0_8px_22px_rgba(122,12,22,0.35)] transition-all font-cinzel text-xs sm:text-sm tracking-wider cursor-pointer">
+                                    <span class="text-base group-hover:scale-125 transition-transform">🌸</span>
+                                    <span>Phoolon Ki Varsha (Shower Blessings)</span>
+                                    <span class="text-base group-hover:scale-125 transition-transform">🌼</span>
+                                </button>
+                                <p class="text-xs sm:text-sm text-amber-950/90 mt-2 font-semibold">
+                                    ✨ <span id="blessingsCount" class="font-cinzel text-[#7A0C16] font-bold">108</span> Royal Blessings Showered
+                                </p>
+                            </div>
+                        </section>
+
+                        <!-- SECTION 5: WEDDING EVENTS TIMELINE -->
+                        <section class="py-6 scroll-section">
+                            <div class="text-center mb-6">
+                                <p class="font-hindi text-[#7A0C16] text-xs sm:text-sm mb-1">मांगलिक कार्यक्रम</p>
+                                <h3 class="font-cinzel gold-foil-text text-xl sm:text-2xl font-bold tracking-[0.14em] uppercase">Royal Ceremonies</h3>
+                            </div>
+
+                            <div class="relative max-w-lg mx-auto pl-7 sm:pl-9 space-y-5 before:content-[''] before:absolute before:left-2.5 sm:before:left-3.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-gradient-to-b before:from-amber-400 before:via-[#D4AF37] before:to-amber-600">
+                                <div data-event-card="haldi" class="relative ceremony-card rounded-xl p-4">
+                                    <span class="timeline-node absolute -left-[25px] sm:-left-[29px] top-5 w-4 h-4 rounded-full bg-amber-400 border-2 border-[#7A0C16]"></span>
+                                    <div class="flex items-center justify-between gap-2 flex-wrap">
+                                        <h4 class="font-cinzel text-[#4A0404] font-bold text-sm sm:text-base">🌼 Haldi Utsav</h4>
+                                        <span class="ev-date text-[11px] font-cinzel font-bold text-[#7A0C16] bg-amber-200/70 px-2.5 py-0.5 rounded-full">Morning Ritual</span>
+                                    </div>
+                                    <p class="ev-venue text-xs sm:text-sm text-stone-700 mt-1.5 italic">Sunlit courtyard celebrations with organic turmeric &amp; marigold showers.</p>
+                                </div>
+
+                                <div data-event-card="sangeet" class="relative ceremony-card rounded-xl p-4">
+                                    <span class="timeline-node absolute -left-[25px] sm:-left-[29px] top-5 w-4 h-4 rounded-full bg-amber-400 border-2 border-[#7A0C16]"></span>
+                                    <div class="flex items-center justify-between gap-2 flex-wrap">
+                                        <h4 class="font-cinzel text-[#4A0404] font-bold text-sm sm:text-base">🎶 Mehendi &amp; Sangeet</h4>
+                                        <span class="ev-date text-[11px] font-cinzel font-bold text-[#7A0C16] bg-amber-200/70 px-2.5 py-0.5 rounded-full">Musical Evening</span>
+                                    </div>
+                                    <p class="ev-venue text-xs sm:text-sm text-stone-700 mt-1.5 italic">Intricate bridal henna artistry, dholak beats &amp; family dance performances.</p>
+                                </div>
+
+                                <div data-event-card="vivah" class="relative ceremony-card rounded-xl p-4">
+                                    <span class="timeline-node absolute -left-[25px] sm:-left-[29px] top-5 w-4 h-4 rounded-full bg-amber-400 border-2 border-[#7A0C16]"></span>
+                                    <div class="flex items-center justify-between gap-2 flex-wrap">
+                                        <h4 class="font-cinzel text-[#4A0404] font-bold text-sm sm:text-base">🔥 Shahi Baraat &amp; Vivah</h4>
+                                        <span class="ev-date text-[11px] font-cinzel font-bold text-[#7A0C16] bg-amber-200/70 px-2.5 py-0.5 rounded-full">Auspicious Muhurat</span>
+                                    </div>
+                                    <p class="ev-venue text-xs sm:text-sm text-stone-700 mt-1.5 italic">Grand royal Baraat procession followed by Varmala &amp; Vedic Saptapadi.</p>
+                                </div>
+
+                                <div data-event-card="reception" class="relative ceremony-card rounded-xl p-4">
+                                    <span class="timeline-node absolute -left-[25px] sm:-left-[29px] top-5 w-4 h-4 rounded-full bg-amber-400 border-2 border-[#7A0C16]"></span>
+                                    <div class="flex items-center justify-between gap-2 flex-wrap">
+                                        <h4 class="font-cinzel text-[#4A0404] font-bold text-sm sm:text-base">🥂 Grand Reception</h4>
+                                        <span class="ev-date text-[11px] font-cinzel font-bold text-[#7A0C16] bg-amber-200/70 px-2.5 py-0.5 rounded-full">Royal Banquet</span>
+                                    </div>
+                                    <p class="ev-venue text-xs sm:text-sm text-stone-700 mt-1.5 italic">An evening of candlelit elegance, royal hospitality &amp; warm blessings.</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- SECTION 6: PLAYABLE WEDDING MINI-GAME -->
+                        <section class="py-6 scroll-section">
+                            <div class="text-center mb-4">
+                                <p class="font-hindi text-[#7A0C16] text-xs sm:text-sm mb-1">शाही खेल — बारात स्पेशल</p>
+                                <h3 class="font-cinzel gold-foil-text text-xl sm:text-2xl font-bold tracking-[0.12em] uppercase">Shahi Khel: Joota &amp; Shagun Catch</h3>
+                                <p class="text-xs sm:text-sm text-stone-700 mt-1">
+                                    Slide the Golden Thali! Catch <strong>Laddoo (+10)</strong>, <strong>Varmala (+20)</strong>, <strong>Golden Joota (+50)</strong> &amp; dodge <strong>Mirchi (-15)</strong>!
+                                </p>
+                            </div>
+
+                            <div class="game-stage-frame rounded-2xl p-3 sm:p-4 max-w-lg mx-auto text-amber-100">
+                                <div class="flex items-center justify-between mb-2.5 px-2 text-xs sm:text-sm font-cinzel">
+                                    <div class="flex items-center gap-1.5 bg-[#4A0404]/90 border border-amber-500/50 px-3 py-1 rounded-full">
+                                        <span class="text-amber-300">Score:</span>
+                                        <span id="gameScore" class="font-bold text-white">0</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 bg-[#4A0404]/90 border border-amber-500/50 px-3 py-1 rounded-full">
+                                        <span class="text-amber-300">Time:</span>
+                                        <span id="gameTimer" class="font-bold text-amber-200">25s</span>
+                                    </div>
+                                </div>
+
+                                <div id="gameCanvasWrap" class="relative w-full h-[310px] sm:h-[340px] rounded-xl overflow-hidden border border-amber-500/40 bg-[#1a0205]">
+                                    <canvas id="weddingGameCanvas" class="block w-full h-full touch-none cursor-ew-resize"></canvas>
+
+                                    <div id="gameStartOverlay" class="absolute inset-0 bg-[#1c0205]/85 backdrop-blur-[2px] flex flex-col items-center justify-center p-4 text-center">
+                                        <div class="text-4xl mb-2">👞🍬🌺</div>
+                                        <h4 class="font-cinzel gold-foil-bright text-lg sm:text-xl font-bold tracking-wider mb-1">Ready for Joota Chupai?</h4>
+                                        <p class="text-xs sm:text-sm text-amber-100/85 max-w-xs mb-4">Move with Mouse, Touch Drag, or Arrow Buttons to catch Shahi Shagun in 25 seconds!</p>
+                                        <button onclick="startWeddingGame()" class="px-7 py-2.5 rounded-full bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 hover:brightness-110 text-[#4A0404] font-cinzel font-bold text-xs sm:text-sm uppercase tracking-widest border border-amber-200 shadow-lg cursor-pointer">
+                                            Start Shahi Khel
+                                        </button>
+                                    </div>
+
+                                    <div id="gameOverOverlay" class="hidden absolute inset-0 bg-[#1c0205]/90 backdrop-blur-[3px] flex flex-col items-center justify-center p-4 text-center">
+                                        <span class="text-3xl mb-1">👑</span>
+                                        <p class="text-xs uppercase tracking-[0.22em] font-cinzel text-amber-300">Royal Title Unlocked</p>
+                                        <h4 id="gameTitleReveal" class="font-cinzel gold-foil-bright text-xl sm:text-2xl font-bold mt-1">Shahi Baraat Champion!</h4>
+                                        <p class="text-sm text-amber-100 mt-1 mb-4">Final Shagun Score: <strong id="gameFinalScore" class="text-amber-300 text-lg">0</strong></p>
+                                        <button onclick="startWeddingGame()" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 hover:brightness-110 text-[#4A0404] font-cinzel font-bold text-xs sm:text-sm uppercase tracking-widest border border-amber-200 shadow-lg cursor-pointer">
+                                            Play Again
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-center gap-4 mt-3">
+                                    <button id="btnMoveLeft" type="button" class="flex-1 max-w-[140px] py-2.5 rounded-xl bg-gradient-to-b from-[#7A0C16] to-[#4A0404] active:scale-95 border border-amber-400/70 text-amber-200 font-cinzel text-xs font-bold tracking-wider shadow-md cursor-pointer select-none">◀ Left</button>
+                                    <button id="btnMoveRight" type="button" class="flex-1 max-w-[140px] py-2.5 rounded-xl bg-gradient-to-b from-[#7A0C16] to-[#4A0404] active:scale-95 border border-amber-400/70 text-amber-200 font-cinzel text-xs font-bold tracking-wider shadow-md cursor-pointer select-none">Right ▶</button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- SECTION 7: ROYAL VENUE & RSVP -->
+                        <section class="py-5 text-center scroll-section">
+                            <div class="rounded-2xl border border-amber-700/50 bg-gradient-to-b from-[#7A0C16]/[0.06] to-amber-700/[0.08] p-5 sm:p-6 mb-6">
+                                <p class="font-cinzel text-xs uppercase tracking-[0.25em] text-amber-900 font-bold">Royal Venue</p>
+                                <h3 id="displayVenueName" class="font-cinzel text-lg sm:text-xl font-bold text-[#4A0404] mt-1">The Taj Lake Palace, Udaipur</h3>
+                                <p class="text-xs sm:text-sm text-stone-700 mt-1 mb-4">Royal Hospitality Awaits You</p>
+                                <button onclick="openVenueMap()" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#4A0404] via-[#7A0C16] to-[#4A0404] hover:brightness-115 text-amber-200 border border-amber-400/80 shadow-md transition-all text-xs sm:text-sm font-cinzel tracking-wider cursor-pointer">
+                                    📍 View Royal Venue Map
+                                </button>
+                            </div>
+
+                            <div class="mb-4">
+                                <p class="font-cinzel text-xs uppercase tracking-[0.25em] text-amber-900 font-bold">Kindly Respond</p>
+                                <h3 class="font-cinzel gold-foil-text text-xl sm:text-2xl font-bold tracking-[0.14em] uppercase">Royal RSVP</h3>
+                            </div>
+
+                            <form id="rsvpForm" onsubmit="handleRsvpSubmit(event)" class="max-w-md mx-auto space-y-3.5 text-left">
+                                <div>
+                                    <label for="guestName" class="block text-xs font-cinzel font-bold text-[#4A0404] uppercase tracking-wider mb-1">Your Honored Name</label>
+                                    <input id="guestName" type="text" required placeholder="e.g. Kunwar Aarav & Family" class="w-full px-4 py-2.5 rounded-lg bg-amber-50/90 border border-amber-700/50 focus:border-[#7A0C16] outline-none text-stone-900 placeholder-stone-500 text-sm"/>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label for="guestCount" class="block text-xs font-cinzel font-bold text-[#4A0404] uppercase tracking-wider mb-1">Guests</label>
+                                        <select id="guestCount" class="w-full px-3 py-2.5 rounded-lg bg-amber-50/90 border border-amber-700/50 outline-none text-stone-900 text-sm">
+                                            <option value="1">1 Guest</option><option value="2" selected>2 Guests</option><option value="3">3 Guests</option><option value="4">4 Guests</option><option value="5+">5+ Family</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="attendingStatus" class="block text-xs font-cinzel font-bold text-[#4A0404] uppercase tracking-wider mb-1">Attending?</label>
+                                        <select id="attendingStatus" class="w-full px-3 py-2.5 rounded-lg bg-amber-50/90 border border-amber-700/50 outline-none text-stone-900 text-sm">
+                                            <option value="yes">Joyfully Accepts</option><option value="no">Regretfully Declines</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-700 via-amber-500 to-amber-700 hover:brightness-105 text-[#4A0404] font-cinzel font-bold text-sm tracking-[0.16em] uppercase border border-amber-300 shadow-lg transition-all cursor-pointer">
+                                    Confirm Royal Presence
+                                </button>
+                            </form>
+
+                            <div id="rsvpThankYou" class="hidden max-w-md mx-auto text-center p-6 rounded-2xl border-2 border-amber-600 bg-gradient-to-b from-amber-50/95 to-amber-100/90 shadow-inner">
+                                <div class="text-3xl mb-2">✨</div>
+                                <h4 class="font-cinzel text-[#4A0404] font-bold text-lg tracking-wider">Dhanyavaad &amp; Warmest Regards!</h4>
+                                <p id="rsvpThankYouText" class="text-sm sm:text-base text-stone-800 mt-2 leading-relaxed"></p>
+                                <button onclick="resetRsvp()" class="mt-4 text-xs font-cinzel uppercase tracking-widest text-[#7A0C16] underline cursor-pointer">Update Response</button>
+                            </div>
+                        </section>
+
+                        <footer class="pt-4 pb-2 text-center border-t border-amber-700/30 mt-4 scroll-section">
+                            <p class="font-vibes text-2xl sm:text-3xl text-[#4A0404] mb-4">We eagerly await to welcome you!</p>
+                            <button onclick="closeScroll()" class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-amber-700/70 bg-amber-100/70 hover:bg-amber-200/80 text-[#4A0404] font-cinzel text-xs tracking-[0.16em] uppercase transition-all cursor-pointer">
+                                ▲ Roll Up Scroll
+                            </button>
+                        </footer>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM 3D DRAGGABLE ROLLER -->
+            <div id="bottomRoller" class="relative w-full flex items-center justify-center" title="Drag down or tap to open scroll">
+                <div class="relative flex-shrink-0 -mr-1.5 z-30 pointer-events-none">
+                    <svg class="w-10 h-11 sm:w-14 sm:h-12 drop-shadow-[0_6px_8px_rgba(0,0,0,0.75)]" viewBox="0 0 60 50">
+                        <path d="M6 25 C12 18, 16 20, 20 14 C26 8, 36 10, 42 15 L58 12 L58 38 L42 35 C36 40, 26 42, 20 36 C16 30, 12 32, 6 25 Z" fill="url(#finialGold)" stroke="#5c3804" stroke-width="1"/>
+                        <circle cx="8" cy="25" r="4" fill="url(#finialGold)"/>
+                        <rect x="44" y="10" width="5" height="30" rx="2" fill="url(#finialGold)" stroke="#613b04" stroke-width="0.8"/>
+                    </svg>
+                </div>
+
+                <div class="roller-rod flex-grow">
+                    <div class="roller-gold-band left-3 sm:left-5"></div>
+                    <div class="roller-gold-band right-3 sm:right-5"></div>
+                    <div class="roller-center-medallion">
+                        <svg class="w-5 h-5 text-[#4A0404]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="relative flex-shrink-0 -ml-1.5 z-30 pointer-events-none">
+                    <svg class="w-10 h-11 sm:w-14 sm:h-12 drop-shadow-[0_6px_8px_rgba(0,0,0,0.75)] scale-x-[-1]" viewBox="0 0 60 50">
+                        <path d="M6 25 C12 18, 16 20, 20 14 C26 8, 36 10, 42 15 L58 12 L58 38 L42 35 C36 40, 26 42, 20 36 C16 30, 12 32, 6 25 Z" fill="url(#finialGold)" stroke="#5c3804" stroke-width="1"/>
+                        <circle cx="8" cy="25" r="4" fill="url(#finialGold)"/>
+                        <rect x="44" y="10" width="5" height="30" rx="2" fill="url(#finialGold)" stroke="#613b04" stroke-width="0.8"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Pull Prompt -->
+            <div id="pullPrompt" onclick="openScroll()" class="mt-7 text-center cursor-pointer select-none transition-all duration-500">
+                <div class="inline-flex flex-col items-center gap-1.5 px-6 py-2.5 rounded-full bg-[#4A0404]/80 border border-amber-400/55 shadow-[0_0_24px_rgba(212,175,55,0.3)] backdrop-blur-sm">
+                    <span class="font-cinzel text-amber-200 text-xs sm:text-sm tracking-[0.18em] uppercase font-bold">Pull Scroll Down or Tap Seal to Open</span>
+                    <svg class="w-5 h-5 text-amber-300 bounce-down" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                    </svg>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Royal Toast Notification -->
+    <div id="royalToast" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-4 transition-all duration-300">
+        <div class="px-5 py-2.5 rounded-full bg-[#4A0404]/95 border border-amber-400/75 text-amber-100 shadow-2xl text-xs sm:text-sm font-cinzel tracking-wider flex items-center gap-2 whitespace-nowrap">
+            <span>✦</span><span id="royalToastMsg">Message</span><span>✦</span>
+        </div>
+    </div>
+
+    <!-- BIG LOW-OPACITY WATERMARK & FLOATING PAY ₹10 BAR -->
+    <div id="previewWatermark">
+        <div class="wm-text">PREVIEW ONLY • PAY ₹10</div>
+        <div class="wm-text">ROYAL E-INVITE PREVIEW</div>
+        <div class="wm-text">PREVIEW ONLY • PAY ₹10</div>
+    </div>
+
+    <div id="unlockBar">
+        <div style="font-size: 12px; line-height: 1.35;">
+            <strong style="color: #f3d078; display: block;">Free Preview (1 Hr)</strong>
+            <span style="opacity: 0.85;">Watermark hatayein &amp; 15 din ke liye share karein</span>
+        </div>
+        <button id="payUnlockBtn" type="button">Pay ₹10 &amp; Unlock</button>
+    </div>
+
+    <script>
+        /* =========================================================================
+           1. GLOBAL STATE & SCROLL PULL-TO-OPEN MECHANICS
+           ========================================================================= */
+        const CLOSED_HEIGHT = 118;
+        let isScrollOpen = false;
+        let isDragging = false;
+        let dragStartY = 0;
+        let currentDragHeight = CLOSED_HEIGHT;
+        let targetWeddingDate = new Date('2027-02-14T19:15:00');
+        let blessingsTotal = 108;
+
+        const scrollBody = document.getElementById('scrollBody');
+        const parchmentContent = document.getElementById('parchmentContent');
+        const waxSealOverlay = document.getElementById('waxSealOverlay');
+        const bottomRoller = document.getElementById('bottomRoller');
+        const pullPrompt = document.getElementById('pullPrompt');
+        const closedHeader = document.getElementById('closedHeader');
+        const topRollUpBtn = document.getElementById('topRollUpBtn');
+
+        function openScroll() {
+            if (isScrollOpen) return;
+            isScrollOpen = true;
+            waxSealOverlay.classList.add('broken');
+            const rect = waxSealOverlay.getBoundingClientRect();
+            spawnCelebrationBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 65);
+            if (!isMusicPlaying) toggleRoyalMusic(true);
+
+            pullPrompt.classList.add('opacity-0', 'pointer-events-none', 'h-0', 'mt-0', 'overflow-hidden');
+            closedHeader.classList.add('opacity-75', 'mb-4');
+            topRollUpBtn.classList.remove('hidden');
+            topRollUpBtn.classList.add('flex');
+
+            scrollBody.classList.remove('is-dragging');
+            scrollBody.style.height = parchmentContent.scrollHeight + 'px';
+            scrollBody.classList.add('scroll-open');
+            initSectionObserver();
+
+            setTimeout(() => {
+                if (isScrollOpen) {
+                    scrollBody.style.height = 'auto';
+                    resizeGameCanvas();
+                }
+            }, 1200);
+            enableRosePetals(true);
+        }
+
+        function closeScroll() {
+            if (!isScrollOpen) return;
+            isScrollOpen = false;
+            scrollBody.style.height = scrollBody.offsetHeight + 'px';
+            void scrollBody.offsetHeight;
+            scrollBody.classList.remove('scroll-open');
+            scrollBody.style.height = CLOSED_HEIGHT + 'px';
+
+            setTimeout(() => {
+                if (!isScrollOpen) {
+                    waxSealOverlay.classList.remove('broken');
+                    pullPrompt.classList.remove('opacity-0', 'pointer-events-none', 'h-0', 'mt-0', 'overflow-hidden');
+                    closedHeader.classList.remove('opacity-75', 'mb-4');
+                    topRollUpBtn.classList.add('hidden');
+                    topRollUpBtn.classList.remove('flex');
+                }
+            }, 650);
+            enableRosePetals(false);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startDrag(clientY) {
+            if (isScrollOpen) return;
+            isDragging = true;
+            dragStartY = clientY;
+            currentDragHeight = CLOSED_HEIGHT;
+            scrollBody.classList.add('is-dragging');
+        }
+        function moveDrag(clientY) {
+            if (!isDragging || isScrollOpen) return;
+            const deltaY = Math.max(0, clientY - dragStartY);
+            currentDragHeight = Math.min(CLOSED_HEIGHT + deltaY * 1.15, Math.min(parchmentContent.scrollHeight, 450));
+            scrollBody.style.height = currentDragHeight + 'px';
+            waxSealOverlay.style.opacity = String(1 - Math.min(1, deltaY / 110) * 0.85);
+        }
+        function endDrag() {
+            if (!isDragging) return;
+            isDragging = false;
+            scrollBody.classList.remove('is-dragging');
+            waxSealOverlay.style.opacity = '';
+            if (currentDragHeight > CLOSED_HEIGHT + 70 || Math.abs(currentDragHeight - CLOSED_HEIGHT) < 6) openScroll();
+            else scrollBody.style.height = CLOSED_HEIGHT + 'px';
+        }
+
+        bottomRoller.addEventListener('mousedown', (e) => startDrag(e.clientY));
+        window.addEventListener('mousemove', (e) => moveDrag(e.clientY));
+        window.addEventListener('mouseup', () => endDrag());
+        bottomRoller.addEventListener('touchstart', (e) => { if (e.touches.length > 0) startDrag(e.touches[0].clientY); }, { passive: true });
+        window.addEventListener('touchmove', (e) => { if (isDragging && e.touches.length > 0) moveDrag(e.touches[0].clientY); }, { passive: true });
+        window.addEventListener('touchend', () => endDrag());
+
+        /* =========================================================================
+           2. INTERSECTION OBSERVER
+           ========================================================================= */
+        let sectionObserver = null;
+        function initSectionObserver() {
+            const sections = document.querySelectorAll('.scroll-section');
+            if ('IntersectionObserver' in window) {
+                if (sectionObserver) sectionObserver.disconnect();
+                sectionObserver = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
+                }, { threshold: 0.12 });
+                sections.forEach((sec, idx) => {
+                    sec.style.transitionDelay = Math.min(idx * 0.08, 0.32) + 's';
+                    sectionObserver.observe(sec);
+                });
+            } else {
+                sections.forEach((sec) => sec.classList.add('is-visible'));
+            }
+        }
+
+        /* =========================================================================
+           3. PHOOLON KI VARSHA & COUNTDOWN
+           ========================================================================= */
+        function triggerPhoolonKiVarsha(e) {
+            blessingsTotal++;
+            document.getElementById('blessingsCount').textContent = blessingsTotal;
+            spawnCelebrationBurst(e && e.clientX ? e.clientX : window.innerWidth / 2, e && e.clientY ? e.clientY : window.innerHeight / 2, 75);
+            playFestiveChime();
+            showRoyalToast('🌸 Phoolon Ki Varsha! Thank you for your blessings!');
+        }
+
+        function updateCountdown() {
+            const distance = targetWeddingDate.getTime() - Date.now();
+            if (distance <= 0) {
+                ['cdDays', 'cdHours', 'cdMins', 'cdSecs'].forEach(id => document.getElementById(id).textContent = '00');
+                return;
+            }
+            document.getElementById('cdDays').textContent = String(Math.floor(distance / 86400000)).padStart(2, '0');
+            document.getElementById('cdHours').textContent = String(Math.floor((distance % 86400000) / 3600000)).padStart(2, '0');
+            document.getElementById('cdMins').textContent = String(Math.floor((distance % 3600000) / 60000)).padStart(2, '0');
+            document.getElementById('cdSecs').textContent = String(Math.floor((distance % 60000) / 1000)).padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        /* =========================================================================
+           4. RSVP, VENUE & ROYAL TOAST
+           ========================================================================= */
+        function handleRsvpSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('guestName').value.trim();
+            const count = document.getElementById('guestCount').value;
+            const status = document.getElementById('attendingStatus').value;
+
+            document.getElementById('rsvpForm').classList.add('hidden');
+            const box = document.getElementById('rsvpThankYou');
+            const txt = document.getElementById('rsvpThankYouText');
+            const safeName = name.replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+
+            txt.innerHTML = status === 'yes'
+                ? `Dear <strong class="text-[#4A0404]">${safeName}</strong>, we are deeply honored to welcome you (${count} ${count === '1' ? 'guest' : 'guests'}) to our royal celebrations!`
+                : `Dear <strong class="text-[#4A0404]">${safeName}</strong>, we will truly miss your presence and cherish your warm blessings.`;
+
+            box.classList.remove('hidden');
+            spawnCelebrationBurst(window.innerWidth / 2, window.innerHeight / 2, 70);
+            playFestiveChime();
+            showRoyalToast('Royal RSVP Received! Dhanyavaad!');
+        }
+
+        function resetRsvp() {
+            document.getElementById('rsvpForm').classList.remove('hidden');
+            document.getElementById('rsvpThankYou').classList.add('hidden');
+        }
+
+        function openVenueMap() {
+            const venue = document.getElementById('displayVenueName').textContent.trim();
+            window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(venue), '_blank', 'noopener,noreferrer');
+            showRoyalToast('Opening Royal Venue in Maps...');
+        }
+
+        let toastTimeout;
+        function showRoyalToast(message) {
+            const toast = document.getElementById('royalToast');
+            document.getElementById('royalToastMsg').textContent = message;
+            toast.classList.remove('opacity-0', 'translate-y-4');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => toast.classList.add('opacity-0', 'translate-y-4'), 3000);
+        }
+
+        /* =========================================================================
+           5. INDIAN WEDDING MUSIC ENGINE (SHEHNAI + TABLA + TANPURA)
+           ========================================================================= */
+        let audioCtx = null, isMusicPlaying = false, masterMusicGain = null, tanpuraOscs = [], sequencerTimer = null, currentBeat = 0, prevShehnaiFreq = 329.63;
+        const SHEHNAI_MELODY = [
+            329.63, 392.00, 440.00, 523.25,  440.00, 392.00, 329.63, 293.66,
+            329.63, 370.00, 392.00, 493.88,  523.25, 587.33, 523.25, 440.00,
+            392.00, 440.00, 523.25, 659.25,  587.33, 523.25, 440.00, 392.00,
+            440.00, 392.00, 329.63, 293.66,  261.63, 293.66, 329.63, 0
+        ];
+
+        function ensureAudioCtx() {
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (!audioCtx) audioCtx = new AudioContextClass();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
+        }
+
+        function toggleRoyalMusic(silentToast = false) {
+            const label = document.getElementById('musicLabel');
+            const btn = document.getElementById('musicToggleBtn');
+            const eq = document.getElementById('musicEq');
+            if (!isMusicPlaying) {
+                startIndianWeddingMusic();
+                isMusicPlaying = true;
+                label.textContent = 'Shehnai: On';
+                btn.classList.add('ring-2', 'ring-amber-300');
+                eq.classList.add('music-playing');
+                if (!silentToast) showRoyalToast('🎺 Royal Shehnai & Tabla Playing');
+            } else {
+                stopIndianWeddingMusic();
+                isMusicPlaying = false;
+                label.textContent = 'Shehnai: Off';
+                btn.classList.remove('ring-2', 'ring-amber-300');
+                eq.classList.remove('music-playing');
+                if (!silentToast) showRoyalToast('Wedding Music Paused');
+            }
+        }
+
+        function startIndianWeddingMusic() {
+            try {
+                const ctxA = ensureAudioCtx();
+                masterMusicGain = ctxA.createGain();
+                masterMusicGain.gain.setValueAtTime(0.001, ctxA.currentTime);
+                masterMusicGain.gain.exponentialRampToValueAtTime(0.45, ctxA.currentTime + 1.2);
+                masterMusicGain.connect(ctxA.destination);
+
+                tanpuraOscs = [];
+                [130.81, 196.00, 261.63].forEach((freq, i) => {
+                    const osc = ctxA.createOscillator(), filter = ctxA.createBiquadFilter(), gain = ctxA.createGain();
+                    osc.type = i === 0 ? 'sawtooth' : 'triangle';
+                    osc.frequency.value = freq;
+                    filter.type = 'lowpass';
+                    filter.frequency.value = 340;
+                    gain.gain.value = i === 0 ? 0.06 : 0.035;
+                    osc.connect(filter); filter.connect(gain); gain.connect(masterMusicGain);
+                    osc.start();
+                    tanpuraOscs.push(osc);
+                });
+
+                currentBeat = 0;
+                const runStep = () => {
+                    if (!isMusicPlaying || !audioCtx) return;
+                    const now = audioCtx.currentTime;
+                    const taalPos = currentBeat % 8;
+                    if (taalPos === 0) { playBayan(now, 108, 72, 0.22); playDayan(now, 262, 0.14); playManjira(now, 0.045); }
+                    else if (taalPos === 1) playBayan(now, 96, 68, 0.14);
+                    else if (taalPos === 2) playDayan(now, 294, 0.12);
+                    else if (taalPos === 3) playDayan(now, 330, 0.08);
+                    else if (taalPos === 4) { playDayan(now, 262, 0.13); playManjira(now, 0.035); }
+                    else if (taalPos === 5) playDayan(now, 370, 0.07);
+                    else if (taalPos === 6) { playBayan(now, 112, 74, 0.18); playDayan(now, 262, 0.12); }
+                    else if (taalPos === 7) playDayan(now, 294, 0.11);
+
+                    const melFreq = SHEHNAI_MELODY[currentBeat % SHEHNAI_MELODY.length];
+                    if (melFreq > 0) { playShehnaiNote(now, prevShehnaiFreq, melFreq, 0.44); prevShehnaiFreq = melFreq; }
+                    currentBeat++;
+                };
+                runStep();
+                sequencerTimer = setInterval(runStep, 460);
+            } catch (err) {}
+        }
+
+        function stopIndianWeddingMusic() {
+            if (sequencerTimer) { clearInterval(sequencerTimer); sequencerTimer = null; }
+            if (masterMusicGain && audioCtx) { try { masterMusicGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.35); } catch (_) {} }
+            tanpuraOscs.forEach(osc => setTimeout(() => { try { osc.stop(); } catch (_) {} }, 380));
+            tanpuraOscs = [];
+        }
+
+        function playShehnaiNote(startTime, fromFreq, toFreq, dur) {
+            const ctxA = audioCtx, osc = ctxA.createOscillator(), lfo = ctxA.createOscillator(), lfoGain = ctxA.createGain(), bandpass = ctxA.createBiquadFilter(), env = ctxA.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(fromFreq, startTime);
+            osc.frequency.exponentialRampToValueAtTime(toFreq, startTime + 0.075);
+            lfo.frequency.value = 5.4; lfoGain.gain.value = toFreq * 0.012;
+            lfo.connect(lfoGain); lfoGain.connect(osc.frequency);
+            bandpass.type = 'bandpass'; bandpass.frequency.setValueAtTime(1150, startTime); bandpass.Q.value = 3.2;
+            env.gain.setValueAtTime(0.001, startTime); env.gain.linearRampToValueAtTime(0.14, startTime + 0.06);
+            env.gain.setValueAtTime(0.12, startTime + dur - 0.1); env.gain.exponentialRampToValueAtTime(0.001, startTime + dur);
+            osc.connect(bandpass); bandpass.connect(env); env.connect(masterMusicGain);
+            osc.start(startTime); lfo.start(startTime); osc.stop(startTime + dur + 0.03); lfo.stop(startTime + dur + 0.03);
+        }
+
+        function playBayan(time, s, e, v) {
+            const osc = audioCtx.createOscillator(), env = audioCtx.createGain();
+            osc.type = 'sine'; osc.frequency.setValueAtTime(s, time); osc.frequency.exponentialRampToValueAtTime(e, time + 0.18);
+            env.gain.setValueAtTime(v, time); env.gain.exponentialRampToValueAtTime(0.001, time + 0.25);
+            osc.connect(env); env.connect(masterMusicGain); osc.start(time); osc.stop(time + 0.26);
+        }
+
+        function playDayan(time, f, v) {
+            const osc = audioCtx.createOscillator(), env = audioCtx.createGain();
+            osc.type = 'triangle'; osc.frequency.setValueAtTime(f, time); osc.frequency.exponentialRampToValueAtTime(f * 0.92, time + 0.12);
+            env.gain.setValueAtTime(v, time); env.gain.exponentialRampToValueAtTime(0.001, time + 0.14);
+            osc.connect(env); env.connect(masterMusicGain); osc.start(time); osc.stop(time + 0.15);
+        }
+
+        function playManjira(time, v) {
+            const osc = audioCtx.createOscillator(), env = audioCtx.createGain();
+            osc.type = 'sine'; osc.frequency.setValueAtTime(3120, time);
+            env.gain.setValueAtTime(v, time); env.gain.exponentialRampToValueAtTime(0.0005, time + 0.18);
+            osc.connect(env); env.connect(masterMusicGain); osc.start(time); osc.stop(time + 0.19);
+        }
+
+        function playFestiveChime(pitch = 659.25) {
+            try {
+                const ctxA = ensureAudioCtx(), now = ctxA.currentTime;
+                [pitch, pitch * 1.25, pitch * 1.5].forEach((f, idx) => {
+                    const osc = ctxA.createOscillator(), env = ctxA.createGain();
+                    osc.type = 'sine'; osc.frequency.setValueAtTime(f, now + idx * 0.055);
+                    env.gain.setValueAtTime(0.001, now + idx * 0.055);
+                    env.gain.linearRampToValueAtTime(0.09, now + idx * 0.055 + 0.015);
+                    env.gain.exponentialRampToValueAtTime(0.0008, now + idx * 0.055 + 0.35);
+                    osc.connect(env); env.connect(ctxA.destination);
+                    osc.start(now + idx * 0.055); osc.stop(now + idx * 0.055 + 0.38);
+                });
+            } catch (_) {}
+        }
+
+        function playMirchiBuzz() {
+            try {
+                const ctxA = ensureAudioCtx(), now = ctxA.currentTime, osc = ctxA.createOscillator(), env = ctxA.createGain();
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(175, now); osc.frequency.linearRampToValueAtTime(110, now + 0.22);
+                env.gain.setValueAtTime(0.08, now); env.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+                osc.connect(env); env.connect(ctxA.destination); osc.start(now); osc.stop(now + 0.25);
+            } catch (_) {}
+        }
+
+        /* =========================================================================
+           6. PLAYABLE WEDDING MINI-GAME
+           ========================================================================= */
+        const gameCanvas = document.getElementById('weddingGameCanvas');
+        const gCtx = gameCanvas.getContext('2d');
+        const gameWrap = document.getElementById('gameCanvasWrap');
+
+        let gameRunning = false, gameScore = 0, gameTimeLeft = 25, gameTimerInterval = null, gameAnimId = null, lastSpawnTime = 0;
+        const thali = { x: 180, width: 84, height: 18, speed: 6.5 };
+        let moveLeftPressed = false, moveRightPressed = false, fallingItems = [], scorePopups = [], gameSparkles = [];
+
+        const ITEM_TYPES = [
+            { id: 'laddoo',  emoji: '🍬', label: '+10', points: 10,  color: '#fbbf24', weight: 42 },
+            { id: 'varmala', emoji: '🌺', label: '+20', points: 20,  color: '#fb7185', weight: 28 },
+            { id: 'joota',   emoji: '👞', label: '+50', points: 50,  color: '#fde047', weight: 14 },
+            { id: 'mirchi',  emoji: '🌶️', label: '-15', points: -15, color: '#ef4444', weight: 16 }
+        ];
+
+        function resizeGameCanvas() {
+            if (!gameWrap) return;
+            const rect = gameWrap.getBoundingClientRect();
+            if (rect.width > 0 && rect.height > 0) {
+                gameCanvas.width = rect.width;
+                gameCanvas.height = rect.height;
+                thali.width = Math.max(72, Math.min(96, gameCanvas.width * 0.22));
+                thali.x = Math.min(Math.max(thali.x, thali.width / 2), gameCanvas.width - thali.width / 2);
+            }
+        }
+        window.addEventListener('resize', resizeGameCanvas);
+
+        function pickItemType() {
+            const total = ITEM_TYPES.reduce((s, t) => s + t.weight, 0);
+            let r = Math.random() * total;
+            for (const t of ITEM_TYPES) { if ((r -= t.weight) <= 0) return t; }
+            return ITEM_TYPES[0];
+        }
+
+        function startWeddingGame() {
+            resizeGameCanvas();
+            gameRunning = true; gameScore = 0; gameTimeLeft = 25;
+            fallingItems = []; scorePopups = []; gameSparkles = [];
+            thali.x = gameCanvas.width / 2; lastSpawnTime = 0;
+            document.getElementById('gameScore').textContent = '0';
+            document.getElementById('gameTimer').textContent = '25s';
+            document.getElementById('gameStartOverlay').classList.add('hidden');
+            document.getElementById('gameOverOverlay').classList.add('hidden');
+
+            clearInterval(gameTimerInterval);
+            gameTimerInterval = setInterval(() => {
+                if (!gameRunning) return;
+                gameTimeLeft--;
+                document.getElementById('gameTimer').textContent = gameTimeLeft + 's';
+                if (gameTimeLeft <= 0) endWeddingGame();
+            }, 1000);
+            cancelAnimationFrame(gameAnimId);
+            gameLoop(performance.now());
+        }
+
+        function endWeddingGame() {
+            gameRunning = false;
+            clearInterval(gameTimerInterval);
+            let title = 'Shahi Baraat Guest!';
+            if (gameScore >= 260) title = '👑 Shahi Baraat Champion!';
+            else if (gameScore >= 170) title = '👞 Supreme Joota Rakshak!';
+            else if (gameScore >= 90) title = '🎉 Best Saali / Jija!';
+            document.getElementById('gameTitleReveal').textContent = title;
+            document.getElementById('gameFinalScore').textContent = gameScore;
+            document.getElementById('gameOverOverlay').classList.remove('hidden');
+            playFestiveChime(784);
+            spawnCelebrationBurst(window.innerWidth / 2, window.innerHeight / 2, 65);
+        }
+
+        function spawnGameSparkles(x, y, color) {
+            for (let i = 0; i < 12; i++) {
+                const a = Math.random() * Math.PI * 2, sp = Math.random() * 3.2 + 1;
+                gameSparkles.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 1, color });
+            }
+        }
+
+        function gameLoop(timestamp) {
+            if (!gameRunning) return;
+            gCtx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+
+            if (moveLeftPressed) thali.x -= thali.speed;
+            if (moveRightPressed) thali.x += thali.speed;
+            thali.x = Math.max(thali.width / 2 + 6, Math.min(gameCanvas.width - thali.width / 2 - 6, thali.x));
+
+            if (timestamp - lastSpawnTime > 580) {
+                lastSpawnTime = timestamp;
+                const type = pickItemType();
+                fallingItems.push({ ...type, x: Math.random() * (gameCanvas.width - 48) + 24, y: -24, vy: Math.random() * 1.9 + 2.4 + (25 - gameTimeLeft) * 0.04, wobble: Math.random() * Math.PI * 2 });
+            }
+
+            const thaliY = gameCanvas.height - 28;
+            for (let i = fallingItems.length - 1; i >= 0; i--) {
+                const item = fallingItems[i];
+                item.y += item.vy; item.wobble += 0.06;
+                const drawX = item.x + Math.sin(item.wobble) * 1.2;
+                gCtx.font = '26px serif'; gCtx.textAlign = 'center'; gCtx.textBaseline = 'middle';
+                gCtx.fillText(item.emoji, drawX, item.y);
+
+                if (item.y + 12 >= thaliY - 6 && item.y - 12 <= thaliY + 14 && Math.abs(drawX - thali.x) <= thali.width / 2 + 12) {
+                    gameScore = Math.max(0, gameScore + item.points);
+                    document.getElementById('gameScore').textContent = gameScore;
+                    scorePopups.push({ x: drawX, y: thaliY - 18, text: item.label, color: item.color, life: 1 });
+                    spawnGameSparkles(drawX, thaliY - 6, item.color);
+                    if (item.points > 0) playFestiveChime(item.id === 'joota' ? 880 : 620);
+                    else playMirchiBuzz();
+                    fallingItems.splice(i, 1);
+                    continue;
+                }
+                if (item.y > gameCanvas.height + 30) fallingItems.splice(i, 1);
+            }
+
+            gCtx.save();
+            const grad = gCtx.createLinearGradient(thali.x - thali.width / 2, thaliY, thali.x + thali.width / 2, thaliY);
+            grad.addColorStop(0, '#9e6e14'); grad.addColorStop(0.5, '#D4AF37'); grad.addColorStop(1, '#8c5e08');
+            gCtx.fillStyle = grad; gCtx.strokeStyle = '#fff5cc'; gCtx.lineWidth = 1.5;
+            gCtx.beginPath(); gCtx.ellipse(thali.x, thaliY, thali.width / 2, 10, 0, 0, Math.PI * 2); gCtx.fill(); gCtx.stroke();
+            gCtx.fillStyle = '#7A0C16';
+            gCtx.beginPath(); gCtx.ellipse(thali.x, thaliY, thali.width / 2 - 10, 5.5, 0, 0, Math.PI * 2); gCtx.fill();
+            gCtx.restore();
+
+            for (let i = gameSparkles.length - 1; i >= 0; i--) {
+                const s = gameSparkles[i]; s.x += s.vx; s.y += s.vy; s.life -= 0.04;
+                if (s.life <= 0) { gameSparkles.splice(i, 1); continue; }
+                gCtx.save(); gCtx.globalAlpha = s.life; gCtx.fillStyle = s.color;
+                gCtx.beginPath(); gCtx.arc(s.x, s.y, 2.5, 0, Math.PI * 2); gCtx.fill(); gCtx.restore();
+            }
+
+            for (let i = scorePopups.length - 1; i >= 0; i--) {
+                const p = scorePopups[i]; p.y -= 1.3; p.life -= 0.025;
+                if (p.life <= 0) { scorePopups.splice(i, 1); continue; }
+                gCtx.save(); gCtx.globalAlpha = p.life; gCtx.font = 'bold 16px "Cinzel Decorative", serif';
+                gCtx.textAlign = 'center'; gCtx.fillStyle = p.color; gCtx.fillText(p.text, p.x, p.y); gCtx.restore();
+            }
+            gameAnimId = requestAnimationFrame(gameLoop);
+        }
+
+        function updateThaliFromPointer(clientX) {
+            if (!gameRunning) return;
+            thali.x = clientX - gameCanvas.getBoundingClientRect().left;
+        }
+        gameCanvas.addEventListener('mousemove', (e) => updateThaliFromPointer(e.clientX));
+        gameCanvas.addEventListener('touchstart', (e) => { if (e.touches.length > 0) updateThaliFromPointer(e.touches[0].clientX); }, { passive: true });
+        gameCanvas.addEventListener('touchmove', (e) => { if (e.touches.length > 0) { e.preventDefault(); updateThaliFromPointer(e.touches[0].clientX); } }, { passive: false });
+        window.addEventListener('keydown', (e) => { if (!gameRunning) return; if (e.key === 'ArrowLeft') moveLeftPressed = true; if (e.key === 'ArrowRight') moveRightPressed = true; });
+        window.addEventListener('keyup', (e) => { if (e.key === 'ArrowLeft') moveLeftPressed = false; if (e.key === 'ArrowRight') moveRightPressed = false; });
+
+        const btnLeft = document.getElementById('btnMoveLeft'), btnRight = document.getElementById('btnMoveRight');
+        ['mousedown', 'touchstart'].forEach(ev => {
+            btnLeft.addEventListener(ev, () => moveLeftPressed = true, { passive: true });
+            btnRight.addEventListener(ev, () => moveRightPressed = true, { passive: true });
+        });
+        ['mouseup', 'mouseleave', 'touchend'].forEach(ev => {
+            btnLeft.addEventListener(ev, () => moveLeftPressed = false);
+            btnRight.addEventListener(ev, () => moveRightPressed = false);
+        });
+
+        /* =========================================================================
+           7. AMBIENT GOLD DUST & PETALS CANVAS
+           ========================================================================= */
+        const canvas = document.getElementById('ambientCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [], burstParticles = [];
+        function resizeAmbientCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeAmbientCanvas);
+        resizeAmbientCanvas();
+
+        function initAmbientDust() {
+            particles = [];
+            for (let i = 0; i < (window.innerWidth < 640 ? 28 : 50); i++) {
+                particles.push({ type: 'gold', x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2.2 + 0.6, vx: (Math.random() - 0.5) * 0.35, vy: -Math.random() * 0.45 - 0.12, alpha: Math.random() * 0.7 + 0.25, phase: Math.random() * Math.PI * 2 });
+            }
+        }
+
+        function enableRosePetals(active) {
+            if (active) {
+                for (let i = 0; i < (window.innerWidth < 640 ? 14 : 24); i++) {
+                    particles.push({ type: Math.random() > 0.38 ? 'rose' : 'marigold', x: Math.random() * canvas.width, y: -Math.random() * canvas.height * 0.7, size: Math.random() * 6.5 + 5.5, vx: (Math.random() - 0.5) * 0.85, vy: Math.random() * 1.15 + 0.65, angle: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 0.045, alpha: Math.random() * 0.45 + 0.48 });
+                }
+            } else {
+                particles = particles.filter(p => p.type === 'gold');
+            }
+        }
+
+        function spawnCelebrationBurst(cx, cy, count = 60) {
+            for (let i = 0; i < count; i++) {
+                const angle = Math.random() * Math.PI * 2, speed = Math.random() * 5.6 + 1.5, roll = Math.random();
+                const kind = roll > 0.62 ? 'rose' : (roll > 0.34 ? 'marigold' : 'gold');
+                burstParticles.push({ kind, x: cx, y: cy, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 1.8, size: kind === 'gold' ? (Math.random() * 3 + 1.4) : (Math.random() * 6 + 5), angle: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 0.15, life: 1, decay: Math.random() * 0.014 + 0.008 });
+            }
+        }
+
+        function drawFloralPetal(x, y, size, angle, alpha, isMarigold) {
+            ctx.save(); ctx.translate(x, y); ctx.rotate(angle); ctx.globalAlpha = alpha;
+            const grad = ctx.createRadialGradient(-size * 0.2, -size * 0.2, 1, 0, 0, size);
+            if (isMarigold) { grad.addColorStop(0, '#fde047'); grad.addColorStop(0.6, '#f59e0b'); grad.addColorStop(1, '#c2410c'); }
+            else { grad.addColorStop(0, '#fb7185'); grad.addColorStop(0.65, '#9e112b'); grad.addColorStop(1, '#4A0404'); }
+            ctx.fillStyle = grad;
+            ctx.beginPath(); ctx.moveTo(0, -size);
+            ctx.bezierCurveTo(size * 0.85, -size * 0.6, size * 0.9, size * 0.6, 0, size);
+            ctx.bezierCurveTo(-size * 0.9, size * 0.6, -size * 0.85, -size * 0.6, 0, -size);
+            ctx.fill(); ctx.restore();
+        }
+
+        function animateAmbient() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                if (p.type === 'gold') {
+                    p.x += p.vx; p.y += p.vy; p.phase += 0.03;
+                    if (p.y < -10) p.y = canvas.height + 10;
+                    if (p.x < -10) p.x = canvas.width + 10;
+                    if (p.x > canvas.width + 10) p.x = -10;
+                    ctx.save(); ctx.globalAlpha = p.alpha * (0.6 + 0.4 * Math.sin(p.phase));
+                    ctx.fillStyle = '#ffe596'; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+                } else {
+                    p.x += p.vx + Math.sin(p.y * 0.015) * 0.45; p.y += p.vy; p.angle += p.spin;
+                    if (p.y > canvas.height + 20) { p.y = -20; p.x = Math.random() * canvas.width; }
+                    drawFloralPetal(p.x, p.y, p.size, p.angle, p.alpha, p.type === 'marigold');
+                }
+            }
+            for (let i = burstParticles.length - 1; i >= 0; i--) {
+                const b = burstParticles[i];
+                b.x += b.vx; b.y += b.vy; b.vy += 0.085; b.angle += b.spin; b.life -= b.decay;
+                if (b.life <= 0) { burstParticles.splice(i, 1); continue; }
+                if (b.kind === 'gold') { ctx.save(); ctx.globalAlpha = b.life; ctx.fillStyle = '#fff0b3'; ctx.beginPath(); ctx.arc(b.x, b.y, b.size, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+                else drawFloralPetal(b.x, b.y, b.size, b.angle, b.life, b.kind === 'marigold');
+            }
+            requestAnimationFrame(animateAmbient);
+        }
+
+        /* =========================================================================
+           8. SERVER DATA LOADER + WATERMARK & PAY ₹10 UNLOCK
+           ========================================================================= */
+        async function loadScrollCardFromServer() {
+            const parts = window.location.pathname.split('/').filter(Boolean);
+            const cardId = parts[0] === 'card' ? parts[1] : null;
+            if (!cardId) return;
+
+            try {
+                const res = await fetch(`/api/card/${cardId}`);
+                if (!res.ok) {
+                    document.body.innerHTML = '<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fde68a;text-align:center;padding:24px;"><h2>Invitation Expired</h2><p>Ye card expire ho chuka hai ya delete ho gaya hai.</p><a href="/" style="margin-top:16px;padding:10px 24px;background:#f3d078;color:#240206;border-radius:99px;font-weight:bold;text-decoration:none;">Naya Card Banayein</a></div>';
+                    return;
+                }
+                const data = await res.json();
+
+                // Populate Couple Names, Date & Venue
+                document.title = `${data.groomName} weds ${data.brideName} | Shahi Vivah Patrika`;
+                document.getElementById('displayBrideName').textContent = data.brideName;
+                document.getElementById('displayGroomName').textContent = data.groomName;
+                document.getElementById('jodiBrideLabel').textContent = data.brideName;
+                document.getElementById('jodiGroomLabel').textContent = data.groomName;
+                document.getElementById('displayVenueName').textContent = data.venueName + (data.venueAddress ? ', ' + data.venueAddress : '');
+
+                if (data.weddingDate) {
+                    targetWeddingDate = new Date(data.weddingDate);
+                    document.getElementById('displayWeddingDate').textContent = targetWeddingDate.toLocaleDateString('en-IN', {
+                        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                    }).toUpperCase();
+                    updateCountdown();
+                }
+
+                // Populate Photos
+                if (data.bridePhoto) {
+                    const bImg = document.getElementById('bridePhotoImg');
+                    bImg.src = data.bridePhoto;
+                    bImg.classList.remove('hidden');
+                    document.getElementById('brideDefaultSvg').classList.add('hidden');
+                }
+                if (data.groomPhoto) {
+                    const gImg = document.getElementById('groomPhotoImg');
+                    gImg.src = data.groomPhoto;
+                    gImg.classList.remove('hidden');
+                    document.getElementById('groomDefaultSvg').classList.add('hidden');
+                }
+
+                // Filter & Update Selected Events
+                if (Array.isArray(data.events) && data.events.length > 0) {
+                    const selectedMap = {};
+                    data.events.forEach(ev => selectedMap[ev.type] = ev);
+                    document.querySelectorAll('[data-event-card]').forEach(el => {
+                        const type = el.getAttribute('data-event-card');
+                        if (!selectedMap[type]) el.style.display = 'none';
+                        else {
+                            const ev = selectedMap[type];
+                            if (ev.date && el.querySelector('.ev-date')) el.querySelector('.ev-date').textContent = ev.date;
+                            if (ev.venue && el.querySelector('.ev-venue')) el.querySelector('.ev-venue').textContent = '📍 ' + ev.venue;
+                        }
+                    });
+                }
+
+                // Watermark & Pay ₹10 Unlock Bar
+                const wm = document.getElementById('previewWatermark');
+                const bar = document.getElementById('unlockBar');
+                const payBtn = document.getElementById('payUnlockBtn');
+
+                if (!data.isPaid) {
+                    wm.style.display = 'flex';
+                    bar.style.display = 'flex';
+
+                    payBtn.onclick = async () => {
+                        payBtn.disabled = true;
+                        payBtn.textContent = 'Opening...';
+                        try {
+                            const orderRes = await fetch('/api/create-order', { method: 'POST' });
+                            const orderData = await orderRes.json();
+                            if (!orderRes.ok) throw new Error(orderData.error || 'Payment setup error');
+
+                            const rzp = new Razorpay({
+                                key: orderData.keyId,
+                                amount: orderData.amount,
+                                currency: 'INR',
+                                name: 'Royal Wedding E-Invite',
+                                description: 'Remove Watermark & Unlock for 15 Days',
+                                order_id: orderData.orderId,
+                                handler: async function (response) {
+                                    payBtn.textContent = 'Unlocking...';
+                                    const unlockRes = await fetch('/api/unlock-card', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            cardId: data.id,
+                                            razorpay_order_id: response.razorpay_order_id,
+                                            razorpay_payment_id: response.razorpay_payment_id,
+                                            razorpay_signature: response.razorpay_signature
+                                        })
+                                    });
+                                    if (!unlockRes.ok) throw new Error('Unlock failed');
+
+                                    wm.style.display = 'none';
+                                    bar.innerHTML = `
+                                        <div style="font-size:12px;"><strong style="color:#6ee7b7;">🎉 Card Unlocked (15 Days)!</strong></div>
+                                        <button id="copyShareBtn" type="button" style="background:#10b981;color:#fff;font-weight:700;font-size:12px;padding:8px 14px;border-radius:10px;border:none;cursor:pointer;">Copy Share Link</button>
+                                    `;
+                                    document.getElementById('copyShareBtn').onclick = () => {
+                                        navigator.clipboard.writeText(window.location.href);
+                                        document.getElementById('copyShareBtn').textContent = 'Copied ✓';
+                                    };
+                                    showRoyalToast('Payment Successful! Watermark Removed 🎉');
+                                },
+                                modal: {
+                                    ondismiss: () => {
+                                        payBtn.disabled = false;
+                                        payBtn.textContent = 'Pay ₹10 & Unlock';
+                                    }
+                                },
+                                theme: { color: '#700914' }
+                            });
+                            rzp.open();
+                        } catch (err) {
+                            alert(err.message);
+                            payBtn.disabled = false;
+                            payBtn.textContent = 'Pay ₹10 & Unlock';
+                        }
+                    };
+                }
+            } catch (err) {
+                console.error('Scroll card load error:', err);
+            }
+        }
+
+        window.onload = function () {
+            initAmbientDust();
+            animateAmbient();
+            resizeGameCanvas();
+            loadScrollCardFromServer();
+        };
+    </script>
+</body>
+</html>
