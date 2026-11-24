@@ -58,6 +58,33 @@
   </script>
 
   <style>
+    :root, [data-theme="royal-maroon"] {
+  --bg-gradient: radial-gradient(circle at top, #5c0812 0%, #240206 60%, #140103 100%);
+  --card-bg: rgba(45, 4, 8, 0.9);
+  --accent: #f3d078;
+  --border-col: rgba(212, 175, 55, 0.5);
+}
+[data-theme="emerald-gold"] {
+  --bg-gradient: radial-gradient(circle at top, #065f46 0%, #022c22 60%, #011a14 100%);
+  --card-bg: rgba(4, 47, 36, 0.9);
+  --accent: #f3d078;
+  --border-col: rgba(212, 175, 55, 0.5);
+}
+[data-theme="floral-pink"] {
+  --bg-gradient: radial-gradient(circle at top, #831843 0%, #4c0519 60%, #2b0310 100%);
+  --card-bg: rgba(76, 5, 25, 0.88);
+  --accent: #fbcfe8;
+  --border-col: rgba(244, 114, 182, 0.5);
+}
+[data-theme="midnight-royal"] {
+  --bg-gradient: radial-gradient(circle at top, #1e3a8a 0%, #0f172a 60%, #020617 100%);
+  --card-bg: rgba(15, 23, 42, 0.9);
+  --accent: #fde047;
+  --border-col: rgba(250, 204, 21, 0.45);
+}
+body {
+  background: var(--bg-gradient) !important;
+}
     /* Base Royal Styling & Custom Scrollbar */
     :root {
       --gold-gradient: linear-gradient(135deg, #aa771c 0%, #f6e27a 25%, #d4af37 50%, #fceabb 75%, #aa771c 100%);
@@ -1707,6 +1734,7 @@
           }
 
           const data = await res.json();
+          document.documentElement.setAttribute('data-theme', data.theme || 'royal-maroon');
 
           // Basic info update
           state.groom = data.groomName;
