@@ -47,9 +47,9 @@ const cardSchema = new mongoose.Schema({
   events: Array,
   blessings: Array,
   theme: { type: String, default: 'royal-maroon' },
+  design: { type: String, default: 'royal-palace' },
   isPaid: { type: Boolean, default: false },
   paymentId: { type: String, default: '' },
-  // Is time par pahunchte hi MongoDB card ko auto-delete kar dega
   expireAt: { type: Date, index: { expires: 0 } }
 });
 
@@ -92,7 +92,8 @@ app.post(
         venueAddress,
         whatsappNumber,
         eventsJson,
-        theme
+        theme,
+        design
       } = req.body;
 
       let groomPhotoUrl = '';
@@ -107,7 +108,6 @@ app.post(
       const clean = (str) => str.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 15) || 'royal';
       const cardId = `${clean(groomName)}-weds-${clean(brideName)}-${crypto.randomBytes(3).toString('hex')}`;
 
-      // Unpaid card sirf 1 ghante (60 min) ke liye save hoga
       const oneHourLater = new Date(Date.now() + 60 * 60 * 1000);
 
       const newCard = await Card.create({
@@ -124,6 +124,7 @@ app.post(
         bridePhoto: bridePhotoUrl,
         events: JSON.parse(eventsJson || '[]'),
         theme: theme || 'royal-maroon',
+        design: design || 'royal-palace',
         isPaid: false,
         expireAt: oneHourLater,
         blessings: [
@@ -179,7 +180,6 @@ app.post('/api/unlock-card', async (req, res) => {
       return res.status(400).json({ error: 'Payment verification failed!' });
     }
 
-    // Paid hote hi validity 15 din kar dein
     const fifteenDaysLater = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000);
 
     const card = await Card.findOneAndUpdate(
