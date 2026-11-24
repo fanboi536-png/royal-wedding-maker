@@ -233,8 +233,14 @@ app.post('/api/card/:id/blessing', async (req, res) => {
   }
 });
 
-app.get('/card/:id', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'card.html'));
+app.get('/card/:id', async (req, res) => {
+  try {
+    const card = await Card.findOne({ id: req.params.id });
+    if (card && card.design === 'shahi-scroll') {
+      return res.sendFile(path.join(__dirname, 'public', 'scroll-card.html'));
+    }
+    res.sendFile(path.join(__dirname, 'public', 'card.html'));
+  } catch (err) {
+    res.sendFile(path.join(__dirname, 'public', 'card.html'));
+  }
 });
-
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
