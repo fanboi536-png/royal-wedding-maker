@@ -937,6 +937,8 @@
 
           // 1. Apply Selected Theme
           document.documentElement.setAttribute('data-theme', data.theme || 'royal-maroon');
+          
+          document.documentElement.setAttribute('data-design', data.design || 'royal-palace');
 
           // 2. Watermark & Pay ₹10 Unlock Bar (if unpaid)
           const wm = document.getElementById('previewWatermark');
