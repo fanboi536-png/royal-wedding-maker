@@ -32,6 +32,44 @@
     </div>
 
     <form id="builderForm" class="space-y-6">
+      <!-- THEME SELECTOR -->
+      <div class="bg-[#1f0205]/70 p-4 rounded-2xl border border-[#d4af37]/30 space-y-3">
+        <h3 class="text-[#f3d078] font-semibold text-sm">🎨 Card Theme Chunein</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <label class="cursor-pointer">
+            <input type="radio" name="theme" value="royal-maroon" checked class="peer hidden" />
+            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#4e0710] text-center transition">
+              <div class="w-6 h-6 rounded-full mx-auto mb-1 bg-gradient-to-tr from-[#700914] to-[#f3d078] border border-white/40"></div>
+              <span class="font-medium text-[#f9e79f]">Royal Maroon</span>
+            </div>
+          </label>
+
+          <label class="cursor-pointer">
+            <input type="radio" name="theme" value="emerald-gold" class="peer hidden" />
+            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#063b27] text-center transition">
+              <div class="w-6 h-6 rounded-full mx-auto mb-1 bg-gradient-to-tr from-[#064e3b] to-[#f3d078] border border-white/40"></div>
+              <span class="font-medium text-emerald-200">Emerald Gold</span>
+            </div>
+          </label>
+
+          <label class="cursor-pointer">
+            <input type="radio" name="theme" value="floral-pink" class="peer hidden" />
+            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-pink-400 bg-[#5c1632] text-center transition">
+              <div class="w-6 h-6 rounded-full mx-auto mb-1 bg-gradient-to-tr from-[#ec4899] to-[#fbcfe8] border border-white/40"></div>
+              <span class="font-medium text-pink-200">Floral Pink</span>
+            </div>
+          </label>
+
+          <label class="cursor-pointer">
+            <input type="radio" name="theme" value="midnight-royal" class="peer hidden" />
+            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#0f172a] text-center transition">
+              <div class="w-6 h-6 rounded-full mx-auto mb-1 bg-gradient-to-tr from-[#1e3a8a] to-[#f3d078] border border-white/40"></div>
+              <span class="font-medium text-blue-200">Midnight Blue</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
       <!-- Couple Details -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div class="bg-[#1f0205]/70 p-4 rounded-2xl border border-[#d4af37]/30 space-y-3">
