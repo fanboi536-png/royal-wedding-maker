@@ -47,6 +47,7 @@ const cardSchema = new mongoose.Schema({
   events: Array,
   blessings: Array,
   paymentId: String,
+  theme: { type: String, default: 'royal-maroon' },
   // 15 din (1296000 seconds) baad MongoDB is card ko apne aap delete kar dega
   createdAt: { type: Date, default: Date.now, expires: 1296000 }
 });
@@ -75,6 +76,9 @@ function uploadToCloudinary(buffer) {
 // 4. API: RAZORPAY ₹10 ORDER CREATE KAREIN
 app.post('/api/create-order', async (req, res) => {
   try {
+    if (!razorpay) {
+      return res.status(500).json({ error: 'Razorpay keys abhi Render par set nahi ki gayi hain.' });
+    }
     const order = await razorpay.orders.create({
       amount: 1000, // 1000 paise = ₹10
       currency: 'INR',
@@ -112,7 +116,8 @@ app.post(
         venueName,
         venueAddress,
         whatsappNumber,
-        eventsJson
+        eventsJson,
+        theme
       } = req.body;
 
       // Payment Signature Verify Karein (Security Check)
@@ -128,10 +133,10 @@ app.post(
       // Photos Cloudinary par upload karein
       let groomPhotoUrl = '';
       let bridePhotoUrl = '';
-      if (req.files['groomPhoto']) {
+      if (req.files && req.files['groomPhoto']) {
         groomPhotoUrl = await uploadToCloudinary(req.files['groomPhoto'][0].buffer);
       }
-      if (req.files['bridePhoto']) {
+      if (req.files && req.files['bridePhoto']) {
         bridePhotoUrl = await uploadToCloudinary(req.files['bridePhoto'][0].buffer);
       }
 
@@ -152,6 +157,7 @@ app.post(
         bridePhoto: bridePhotoUrl,
         events: JSON.parse(eventsJson || '[]'),
         paymentId: razorpay_payment_id,
+        theme: theme || 'royal-maroon',
         blessings: [
           {
             name: 'Family & Well-Wishers',
@@ -206,4 +212,3 @@ app.get('/card/:id', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
