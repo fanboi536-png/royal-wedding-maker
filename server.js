@@ -244,3 +244,4 @@ app.get('/card/:id', async (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'card.html'));
   }
 });
+app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server running on port ${PORT}`));
