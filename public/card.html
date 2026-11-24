@@ -85,6 +85,34 @@
       --accent: #fde047;
       --border-col: rgba(250, 204, 21, 0.45);
     }
+    /* DESIGN 2: MODERN MINIMAL */
+[data-design="modern-minimal"] .damask-pattern { background-image: none !important; }
+[data-design="modern-minimal"] .rounded-t-full { border-radius: 1.25rem !important; }
+[data-design="modern-minimal"] .font-vibes { font-family: 'Cormorant Garamond', serif !important; font-style: italic; font-weight: 600; }
+[data-design="modern-minimal"] .gold-border-glow {
+  background: rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* DESIGN 3: FLORAL OVAL */
+[data-design="floral-oval"] .rounded-t-full { border-radius: 9999px !important; }
+[data-design="floral-oval"] .gold-border-glow {
+  border: 2px dashed var(--border-col) !important;
+  border-radius: 2rem !important;
+}
+
+/* DESIGN 4: CLASSIC PRINT */
+[data-design="classic-print"] .rounded-t-full,
+[data-design="classic-print"] .rounded-3xl,
+[data-design="classic-print"] .rounded-2xl {
+  border-radius: 4px !important;
+}
+[data-design="classic-print"] .gold-border-glow {
+  border: 2px solid var(--border-col) !important;
+  outline: 1px solid var(--border-col);
+  outline-offset: -8px;
+}
 
     body {
       background: var(--bg-gradient) !important;
