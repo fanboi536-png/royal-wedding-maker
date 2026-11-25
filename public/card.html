@@ -150,7 +150,7 @@
       text-transform: uppercase;
     }
 
-    /* FLOATING PAY ₹10 BAR */
+    /* FLOATING PAY ₹29 BAR */
     #unlockBar {
       position: fixed;
       bottom: 16px;
@@ -688,18 +688,18 @@
 
   <!-- BIG LOW-OPACITY WATERMARK OVERLAY (Shows only when unpaid) -->
   <div id="previewWatermark">
-    <div class="wm-text">PREVIEW ONLY • PAY ₹10</div>
+    <div class="wm-text">PREVIEW ONLY • PAY ₹29</div>
     <div class="wm-text">ROYAL E-INVITE PREVIEW</div>
-    <div class="wm-text">PREVIEW ONLY • PAY ₹10</div>
+    <div class="wm-text">PREVIEW ONLY • PAY ₹29</div>
   </div>
 
-  <!-- FLOATING PAY ₹10 TO UNLOCK BAR -->
+  <!-- FLOATING PAY ₹29 TO UNLOCK BAR -->
   <div id="unlockBar">
     <div style="font-size: 12px; line-height: 1.35;">
       <strong style="color: #f3d078; display: block;">Free Preview (1 Hr)</strong>
       <span style="opacity: 0.85;">Watermark hatayein &amp; 15 din ke liye share karein</span>
     </div>
-    <button id="payUnlockBtn" type="button">Pay ₹10 &amp; Unlock</button>
+    <button id="payUnlockBtn" type="button">Pay ₹29 &amp; Unlock</button>
   </div>
 
   <script>
@@ -915,7 +915,7 @@
         `).join('');
       }
 
-      // LOAD CARD FROM SERVER + WATERMARK & PAY ₹10 UNLOCK
+      // LOAD CARD FROM SERVER + WATERMARK & PAY ₹29 UNLOCK
       const pathParts = window.location.pathname.split('/').filter(Boolean);
       const cardId = pathParts[0] === 'card' ? pathParts[1] : null;
 
@@ -940,7 +940,7 @@
           
           document.documentElement.setAttribute('data-design', data.design || 'royal-palace');
 
-          // 2. Watermark & Pay ₹10 Unlock Bar (if unpaid)
+          // 2. Watermark & Pay ₹29 Unlock Bar (if unpaid)
           const wm = document.getElementById('previewWatermark');
           const bar = document.getElementById('unlockBar');
           const payBtn = document.getElementById('payUnlockBtn');
@@ -994,7 +994,7 @@
                   modal: {
                     ondismiss: () => {
                       payBtn.disabled = false;
-                      payBtn.textContent = 'Pay ₹10 & Unlock';
+                      payBtn.textContent = 'Pay ₹29 & Unlock';
                     }
                   },
                   theme: { color: '#700914' }
@@ -1003,7 +1003,7 @@
               } catch (err) {
                 alert(err.message);
                 payBtn.disabled = false;
-                payBtn.textContent = 'Pay ₹10 & Unlock';
+                payBtn.textContent = 'Pay ₹29 & Unlock';
               }
             };
           }
