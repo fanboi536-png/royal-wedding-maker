@@ -144,14 +144,14 @@ app.post(
   }
 );
 
-// 5. API: RAZORPAY ₹10 ORDER CREATE KAREIN
+// 5. API: RAZORPAY ₹29 ORDER CREATE KAREIN
 app.post('/api/create-order', async (req, res) => {
   try {
     if (!razorpay) {
       return res.status(500).json({ error: 'Razorpay keys abhi Render par set nahi hain.' });
     }
     const order = await razorpay.orders.create({
-      amount: 1000,
+      amount: 2900, // 2900 paise = ₹29
       currency: 'INR',
       receipt: `rcpt_${Date.now()}`
     });
@@ -193,60 +193,3 @@ app.post('/api/unlock-card', async (req, res) => {
     );
 
     if (!card) return res.status(404).json({ error: 'Card nahi mila.' });
-
-    res.json({ success: true, cardUrl: `/card/${card.id}` });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Card unlock karne mein error aaya.' });
-  }
-});
-
-// 7. API: CARD FETCH KAREIN
-app.get('/api/card/:id', async (req, res) => {
-  try {
-    const card = await Card.findOne({ id: req.params.id });
-    if (!card) return res.status(404).json({ error: 'Card expire ho chuka hai ya nahi mila.' });
-    res.json(card);
-  } catch (err) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-// 8. API: BLESSINGS SAVE KAREIN
-app.post('/api/card/:id/blessing', async (req, res) => {
-  try {
-    const { name, status, wish } = req.body;
-    const card = await Card.findOne({ id: req.params.id });
-    if (!card) return res.status(404).json({ error: 'Card not found' });
-
-    card.blessings.unshift({
-      name: String(name).slice(0, 60),
-      status: String(status || 'Joyfully Attending').slice(0, 40),
-      wish: String(wish || 'Best wishes!').slice(0, 300)
-    });
-    card.blessings = card.blessings.slice(0, 50);
-    await card.save();
-
-    res.json({ success: true, blessings: card.blessings });
-  } catch (err) {
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-// 9. CARD PAGE ROUTE (Shahi Scroll vs Royal Card)
-app.get('/card/:id', async (req, res) => {
-  try {
-    const card = await Card.findOne({ id: req.params.id });
-    if (card && card.design === 'shahi-scroll') {
-      return res.sendFile(path.join(__dirname, 'public', 'scroll-card.html'));
-    }
-    res.sendFile(path.join(__dirname, 'public', 'card.html'));
-  } catch (err) {
-    res.sendFile(path.join(__dirname, 'public', 'card.html'));
-  }
-});
-
-// 10. PORT BINDING
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
