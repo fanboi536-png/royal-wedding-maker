@@ -2,294 +2,409 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Create Royal Wedding Invitation | 15-Day Animated Card</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Royal Indian Wedding Card Maker — Create Digital Shahi Invitation</title>
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Royal Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    body {
-      background: radial-gradient(circle at top, #4e0710 0%, #240206 60%, #150103 100%);
-      color: #fdf8f0;
-      font-family: 'Poppins', sans-serif;
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
-    .font-cinzel { font-family: 'Cinzel Decorative', serif; }
-    .gold-btn {
-      background: linear-gradient(135deg, #aa771c 0%, #f3d078 50%, #aa771c 100%);
-      color: #240206;
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #160204;
+      background-image:
+        radial-gradient(circle at 50% 0%, rgba(139, 17, 34, 0.45) 0%, rgba(28, 3, 6, 0.95) 60%, #120103 100%);
+      color: #f7eedc;
+    }
+
+    .font-cinzel {
+      font-family: 'Cinzel Decorative', serif;
+    }
+
+    .font-editorial {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+
+    .gold-text {
+      background: linear-gradient(120deg, #b88a28 0%, #f9e79f 45%, #d4af37 75%, #f3d078 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .royal-input {
+      width: 100%;
+      background: rgba(18, 2, 4, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 12px;
+      padding: 11px 14px;
+      color: #fffaf0;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .royal-input:focus {
+      border-color: #f3d078;
+      box-shadow: 0 0 0 3px rgba(243, 208, 120, 0.15);
+    }
+
+    .royal-input::placeholder {
+      color: rgba(247, 238, 220, 0.4);
+    }
+
+    /* Self-Contained Design Selector Grid (Works independently of external CSS) */
+    .design-selector-box {
+      background: rgba(31, 2, 5, 0.78);
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+    }
+
+    .design-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 440px) {
+      .design-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .design-option-label {
+      cursor: pointer;
+      display: block;
+    }
+
+    .design-option-input {
+      display: none;
+    }
+
+    .design-option-card {
+      padding: 12px 8px;
+      border-radius: 12px;
+      border: 2px solid rgba(212, 175, 55, 0.22);
+      background: #2d0408;
+      text-align: center;
+      transition: all 0.2s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .design-option-input:checked + .design-option-card {
+      border-color: #f3d078;
+      background: #4a070e;
+      box-shadow: 0 0 16px rgba(243, 208, 120, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .design-option-icon {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .design-option-name {
+      font-weight: 700;
+      font-size: 12px;
+      color: #f9e79f;
+      display: block;
+    }
+
+    .design-option-tag {
+      font-size: 10px;
+      color: rgba(247, 238, 220, 0.65);
+      margin-top: 2px;
+      display: block;
     }
   </style>
 </head>
-<body class="min-h-screen py-10 px-4 flex flex-col justify-between">
+<body class="antialiased">
 
-  <div class="max-w-3xl w-full mx-auto bg-[#2d0408]/90 border border-[#d4af37]/50 rounded-3xl p-6 sm:p-10 shadow-2xl">
-    <div class="text-center mb-8">
-      <p class="text-[#f3d078] text-xs tracking-[0.25em] uppercase mb-2">Royal E-Invite Generator</p>
-      <h1 class="font-cinzel text-3xl sm:text-4xl text-[#f9e79f] font-bold">Apna Royal Wedding Card Banayein</h1>
-      <p class="text-xs sm:text-sm text-[#f7eedc]/75 mt-2">
-        Pehle <strong class="text-[#f3d078]">Free Preview</strong> dekhein — pasand aaye toh sirf <strong class="text-[#f3d078]">₹29</strong> mein watermark hatakar 15 din ka shareable link payein.
+  <div class="max-w-lg mx-auto px-4 py-8">
+
+    <!-- HEADER -->
+    <header class="text-center mb-7">
+      <p class="text-xs tracking-[0.25em] uppercase text-[#f3d078]/85 mb-1">|| श्री गणेशाय नमः ||</p>
+      <h1 class="font-cinzel gold-text text-2xl sm:text-3xl font-bold tracking-wide">
+        Royal Vivah Patrika
+      </h1>
+      <p class="font-editorial italic text-base sm:text-lg text-[#f7eedc]/85 mt-1">
+        Apna Shahi Digital Wedding Card Banayein — Live Music, Countdown &amp; Mini-Game ke Saath
       </p>
-    </div>
-
-    <form id="builderForm" class="space-y-6">
-      <!-- THEME SELECTOR -->
-      <div class="bg-[#1f0205]/70 p-4 rounded-2xl border border-[#d4af37]/30 space-y-3">
-        <h3 class="text-[#f3d078] font-semibold text-sm">🎨 Card Theme Chunein</h3>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-          <label class="cursor-pointer">
-            <input type="radio" name="theme" value="royal-maroon" checked class="peer hidden" />
-            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#4e0710] text-center transition">
-              <div class="w-6 h-6 rounded-full mx-auto mb-1 bg-gradient-to-tr from-[#700914] to-[#f3d078] border border-white/40"></div>
-              <span class="font-medium text-[#f9e79f]">Royal Maroon</span>
-            </div>
-          </label>
-
-          <label class="cursor-pointer">
-            <input type="radio" name="theme" value="emerald-gold" class="peer hidden" />
-            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#063b27] text-center transition">
-              <div class="w-6 h-6 rounded-full mx-auto mb-1 bg-gradient-to-tr from-[#064e3b] to-[#f3d078] border border-white/40"></div>
-              <span class="font-medium text-emerald-200">Emerald Gold</span>
-            </div>
-          </label>
-
-          <label class="cursor-pointer">
-            <input type="radio" name="theme" value="floral-pink" class="peer hidden" />
-            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-pink-400 bg-[#5c1632] text-center transition">
-              <div class="w-6 h-6 rounded-full mx-auto mb-1 bg-gradient-to-tr from-[#ec4899] to-[#fbcfe8] border border-white/40"></div>
-              <span class="font-medium text-pink-200">Floral Pink</span>
-            </div>
-          </label>
-
-          <label class="cursor-pointer">
-            <input type="radio" name="theme" value="midnight-royal" class="peer hidden" />
-            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#0f172a] text-center transition">
-              <div class="w-6 h-6 rounded-full mx-auto mb-1 bg-gradient-to-tr from-[#1e3a8a] to-[#f3d078] border border-white/40"></div>
-              <span class="font-medium text-blue-200">Midnight Blue</span>
-            </div>
-          </label>
-        </div>
+      <div class="inline-flex items-center gap-2 mt-3 px-4 py-1.5 rounded-full bg-[#2d0408] border border-[#d4af37]/45 text-[11px] text-[#f9e79f]">
+        <span>✨ Free 1-Hour Live Preview</span>
+        <span>•</span>
+        <span>Unlock Full Card @ ₹29</span>
       </div>
+    </header>
 
-     <!-- DYNAMIC DESIGN SELECTOR (Auto-loads from templates.json) -->
-      <div class="bg-[#1f0205]/70 p-4 rounded-2xl border border-[#d4af37]/30 space-y-3">
-        <h3 class="text-[#f3d078] font-semibold text-sm">✨ Card Design Style Chunein</h3>
-        <div id="dynamicDesignGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
-          <div class="col-span-full text-center text-[#f7eedc]/60 py-2">Designs load ho rahi hain...</div>
+    <!-- MAIN FORM -->
+    <form id="cardForm" class="space-y-5">
+
+      <!-- 1. DYNAMIC DESIGN SELECTOR -->
+      <div class="design-selector-box space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-[#f3d078] font-semibold text-sm">✨ Card Design Style Chunein</h3>
+          <span class="text-[10px] text-[#f7eedc]/60 uppercase tracking-wider">Interactive</span>
         </div>
-      </div>
-
-      <script>
-        (async function loadDesignOptions() {
-          const grid = document.getElementById('dynamicDesignGrid');
-          try {
-            const res = await fetch('/templates.json?v=' + Date.now());
-            const templates = await res.json();
-            grid.innerHTML = templates.map((t, idx) => `
-              <label class="cursor-pointer">
-                <input type="radio" name="design" value="${t.id}" ${(t.default || idx === 0) ? 'checked' : ''} class="peer hidden" />
-                <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#2d0408] text-center transition h-full flex flex-col justify-center">
-                  <div class="text-lg mb-1">${t.icon || '💌'}</div>
-                  <span class="font-medium text-[#f9e79f] block">${t.name}</span>
-                  <span class="text-[10px] text-[#f7eedc]/60 mt-0.5">${t.tagline || ''}</span>
-                </div>
-              </label>
-            `).join('');
-          } catch (err) {
-            grid.innerHTML = `
-              <label class="cursor-pointer">
-                <input type="radio" name="design" value="royal-palace" checked class="peer hidden" />
-                <div class="p-3 rounded-xl border-2 border-[#f3d078] bg-[#2d0408] text-center">
-                  <div class="text-lg mb-1">🏰</div>
-                  <span class="font-medium text-[#f9e79f] block">Royal Palace</span>
-                </div>
-              </label>`;
-          }
-        })();
-      </script>
-
-      <!-- Couple Details -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div class="bg-[#1f0205]/70 p-4 rounded-2xl border border-[#d4af37]/30 space-y-3">
-          <h3 class="text-[#f3d078] font-semibold text-sm">🤵 Groom Details (Dulha)</h3>
-          <input type="text" name="groomName" required placeholder="Groom Name (e.g. Rahul)" class="w-full bg-[#2d0408] border border-[#d4af37]/40 rounded-xl px-3 py-2 text-sm" />
-          <input type="text" name="groomParents" placeholder="S/o Mrs. Sunita & Mr. Rajesh Sharma" class="w-full bg-[#2d0408] border border-[#d4af37]/40 rounded-xl px-3 py-2 text-sm" />
-          <div>
-            <label class="block text-xs text-[#f9e79f]/80 mb-1">Groom Photo (Max 3MB)</label>
-            <input type="file" name="groomPhoto" accept="image/*" class="w-full text-xs text-[#f7eedc]" />
-          </div>
-        </div>
-
-        <div class="bg-[#1f0205]/70 p-4 rounded-2xl border border-[#d4af37]/30 space-y-3">
-          <h3 class="text-[#f3d078] font-semibold text-sm">👰 Bride Details (Dulhan)</h3>
-          <input type="text" name="brideName" required placeholder="Bride Name (e.g. Kanika)" class="w-full bg-[#2d0408] border border-[#d4af37]/40 rounded-xl px-3 py-2 text-sm" />
-          <input type="text" name="brideParents" placeholder="D/o Mrs. Meena & Mr. Anil Verma" class="w-full bg-[#2d0408] border border-[#d4af37]/40 rounded-xl px-3 py-2 text-sm" />
-          <div>
-            <label class="block text-xs text-[#f9e79f]/80 mb-1">Bride Photo (Max 3MB)</label>
-            <input type="file" name="bridePhoto" accept="image/*" class="w-full text-xs text-[#f7eedc]" />
+        <div id="dynamicDesignGrid" class="design-cards-grid">
+          <div style="grid-column: 1 / -1; text-align: center; color: rgba(247,238,220,0.6); font-size: 12px; padding: 8px;">
+            Designs load ho rahi hain...
           </div>
         </div>
       </div>
 
-      <!-- Main Wedding Date, Venue & WhatsApp -->
-      <div class="bg-[#1f0205]/70 p-4 rounded-2xl border border-[#d4af37]/30 space-y-3">
-        <h3 class="text-[#f3d078] font-semibold text-sm">🏰 Main Wedding & Venue Details</h3>
+      <!-- 2. DULHA & DULHAN DETAILS -->
+      <div class="bg-[#1f0205]/80 p-4 rounded-2xl border border-[#d4af37]/30 space-y-4">
+        <h3 class="text-[#f3d078] font-semibold text-sm">👑 Dulha &amp; Dulhan ki Jankari</h3>
+
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs text-[#f9e79f]/80 mb-1">Wedding Date & Time *</label>
-            <input type="datetime-local" name="weddingDate" required class="w-full bg-[#2d0408] border border-[#d4af37]/40 rounded-xl px-3 py-2 text-sm" />
+            <label class="block text-[11px] text-[#f9e79f] mb-1">Dulha (Groom) Name *</label>
+            <input type="text" name="groomName" required placeholder="e.g. Kunwar Vikramaditya" class="royal-input" />
           </div>
           <div>
-            <label class="block text-xs text-[#f9e79f]/80 mb-1">WhatsApp Number (for RSVP)</label>
-            <input type="text" name="whatsappNumber" placeholder="919876543210" class="w-full bg-[#2d0408] border border-[#d4af37]/40 rounded-xl px-3 py-2 text-sm" />
+            <label class="block text-[11px] text-[#f9e79f] mb-1">Dulha Parents (Optional)</label>
+            <input type="text" name="groomParents" placeholder="S/o Smt. & Shri..." class="royal-input" />
           </div>
         </div>
-        <input type="text" name="venueName" required placeholder="Venue Name (e.g. Royal Heritage Palace, Udaipur)" class="w-full bg-[#2d0408] border border-[#d4af37]/40 rounded-xl px-3 py-2 text-sm" />
-        <input type="text" name="venueAddress" placeholder="Full Address (Optional)" class="w-full bg-[#2d0408] border border-[#d4af37]/40 rounded-xl px-3 py-2 text-sm" />
-      </div>
 
-      <!-- Select Functions -->
-      <div class="bg-[#1f0205]/70 p-4 rounded-2xl border border-[#d4af37]/30 space-y-4">
-        <h3 class="text-[#f3d078] font-semibold text-sm">🎉 Functions Select Karein (Tick jo add karne hain)</h3>
-
-        <div id="functionsContainer" class="space-y-3">
-          <div class="p-3 rounded-xl bg-[#2d0408] border border-amber-500/30">
-            <label class="flex items-center gap-2 font-medium text-amber-300 text-sm cursor-pointer mb-2">
-              <input type="checkbox" class="fn-check" data-type="haldi" checked /> Haldi Ceremony
-            </label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <input type="text" class="fn-date bg-[#1f0205] border border-[#d4af37]/30 rounded-lg px-3 py-1.5 text-xs" placeholder="Date & Time (e.g. 10 Dec 2026 • 10:30 AM)" />
-              <input type="text" class="fn-venue bg-[#1f0205] border border-[#d4af37]/30 rounded-lg px-3 py-1.5 text-xs" placeholder="Location (e.g. Poolside Courtyard)" />
-            </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] text-[#f9e79f] mb-1">Dulhan (Bride) Name *</label>
+            <input type="text" name="brideName" required placeholder="e.g. Rajkumari Padmavati" class="royal-input" />
           </div>
-
-          <div class="p-3 rounded-xl bg-[#2d0408] border border-emerald-500/30">
-            <label class="flex items-center gap-2 font-medium text-emerald-300 text-sm cursor-pointer mb-2">
-              <input type="checkbox" class="fn-check" data-type="sangeet" checked /> Mehendi & Sangeet
-            </label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <input type="text" class="fn-date bg-[#1f0205] border border-[#d4af37]/30 rounded-lg px-3 py-1.5 text-xs" placeholder="Date & Time (e.g. 11 Dec 2026 • 6:30 PM)" />
-              <input type="text" class="fn-venue bg-[#1f0205] border border-[#d4af37]/30 rounded-lg px-3 py-1.5 text-xs" placeholder="Location (e.g. Darbar Hall)" />
-            </div>
+          <div>
+            <label class="block text-[11px] text-[#f9e79f] mb-1">Dulhan Parents (Optional)</label>
+            <input type="text" name="brideParents" placeholder="D/o Smt. & Shri..." class="royal-input" />
           </div>
+        </div>
 
-          <div class="p-3 rounded-xl bg-[#2d0408] border border-[#d4af37]/50">
-            <label class="flex items-center gap-2 font-medium text-[#f3d078] text-sm cursor-pointer mb-2">
-              <input type="checkbox" class="fn-check" data-type="vivah" checked /> Baraat & Shubh Vivah
-            </label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <input type="text" class="fn-date bg-[#1f0205] border border-[#d4af37]/30 rounded-lg px-3 py-1.5 text-xs" placeholder="Date & Time (e.g. 12 Dec 2026 • 7:00 PM)" />
-              <input type="text" class="fn-venue bg-[#1f0205] border border-[#d4af37]/30 rounded-lg px-3 py-1.5 text-xs" placeholder="Location (e.g. Grand Lotus Mandap)" />
-            </div>
+        <!-- Photo Uploads -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div>
+            <label class="block text-[11px] text-[#f9e79f] mb-1">📷 Dulha Photo (Max 3MB)</label>
+            <input type="file" name="groomPhoto" id="groomPhotoInput" accept="image/*"
+              class="block w-full text-[11px] text-[#f7eedc]/80 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-[#f3d078] file:text-[#240907] file:font-bold cursor-pointer bg-[#120204] rounded-xl p-1.5 border border-[#d4af37]/30" />
           </div>
-
-          <div class="p-3 rounded-xl bg-[#2d0408] border border-rose-500/30">
-            <label class="flex items-center gap-2 font-medium text-rose-300 text-sm cursor-pointer mb-2">
-              <input type="checkbox" class="fn-check" data-type="reception" checked /> Grand Reception
-            </label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <input type="text" class="fn-date bg-[#1f0205] border border-[#d4af37]/30 rounded-lg px-3 py-1.5 text-xs" placeholder="Date & Time (e.g. 13 Dec 2026 • 7:30 PM)" />
-              <input type="text" class="fn-venue bg-[#1f0205] border border-[#d4af37]/30 rounded-lg px-3 py-1.5 text-xs" placeholder="Location (e.g. Sheesh Mahal Lawns)" />
-            </div>
+          <div>
+            <label class="block text-[11px] text-[#f9e79f] mb-1">📷 Dulhan Photo (Max 3MB)</label>
+            <input type="file" name="bridePhoto" id="bridePhotoInput" accept="image/*"
+              class="block w-full text-[11px] text-[#f7eedc]/80 file:mr-2.5 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-[#f3d078] file:text-[#240907] file:font-bold cursor-pointer bg-[#120204] rounded-xl p-1.5 border border-[#d4af37]/30" />
           </div>
         </div>
       </div>
 
-      <button type="submit" id="submitBtn" class="w-full gold-btn font-cinzel font-bold py-4 rounded-2xl text-sm tracking-widest uppercase shadow-xl cursor-pointer hover:opacity-95 transition">
-        ✦ Create Free Preview Card ✦
+      <!-- 3. DATE, VENUE & WHATSAPP -->
+      <div class="bg-[#1f0205]/80 p-4 rounded-2xl border border-[#d4af37]/30 space-y-3.5">
+        <h3 class="text-[#f3d078] font-semibold text-sm">🏰 Vivah Muhurat &amp; Palace Venue</h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[11px] text-[#f9e79f] mb-1">Wedding Date &amp; Time *</label>
+            <input type="datetime-local" name="weddingDate" id="weddingDateInput" required class="royal-input" />
+          </div>
+          <div>
+            <label class="block text-[11px] text-[#f9e79f] mb-1">WhatsApp Number (Optional)</label>
+            <input type="tel" name="whatsappNumber" placeholder="e.g. 9876543210" class="royal-input" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] text-[#f9e79f] mb-1">Venue Name *</label>
+          <input type="text" name="venueName" required placeholder="e.g. Rambagh Palace, Jaipur" class="royal-input" />
+        </div>
+
+        <div>
+          <label class="block text-[11px] text-[#f9e79f] mb-1">Full Address (Google Maps ke liye)</label>
+          <input type="text" name="venueAddress" placeholder="Bhawani Singh Road, Jaipur, Rajasthan" class="royal-input" />
+        </div>
+      </div>
+
+      <!-- 4. ROYAL COLOR THEME -->
+      <div class="bg-[#1f0205]/80 p-4 rounded-2xl border border-[#d4af37]/30 space-y-2.5">
+        <h3 class="text-[#f3d078] font-semibold text-sm">🎨 Color Theme</h3>
+        <div class="grid grid-cols-3 gap-2.5 text-xs">
+          <label class="cursor-pointer">
+            <input type="radio" name="theme" value="royal-maroon" checked class="peer hidden" />
+            <div class="p-2.5 rounded-xl border border-[#d4af37]/25 peer-checked:border-[#f3d078] bg-[#4a0404] text-center font-medium text-[#f9e79f]">
+              Royal Maroon
+            </div>
+          </label>
+          <label class="cursor-pointer">
+            <input type="radio" name="theme" value="peacock-emerald" class="peer hidden" />
+            <div class="p-2.5 rounded-xl border border-[#d4af37]/25 peer-checked:border-[#f3d078] bg-[#062e2b] text-center font-medium text-[#f9e79f]">
+              Peacock Teal
+            </div>
+          </label>
+          <label class="cursor-pointer">
+            <input type="radio" name="theme" value="banarasi-gold" class="peer hidden" />
+            <div class="p-2.5 rounded-xl border border-[#d4af37]/25 peer-checked:border-[#f3d078] bg-[#3d2506] text-center font-medium text-[#f9e79f]">
+              Banarasi Gold
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 5. WEDDING EVENTS / KARYAKRAM -->
+      <div class="bg-[#1f0205]/80 p-4 rounded-2xl border border-[#d4af37]/30 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-[#f3d078] font-semibold text-sm">🪔 Shubh Karyakram (Events)</h3>
+          <button type="button" onclick="addEventRow()"
+            class="px-3 py-1 rounded-lg bg-[#2d0408] hover:bg-[#45070d] border border-[#d4af37]/50 text-[#f9e79f] text-[11px] font-semibold cursor-pointer">
+            + Add Event
+          </button>
+        </div>
+        <div id="eventsList" class="space-y-2.5"></div>
+      </div>
+
+      <!-- ERROR BOX -->
+      <div id="errorBox" class="hidden p-3.5 rounded-xl bg-red-950/90 border border-red-400 text-red-200 text-xs text-center"></div>
+
+      <!-- SUBMIT BUTTON -->
+      <button type="submit" id="submitBtn"
+        class="w-full py-4 rounded-2xl bg-gradient-to-r from-[#b88a28] via-[#f9e79f] to-[#d4af37] hover:brightness-110 active:scale-[0.99] text-[#240907] font-bold text-sm uppercase tracking-widest shadow-[0_10px_30px_rgba(212,175,55,0.3)] transition cursor-pointer">
+        ✨ Create Free Live Preview Card
       </button>
+
     </form>
-  </div>
 
-  <!-- FOOTER WITH POLICY LINKS (For Razorpay & AdSense) -->
-  <footer class="max-w-3xl w-full mx-auto mt-10 pt-6 border-t border-[#d4af37]/30 text-center text-xs text-[#f7eedc]/70 space-y-3">
-    <div class="flex flex-wrap justify-center gap-4 sm:gap-6 text-[#f3d078]">
-      <button type="button" onclick="openPolicy('about')" class="hover:underline cursor-pointer">About Us</button>
-      <button type="button" onclick="openPolicy('contact')" class="hover:underline cursor-pointer">Contact Us</button>
-      <button type="button" onclick="openPolicy('privacy')" class="hover:underline cursor-pointer">Privacy Policy</button>
-      <button type="button" onclick="openPolicy('terms')" class="hover:underline cursor-pointer">Terms &amp; Conditions</button>
-      <button type="button" onclick="openPolicy('refund')" class="hover:underline cursor-pointer">Refund Policy</button>
-    </div>
-    <p>© 2026 Royal Wedding E-Invite. All rights reserved.</p>
-  </footer>
-
-  <!-- POLICY MODAL -->
-  <div id="policyModal" class="fixed inset-0 z-50 bg-black/80 hidden items-center justify-center p-4">
-    <div class="bg-[#2d0408] border border-[#d4af37]/60 rounded-2xl max-w-lg w-full p-6 relative max-h-[80vh] overflow-y-auto">
-      <button type="button" onclick="closePolicy()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#1f0205] text-[#f3d078] cursor-pointer">✕</button>
-      <h2 id="policyTitle" class="font-cinzel text-xl text-[#f3d078] font-bold mb-3"></h2>
-      <div id="policyBody" class="text-xs sm:text-sm text-[#f7eedc]/85 space-y-2 leading-relaxed"></div>
-    </div>
+    <footer class="text-center mt-8 text-[11px] text-[#f7eedc]/50">
+      Royal Indian Wedding Invitations • Instant WhatsApp Shareable Digital Cards
+    </footer>
   </div>
 
   <script>
-    const form = document.getElementById('builderForm');
-    const submitBtn = document.getElementById('submitBtn');
+    // 1. DEFAULT FUTURE DATE SET KAREIN
+    (function setDefaultDate() {
+      const future = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+      future.setHours(19, 0, 0, 0);
+      const isoLocal = new Date(future.getTime() - future.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+      document.getElementById('weddingDateInput').value = isoLocal;
+    })();
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Creating Your Preview Card...';
+    // 2. DYNAMICALLY LOAD DESIGNS FROM /templates.json
+    (async function loadDesignOptions() {
+      const grid = document.getElementById('dynamicDesignGrid');
+      const fallbackTemplates = [
+        { id: 'royal-palace', name: 'Royal Palace', tagline: 'Classic Card', icon: '🏰', default: true },
+        { id: 'shahi-scroll', name: 'Shahi Scroll', tagline: 'Pull + Game', icon: '📜✨' },
+        { id: 'shahi-darbar', name: 'Shahi Darbar', tagline: '3D Palace Gates', icon: '🚪👑' }
+      ];
 
+      let templates = fallbackTemplates;
       try {
-        const formData = new FormData(form);
-        const selectedEvents = [];
-        document.querySelectorAll('#functionsContainer > div').forEach((box) => {
-          const checkbox = box.querySelector('.fn-check');
-          if (checkbox.checked) {
-            selectedEvents.push({
-              type: checkbox.dataset.type,
-              date: box.querySelector('.fn-date').value.trim(),
-              venue: box.querySelector('.fn-venue').value.trim()
-            });
-          }
-        });
-        formData.append('eventsJson', JSON.stringify(selectedEvents));
+        const res = await fetch('/templates.json?v=' + Date.now());
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) templates = data;
+        }
+      } catch (_) {}
 
-        const res = await fetch('/api/create-preview', { method: 'POST', body: formData });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Preview creation failed');
+      grid.innerHTML = templates.map((t, idx) => `
+        <label class="design-option-label">
+          <input type="radio" name="design" value="${t.id}" ${(t.default || idx === 0) ? 'checked' : ''} class="design-option-input" />
+          <div class="design-option-card">
+            <div class="design-option-icon">${t.icon || '💌'}</div>
+            <span class="design-option-name">${t.name}</span>
+            <span class="design-option-tag">${t.tagline || ''}</span>
+          </div>
+        </label>
+      `).join('');
+    })();
 
-        window.location.href = data.cardUrl;
-      } catch (err) {
-        alert(err.message);
-        submitBtn.disabled = false;
-        submitBtn.textContent = '✦ Create Free Preview Card ✦';
-      }
+    // 3. EVENTS BUILDER
+    const defaultEvents = [
+      { name: 'Haldi Ceremony', time: '11:00 AM', venue: 'Royal Courtyard' },
+      { name: 'Mehendi & Sangeet', time: '07:00 PM', venue: 'Sheesh Mahal' },
+      { name: 'Shubh Vivah & Pheras', time: '08:30 PM', venue: 'Grand Darbar Hall' }
+    ];
+
+    function addEventRow(ev = { name: '', time: '', venue: '' }) {
+      const container = document.getElementById('eventsList');
+      const row = document.createElement('div');
+      row.className = 'grid grid-cols-12 gap-1.5 items-center bg-[#120204]/70 p-2 rounded-xl border border-[#d4af37]/20 event-row';
+      row.innerHTML = `
+        <input type="text" placeholder="Event (e.g. Haldi)" value="${ev.name}" class="col-span-5 royal-input !py-2 !px-2.5 !text-xs ev-name" />
+        <input type="text" placeholder="Time" value="${ev.time}" class="col-span-3 royal-input !py-2 !px-2 !text-xs ev-time" />
+        <input type="text" placeholder="Venue" value="${ev.venue}" class="col-span-3 royal-input !py-2 !px-2 !text-xs ev-venue" />
+        <button type="button" onclick="this.parentElement.remove()" class="col-span-1 text-red-400 hover:text-red-300 font-bold text-sm text-center cursor-pointer" title="Remove">✕</button>
+      `;
+      container.appendChild(row);
+    }
+
+    defaultEvents.forEach(addEventRow);
+
+    // 4. PHOTO SIZE CHECK (MAX 3MB)
+    ['groomPhotoInput', 'bridePhotoInput'].forEach((id) => {
+      document.getElementById(id).addEventListener('change', function () {
+        const file = this.files && this.files[0];
+        if (file && file.size > 3 * 1024 * 1024) {
+          alert('Photo size 3MB se kam honi chahiye. Kripya chhoti photo chunein.');
+          this.value = '';
+        }
+      });
     });
 
-    // POLICY MODAL DATA
-    const policies = {
-      about: {
-        title: 'About Us',
-        body: '<p>Royal Wedding E-Invite is a digital invitation platform that helps Indian families create royal, animated wedding invitation links with photos, music, countdowns, and WhatsApp RSVP in minutes at an affordable price of ₹29.</p>'
-      },
-      contact: {
-        title: 'Contact Us',
-        body: '<p>For any support, payment queries, or card assistance, reach out to us:</p><p><strong>Email:</strong> vijay000536j@gmail.com</p><p><strong>Location:</strong> India</p><p>Response Time: Within 24 hours.</p>'
-      },
-      privacy: {
-        title: 'Privacy Policy',
-        body: '<p>We respect your privacy. Photos and wedding details uploaded by you are used solely to display your digital wedding invitation.</p><p>Unpaid previews are automatically deleted after 1 hour, and paid cards are deleted after 15 days. Payments are securely processed via Razorpay; we do not store your card or UPI details.</p>'
-      },
-      terms: {
-        title: 'Terms & Conditions',
-        body: '<p>By using this service, you agree that the unlocked wedding invitation link remains active for 15 days from payment.</p><p>Please review your free preview carefully before completing the ₹29 payment.</p>'
-      },
-      refund: {
-        title: 'Refund & Cancellation Policy',
-        body: '<p>Since we provide a free preview before payment, once the ₹29 payment is completed and the watermark is removed, no refunds or cancellations are applicable.</p><p>However, if ₹29 is deducted and the card is not unlocked due to a technical error, please contact us with your Payment ID and we will refund the amount within 5–7 business days.</p>'
-      }
-    };
+    // 5. FORM SUBMIT -> CREATE PREVIEW CARD
+    document.getElementById('cardForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const errorBox = document.getElementById('errorBox');
+      errorBox.classList.add('hidden');
 
-    function openPolicy(key) {
-      document.getElementById('policyTitle').textContent = policies[key].title;
-      document.getElementById('policyBody').innerHTML = policies[key].body;
-      document.getElementById('policyModal').classList.remove('hidden');
-      document.getElementById('policyModal').classList.add('flex');
-    }
-    function closePolicy() {
-      document.getElementById('policyModal').classList.add('hidden');
-      document.getElementById('policyModal').classList.remove('flex');
-    }
+      btn.disabled = true;
+      btn.textContent = '⏳ Shahi Card Ban Raha Hai...';
+
+      try {
+        const events = [];
+        document.querySelectorAll('.event-row').forEach((row) => {
+          const name = row.querySelector('.ev-name').value.trim();
+          const time = row.querySelector('.ev-time').value.trim();
+          const venue = row.querySelector('.ev-venue').value.trim();
+          if (name) events.push({ name, time, venue });
+        });
+
+        const formData = new FormData(this);
+        formData.append('eventsJson', JSON.stringify(events));
+
+        const res = await fetch('/api/create-preview', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Card banane mein dikkat aayi.');
+        }
+
+        btn.textContent = '🎉 Card Ready! Khul raha hai...';
+        window.location.href = data.cardUrl;
+      } catch (err) {
+        errorBox.textContent = err.message;
+        errorBox.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = '✨ Create Free Live Preview Card';
+      }
+    });
   </script>
 </body>
 </html>
