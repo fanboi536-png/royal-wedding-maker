@@ -42,6 +42,7 @@ const cardSchema = new mongoose.Schema({
   venueName: String,
   venueAddress: String,
   whatsappNumber: String,
+  buyerEmail: { type: String, default: '' },
   groomPhoto: String,
   bridePhoto: String,
   events: Array,
@@ -71,6 +72,76 @@ function uploadToCloudinary(buffer) {
     );
     stream.end(buffer);
   });
+}
+
+// HELPER: MINI INVOICE + CARD LINK EMAIL BHEJNE KE LIYE
+async function sendInvoiceEmail({ toEmail, card, paymentId, orderId, cardLink }) {
+  if (!process.env.BREVO_API_KEY || !process.env.SENDER_EMAIL || !toEmail) return;
+
+  const designLabel = card.design === 'shahi-scroll' ? 'Shahi Scroll' : 'Royal Palace';
+  const paidDate = new Date().toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'Asia/Kolkata'
+  });
+  const validTill = new Date(card.expireAt).toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'Asia/Kolkata'
+  });
+
+  const htmlContent = `
+    <div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;border:2px solid #d4af37;border-radius:14px;overflow:hidden;background:#fffaf0;color:#2c0609;">
+      <div style="background:#4a0404;color:#f9e79f;padding:20px;text-align:center;">
+        <h2 style="margin:0;font-size:20px;">✨ Royal Wedding Invitation Unlocked!</h2>
+        <p style="margin:6px 0 0;font-size:13px;color:#f7eedc;">${card.groomName} ❤️ ${card.brideName}</p>
+      </div>
+      <div style="padding:20px;">
+        <p style="font-size:14px;line-height:1.5;margin-top:0;">Namaste! Aapka digital wedding card watermark-free unlock ho gaya hai. Neeche diye button se card kholein aur WhatsApp par share karein:</p>
+        <div style="text-align:center;margin:22px 0;">
+          <a href="${cardLink}" style="background:#800000;color:#f9e79f;text-decoration:none;padding:12px 24px;border-radius:8px;font-weight:bold;font-size:14px;display:inline-block;">Open Your Wedding Card 💌</a>
+        </div>
+        <p style="font-size:12px;word-break:break-all;background:#f5ebd6;padding:10px;border-radius:6px;">
+          <strong>Direct Share Link:</strong><br/>
+          <a href="${cardLink}" style="color:#800000;">${cardLink}</a>
+        </p>
+        <hr style="border:none;border-top:1px dashed #d4af37;margin:18px 0;" />
+        <h3 style="margin:0 0 10px;font-size:14px;color:#4a0404;">🧾 Payment Receipt / Mini Invoice</h3>
+        <table style="width:100%;font-size:13px;border-collapse:collapse;">
+          <tr><td style="padding:4px 0;color:#666;">Payment ID:</td><td style="text-align:right;font-weight:bold;">${paymentId}</td></tr>
+          <tr><td style="padding:4px 0;color:#666;">Order ID:</td><td style="text-align:right;">${orderId}</td></tr>
+          <tr><td style="padding:4px 0;color:#666;">Card Design:</td><td style="text-align:right;">${designLabel} (15 Days)</td></tr>
+          <tr><td style="padding:4px 0;color:#666;">Date:</td><td style="text-align:right;">${paidDate}</td></tr>
+          <tr><td style="padding:4px 0;color:#666;">Valid Till:</td><td style="text-align:right;">${validTill}</td></tr>
+          <tr style="border-top:1px solid #e0cfa9;"><td style="padding:8px 0;font-weight:bold;">Total Paid:</td><td style="padding:8px 0;text-align:right;font-weight:bold;color:#166534;">₹29.00 (Paid)</td></tr>
+        </table>
+      </div>
+    </div>
+  `;
+
+  const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'api-key': process.env.BREVO_API_KEY,
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      sender: { name: 'Royal Wedding Invitations', email: process.env.SENDER_EMAIL },
+      to: [{ email: toEmail }],
+      subject: `🎉 Your Wedding Card Link & Invoice (${card.groomName} & ${card.brideName})`,
+      htmlContent
+    })
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    console.error('❌ Brevo Email Error:', errText);
+  } else {
+    console.log('✅ Invoice email sent to:', toEmail);
+  }
 }
 
 // 4. API: FREE PREVIEW CARD BANAYEIN
@@ -151,7 +222,7 @@ app.post('/api/create-order', async (req, res) => {
       return res.status(500).json({ error: 'Razorpay keys abhi Render par set nahi hain.' });
     }
     const order = await razorpay.orders.create({
-      amount: 2900, // 2900 paise = ₹29
+      amount: 2900,
       currency: 'INR',
       receipt: `rcpt_${Date.now()}`
     });
@@ -166,7 +237,7 @@ app.post('/api/create-order', async (req, res) => {
   }
 });
 
-// 6. API: PAYMENT VERIFY KAREIN -> UNLOCK FOR 15 DAYS
+// 6. API: PAYMENT VERIFY -> UNLOCK -> SEND INVOICE & CARD LINK EMAIL
 app.post('/api/unlock-card', async (req, res) => {
   try {
     const { cardId, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
@@ -180,6 +251,14 @@ app.post('/api/unlock-card', async (req, res) => {
       return res.status(400).json({ error: 'Payment verification failed!' });
     }
 
+    let buyerEmail = '';
+    try {
+      const paymentDetails = await razorpay.payments.fetch(razorpay_payment_id);
+      buyerEmail = paymentDetails.email || '';
+    } catch (fetchErr) {
+      console.error('Razorpay payment fetch warning:', fetchErr.message);
+    }
+
     const fifteenDaysLater = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000);
 
     const card = await Card.findOneAndUpdate(
@@ -187,12 +266,28 @@ app.post('/api/unlock-card', async (req, res) => {
       {
         isPaid: true,
         paymentId: razorpay_payment_id,
+        buyerEmail,
         expireAt: fifteenDaysLater
       },
       { new: true }
     );
 
     if (!card) return res.status(404).json({ error: 'Card nahi mila.' });
+
+    const baseUrl = `${req.headers['x-forwarded-proto'] || req.protocol}://${req.get('host')}`;
+    const fullCardLink = `${baseUrl}/card/${card.id}`;
+
+    try {
+      await sendInvoiceEmail({
+        toEmail: buyerEmail,
+        card,
+        paymentId: razorpay_payment_id,
+        orderId: razorpay_order_id,
+        cardLink: fullCardLink
+      });
+    } catch (mailErr) {
+      console.error('Mail send error:', mailErr);
+    }
 
     res.json({ success: true, cardUrl: `/card/${card.id}` });
   } catch (err) {
@@ -233,7 +328,7 @@ app.post('/api/card/:id/blessing', async (req, res) => {
   }
 });
 
-// 9. CARD PAGE ROUTE (Shahi Scroll vs Royal Card)
+// 9. CARD PAGE ROUTE
 app.get('/card/:id', async (req, res) => {
   try {
     const card = await Card.findOne({ id: req.params.id });
