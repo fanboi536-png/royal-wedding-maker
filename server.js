@@ -99,4 +99,8 @@ app.post(
       let groomPhotoUrl = '';
       let bridePhotoUrl = '';
       if (req.files && req.files['groomPhoto']) {
-        groomPhotoUrl = await uploadToCloudinary(req.files['groomPhoto']
+        groomPhotoUrl = await uploadToCloudinary(req.files['groomPhoto'][0].buffer);
+      }
+      if (req.files && req.files['bridePhoto']) {
+        bridePhotoUrl = await uploadToCloudinary(req.files['bridePhoto'][0].buffer);
+      }
