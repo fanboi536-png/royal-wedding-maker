@@ -1,0 +1,24 @@
+[
+  {
+    "id": "royal-palace",
+    "name": "Royal Palace",
+    "tagline": "Classic Royal Card",
+    "icon": "🏰",
+    "file": "card.html",
+    "default": true
+  },
+  {
+    "id": "shahi-scroll",
+    "name": "Shahi Scroll",
+    "tagline": "Pull + Mini-Game",
+    "icon": "📜✨",
+    "file": "scroll-card.html"
+  },
+  {
+    "id": "shahi-darbar",
+    "name": "Shahi Darbar",
+    "tagline": "3D Palace Gates",
+    "icon": "🚪👑",
+    "file": "darbar-card.html"
+  }
+]
