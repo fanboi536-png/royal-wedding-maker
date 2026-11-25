@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary').v2;
@@ -74,22 +75,35 @@ function uploadToCloudinary(buffer) {
   });
 }
 
-// HELPER: MINI INVOICE + CARD LINK EMAIL BHEJNE KE LIYE
+// HELPER: READ TEMPLATES LIST DYNAMICALLY
+function getTemplatesList() {
+  try {
+    const raw = fs.readFileSync(path.join(__dirname, 'public', 'templates.json'), 'utf8');
+    const list = JSON.parse(raw);
+    if (Array.isArray(list) && list.length > 0) return list;
+  } catch (err) {
+    console.error('templates.json read warning:', err.message);
+  }
+  return [
+    { id: 'royal-palace', name: 'Royal Palace', file: 'card.html' },
+    { id: 'shahi-scroll', name: 'Shahi Scroll', file: 'scroll-card.html' },
+    { id: 'shahi-darbar', name: 'Shahi Darbar', file: 'darbar-card.html' }
+  ];
+}
+
+// HELPER: MINI INVOICE + CARD LINK EMAIL
 async function sendInvoiceEmail({ toEmail, card, paymentId, orderId, cardLink }) {
   if (!process.env.BREVO_API_KEY || !process.env.SENDER_EMAIL || !toEmail) return;
 
-  const designLabel = card.design === 'shahi-scroll' ? 'Shahi Scroll' : 'Royal Palace';
+  const templates = getTemplatesList();
+  const matched = templates.find((t) => t.id === card.design);
+  const designLabel = matched ? matched.name : 'Royal Wedding Card';
+
   const paidDate = new Date().toLocaleDateString('en-IN', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-    timeZone: 'Asia/Kolkata'
+    day: '2-digit', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata'
   });
   const validTill = new Date(card.expireAt).toLocaleDateString('en-IN', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-    timeZone: 'Asia/Kolkata'
+    day: '2-digit', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata'
   });
 
   const htmlContent = `
@@ -137,10 +151,7 @@ async function sendInvoiceEmail({ toEmail, card, paymentId, orderId, cardLink })
   });
 
   if (!response.ok) {
-    const errText = await response.text();
-    console.error('❌ Brevo Email Error:', errText);
-  } else {
-    console.log('✅ Invoice email sent to:', toEmail);
+    console.error('❌ Brevo Email Error:', await response.text());
   }
 }
 
@@ -328,19 +339,22 @@ app.post('/api/card/:id/blessing', async (req, res) => {
   }
 });
 
-// 9. CARD PAGE ROUTE (Shahi Darbar vs Shahi Scroll vs Royal Palace)
+// 9. DYNAMIC CARD PAGE ROUTE (Reads public/templates.json automatically)
 app.get('/card/:id', async (req, res) => {
+  const publicDir = path.join(__dirname, 'public');
   try {
     const card = await Card.findOne({ id: req.params.id });
-    if (card && card.design === 'shahi-darbar') {
-      return res.sendFile(path.join(__dirname, 'public', 'darbar-card.html'));
+    const templates = getTemplatesList();
+    const matched = card ? templates.find((t) => t.id === card.design) : null;
+    const targetFile = matched && matched.file ? matched.file : 'card.html';
+
+    const safePath = path.resolve(publicDir, targetFile);
+    if (safePath.startsWith(publicDir) && fs.existsSync(safePath)) {
+      return res.sendFile(safePath);
     }
-    if (card && card.design === 'shahi-scroll') {
-      return res.sendFile(path.join(__dirname, 'public', 'scroll-card.html'));
-    }
-    res.sendFile(path.join(__dirname, 'public', 'card.html'));
+    res.sendFile(path.join(publicDir, 'card.html'));
   } catch (err) {
-    res.sendFile(path.join(__dirname, 'public', 'card.html'));
+    res.sendFile(path.join(publicDir, 'card.html'));
   }
 });
 
