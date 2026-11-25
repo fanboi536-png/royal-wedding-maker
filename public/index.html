@@ -69,29 +69,42 @@
         </div>
       </div>
 
-     <!-- DESIGN SELECTOR -->
+     <!-- DYNAMIC DESIGN SELECTOR (Auto-loads from templates.json) -->
       <div class="bg-[#1f0205]/70 p-4 rounded-2xl border border-[#d4af37]/30 space-y-3">
         <h3 class="text-[#f3d078] font-semibold text-sm">✨ Card Design Style Chunein</h3>
-        <div class="grid grid-cols-2 gap-3 text-xs">
-          <label class="cursor-pointer">
-            <input type="radio" name="design" value="royal-palace" checked class="peer hidden" />
-            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#2d0408] text-center transition">
-              <div class="text-lg mb-1">🏰</div>
-              <span class="font-medium text-[#f9e79f] block">Royal Palace</span>
-              <span class="text-[10px] text-[#f7eedc]/60">Classic Royal Card</span>
-            </div>
-          </label>
-
-          <label class="cursor-pointer">
-            <input type="radio" name="design" value="shahi-scroll" class="peer hidden" />
-            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#2d0408] text-center transition">
-              <div class="text-lg mb-1">📜✨</div>
-              <span class="font-medium text-[#f9e79f] block">Shahi Scroll</span>
-              <span class="text-[10px] text-[#f7eedc]/60">Pull + Mini-Game</span>
-            </div>
-          </label>
+        <div id="dynamicDesignGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
+          <div class="col-span-full text-center text-[#f7eedc]/60 py-2">Designs load ho rahi hain...</div>
         </div>
       </div>
+
+      <script>
+        (async function loadDesignOptions() {
+          const grid = document.getElementById('dynamicDesignGrid');
+          try {
+            const res = await fetch('/templates.json?v=' + Date.now());
+            const templates = await res.json();
+            grid.innerHTML = templates.map((t, idx) => `
+              <label class="cursor-pointer">
+                <input type="radio" name="design" value="${t.id}" ${(t.default || idx === 0) ? 'checked' : ''} class="peer hidden" />
+                <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#2d0408] text-center transition h-full flex flex-col justify-center">
+                  <div class="text-lg mb-1">${t.icon || '💌'}</div>
+                  <span class="font-medium text-[#f9e79f] block">${t.name}</span>
+                  <span class="text-[10px] text-[#f7eedc]/60 mt-0.5">${t.tagline || ''}</span>
+                </div>
+              </label>
+            `).join('');
+          } catch (err) {
+            grid.innerHTML = `
+              <label class="cursor-pointer">
+                <input type="radio" name="design" value="royal-palace" checked class="peer hidden" />
+                <div class="p-3 rounded-xl border-2 border-[#f3d078] bg-[#2d0408] text-center">
+                  <div class="text-lg mb-1">🏰</div>
+                  <span class="font-medium text-[#f9e79f] block">Royal Palace</span>
+                </div>
+              </label>`;
+          }
+        })();
+      </script>
 
       <!-- Couple Details -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
