@@ -1,32 +1,948 @@
-<!-- DESIGN SELECTOR -->
-      <div class="bg-[#1f0205]/70 p-4 rounded-2xl border border-[#d4af37]/30 space-y-3">
-        <h3 class="text-[#f3d078] font-semibold text-sm">✨ Card Design Style Chunein</h3>
-        <div class="grid grid-cols-3 gap-2.5 text-xs">
-          <label class="cursor-pointer">
-            <input type="radio" name="design" value="royal-palace" checked class="peer hidden" />
-            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#2d0408] text-center transition">
-              <div class="text-lg mb-1">🏰</div>
-              <span class="font-medium text-[#f9e79f] block">Royal Palace</span>
-              <span class="text-[10px] text-[#f7eedc]/60">Classic Card</span>
-            </div>
-          </label>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Shahi Darbar — Royal Wedding Invitation</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Noto+Serif+Devanagari:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-          <label class="cursor-pointer">
-            <input type="radio" name="design" value="shahi-scroll" class="peer hidden" />
-            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#2d0408] text-center transition">
-              <div class="text-lg mb-1">📜✨</div>
-              <span class="font-medium text-[#f9e79f] block">Shahi Scroll</span>
-              <span class="text-[10px] text-[#f7eedc]/60">Pull + Game</span>
-            </div>
-          </label>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 15%, #3a0912 0%, #061E22 60%, #020B0D 100%);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      color: #FBF5E6;
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+    body.gates-locked { overflow: hidden; height: 100vh; }
+    .hidden { display: none !important; }
 
-          <label class="cursor-pointer">
-            <input type="radio" name="design" value="shahi-darbar" class="peer hidden" />
-            <div class="p-3 rounded-xl border-2 border-transparent peer-checked:border-[#f3d078] bg-[#2d0408] text-center transition">
-              <div class="text-lg mb-1">🚪👑</div>
-              <span class="font-medium text-[#f9e79f] block">Shahi Darbar</span>
-              <span class="text-[10px] text-[#f7eedc]/60">3D Palace Gates</span>
-            </div>
-          </label>
+    .font-cinzel { font-family: 'Cinzel Decorative', serif; }
+    .font-ui { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-hindi { font-family: 'Noto Serif Devanagari', serif; }
+
+    .mahal-viewport {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #061E22 0%, #09262B 30%, #250910 65%, #4A0B16 100%);
+      box-shadow: 0 0 70px rgba(0,0,0,0.85), 0 0 0 1px rgba(212,175,55,0.35);
+      overflow-x: hidden;
+    }
+
+    .gold-foil {
+      background: linear-gradient(110deg, #9B7424 0%, #D4AF37 25%, #FFF4C4 45%, #F6DC8D 60%, #9B7424 85%, #F6DC8D 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 4.5s linear infinite;
+    }
+    @keyframes shimmer { to { background-position: 200% center; } }
+
+    /* 3D PALACE GATES */
+    #shahiDarwaza {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      z-index: 60;
+      background: radial-gradient(circle at 50% 20%, #0D353C 0%, #061E22 55%, #030F12 100%);
+      transition: opacity 0.8s ease;
+      overflow: hidden;
+    }
+    #shahiDarwaza.gates-gone { opacity: 0; pointer-events: none; }
+
+    .gate-top-sky {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 135px;
+      text-align: center;
+      padding-top: 14px;
+      z-index: 10;
+    }
+    .gate-skyline { position: absolute; bottom: 0; left: 0; width: 100%; height: 85px; }
+
+    .mashal-left, .mashal-right {
+      position: absolute;
+      top: 112px;
+      width: 42px;
+      height: 88px;
+      z-index: 30;
+      pointer-events: none;
+    }
+    .mashal-left { left: 6px; }
+    .mashal-right { right: 6px; }
+    .flame { transform-origin: 50% 85%; animation: flicker 0.9s ease-in-out infinite alternate; }
+    @keyframes flicker {
+      0% { transform: scale(0.95, 1.05) rotate(-3deg); }
+      100% { transform: scale(1.06, 0.95) rotate(3deg); }
+    }
+
+    .palace-door-frame {
+      position: absolute;
+      inset: 132px 16px 20px 16px;
+      border: 3px solid #D4AF37;
+      border-radius: 165px 165px 10px 10px;
+      box-shadow: 0 0 0 3px #4A0B16, 0 20px 50px rgba(0,0,0,0.85);
+      overflow: hidden;
+      perspective: 1400px;
+      z-index: 15;
+    }
+    .palace-door {
+      position: absolute;
+      top: 0;
+      width: 50.2%;
+      height: 100%;
+      background: linear-gradient(180deg, #3A140F 0%, #521B13 30%, #240907 100%);
+      transition: transform 1.45s cubic-bezier(0.25, 0.88, 0.25, 1);
+      z-index: 20;
+    }
+    .palace-door-left { left: 0; transform-origin: left center; border-right: 2px solid #9B7424; }
+    .palace-door-right { right: 0; transform-origin: right center; border-left: 2px solid #F6DC8D; }
+    #shahiDarwaza.doors-swinging .palace-door-left { transform: rotateY(-115deg); }
+    #shahiDarwaza.doors-swinging .palace-door-right { transform: rotateY(115deg); }
+
+    #crestTrigger {
+      position: absolute;
+      top: 54%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 35;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.6s ease;
+    }
+    #shahiDarwaza.doors-swinging #crestTrigger {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(1.35);
+      pointer-events: none;
+    }
+    .crest-medallion {
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, #8F162A 0%, #580A17 60%, #2D040B 100%);
+      border: 3px solid #F6DC8D;
+      box-shadow: 0 0 0 4px #4A0B16, 0 0 32px rgba(246,220,141,0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulseCrest 2.2s ease-in-out infinite;
+    }
+    @keyframes pulseCrest {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.07); }
+    }
+    .crest-pill {
+      margin-top: 14px;
+      padding: 9px 18px;
+      border-radius: 99px;
+      background: rgba(6, 30, 34, 0.94);
+      border: 1px solid #D4AF37;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+    }
+
+    /* TOP FLOATING BAR */
+    #floatingBar {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -100%);
+      width: 100%;
+      max-width: 480px;
+      z-index: 48;
+      padding: 10px 14px;
+      background: rgba(6, 30, 34, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(212,175,55,0.45);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.6s ease;
+    }
+    #floatingBar.visible { transform: translate(-50%, 0); }
+    .pill-btn {
+      padding: 6px 12px;
+      border-radius: 99px;
+      border: 1px solid rgba(212,175,55,0.7);
+      background: #4A0B16;
+      color: #F6DC8D;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* MAIN CONTENT SECTIONS */
+    main { padding: 54px 16px 100px; position: relative; z-index: 10; }
+    .section { margin-top: 28px; text-align: center; }
+
+    .jhoomar-row { display: flex; justify-content: space-between; margin: -6px 4px -44px; pointer-events: none; }
+    .sway { transform-origin: top center; animation: sway 4.5s ease-in-out infinite; }
+    @keyframes sway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+
+    .mandala-box { position: relative; width: 120px; height: 120px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; }
+    .spin-slow { animation: spin 34s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .hero-arch-card {
+      margin-top: 16px;
+      padding: 26px 16px;
+      border-radius: 115px 115px 18px 18px;
+      background: linear-gradient(180deg, rgba(74,11,22,0.92) 0%, rgba(45,6,13,0.95) 100%);
+      border: 2px solid #D4AF37;
+      box-shadow: 0 14px 36px rgba(0,0,0,0.6);
+    }
+    .couple-title { font-size: 25px; font-weight: 700; line-height: 1.2; }
+    .divider-amp { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 8px 0; color: #F6DC8D; font-style: italic; font-size: 20px; }
+    .divider-amp span { height: 1px; width: 38px; background: #D4AF37; opacity: 0.6; }
+
+    /* COUNTDOWN */
+    .cd-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+    .cd-box {
+      background: linear-gradient(180deg, #FBF5E6 0%, #E5CE9E 100%);
+      border: 1.5px solid #D4AF37;
+      border-radius: 22px 22px 8px 8px;
+      padding: 10px 4px;
+      color: #4A0B16;
+    }
+    .cd-num { font-family: 'Cinzel Decorative', serif; font-size: 21px; font-weight: 700; }
+    .cd-lbl { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 9px; font-weight: 700; text-transform: uppercase; color: #7A5205; }
+
+    /* SANDSTONE CARDS */
+    .sandstone-card {
+      background: linear-gradient(180deg, #FFFDF7 0%, #F3E5C8 100%);
+      border: 2px solid #D4AF37;
+      border-radius: 18px;
+      padding: 22px 16px;
+      color: #2A1612;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+    }
+    .jodi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+    .jharokha {
+      width: 100%;
+      aspect-ratio: 3 / 3.6;
+      border-radius: 95px 95px 12px 12px;
+      padding: 4px;
+      background: linear-gradient(145deg, #F6DC8D, #9B7424);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+    }
+    .jharokha-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 91px 91px 9px 9px;
+      overflow: hidden;
+      background: #08262C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .jharokha-inner img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* EVENTS */
+    .events-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    @media (max-width: 390px) { .events-grid { grid-template-columns: 1fr; } }
+    .event-arch {
+      background: linear-gradient(180deg, rgba(11,46,52,0.92) 0%, rgba(6,30,34,0.98) 100%);
+      border: 1.5px solid rgba(212,175,55,0.65);
+      border-radius: 75px 75px 14px 14px;
+      padding: 22px 12px 16px;
+    }
+
+    /* GAME */
+    .game-frame {
+      background: #041418;
+      border: 2px solid #D4AF37;
+      border-radius: 16px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+    .game-hud { display: flex; justify-content: space-between; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; margin-bottom: 8px; }
+    .hud-pill { padding: 4px 10px; border-radius: 99px; background: #4A0B16; border: 1px solid #D4AF37; color: #F6DC8D; }
+    .game-wrap { position: relative; width: 100%; height: 270px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(212,175,55,0.45); background: #031013; }
+    #mahalGameCanvas { width: 100%; height: 100%; display: block; touch-action: none; }
+    .game-overlay {
+      position: absolute; inset: 0;
+      background: rgba(6,30,34,0.92);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 16px; text-align: center;
+    }
+    .gold-btn {
+      padding: 10px 20px;
+      border-radius: 99px;
+      border: none;
+      background: linear-gradient(90deg, #B88A28, #F6DC8D, #C99A2E);
+      color: #2A1612;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+    }
+    .ctrl-row { display: flex; gap: 10px; margin-top: 10px; }
+    .ctrl-btn {
+      flex: 1; padding: 10px; border-radius: 10px;
+      background: #4A0B16; border: 1px solid #D4AF37;
+      color: #F6DC8D; font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px; font-weight: 700; cursor: pointer;
+    }
+
+    /* RSVP FORM */
+    .rsvp-input {
+      width: 100%; padding: 10px 12px; border-radius: 8px;
+      border: 1px solid rgba(155,116,36,0.6);
+      background: #fff; color: #2A1612;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px;
+      margin-top: 4px; margin-bottom: 10px;
+    }
+
+    /* WATERMARK & STICKY ACTION BAR */
+    #previewWatermark {
+      position: fixed; inset: 0; z-index: 52; pointer-events: none;
+      display: flex; flex-direction: column; justify-content: space-around; opacity: 0.22;
+    }
+    .wm-row {
+      white-space: nowrap; font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800; font-size: 15px; letter-spacing: 0.25em;
+      color: #F6DC8D; transform: rotate(-24deg);
+    }
+    #actionBar {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 480px; z-index: 62;
+      padding: 10px 14px; background: rgba(6, 30, 34, 0.96);
+      border-top: 1px solid #D4AF37;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    #royalFxCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 55; }
+  </style>
+</head>
+<body class="gates-locked">
+
+  <canvas id="royalFxCanvas"></canvas>
+
+  <div id="previewWatermark" class="hidden">
+    <div class="wm-row">PREVIEW ONLY • PAY ₹29 TO UNLOCK • PREVIEW ONLY</div>
+    <div class="wm-row">PAY ₹29 TO REMOVE WATERMARK • PREVIEW ONLY</div>
+    <div class="wm-row">PREVIEW ONLY • PAY ₹29 TO UNLOCK • PREVIEW ONLY</div>
+    <div class="wm-row">PAY ₹29 TO REMOVE WATERMARK • PREVIEW ONLY</div>
+  </div>
+
+  <div class="mahal-viewport">
+
+    <!-- 1. 3D PALACE GATES -->
+    <section id="shahiDarwaza">
+      <div class="gate-top-sky">
+        <p class="font-hindi" style="color:#F6DC8D;font-size:12px;">|| श्री गणेशाय नमः ||</p>
+        <p class="font-cinzel gold-foil" style="font-size:14px;letter-spacing:0.2em;margin-top:2px;">SHAHI DARBAR</p>
+        <svg class="gate-skyline" viewBox="0 0 480 90" preserveAspectRatio="none">
+          <path d="M180 90 L180 55 L300 55 L300 90 Z" fill="#4A0B16" stroke="#D4AF37" stroke-width="1.5"/>
+          <path d="M188 55 C195 28, 226 18, 240 6 C254 18, 285 28, 292 55 Z" fill="#D4AF37"/>
+          <path d="M40 90 L40 62 L90 62 L90 90 Z" fill="#0B2E34" stroke="#D4AF37"/>
+          <path d="M36 62 C44 45, 65 40, 65 32 C65 40, 86 45, 94 62 Z" fill="#D4AF37"/>
+          <path d="M390 90 L390 62 L440 62 L440 90 Z" fill="#0B2E34" stroke="#D4AF37"/>
+          <path d="M386 62 C394 45, 415 40, 415 32 C415 40, 436 45, 444 62 Z" fill="#D4AF37"/>
+        </svg>
+      </div>
+
+      <!-- Fire Mashals -->
+      <svg class="mashal-left" viewBox="0 0 48 96">
+        <path class="flame" d="M24 4 C33 16, 35 28, 24 38 C13 28, 15 16, 24 4 Z" fill="#FF9800"/>
+        <path class="flame" d="M24 14 C28 22, 29 30, 24 36 C19 30, 20 22, 24 14 Z" fill="#FFF9C4"/>
+        <path d="M12 38 L36 38 L31 52 L17 52 Z" fill="#D4AF37"/>
+        <rect x="21" y="52" width="6" height="36" fill="#9B7424"/>
+      </svg>
+      <svg class="mashal-right" viewBox="0 0 48 96">
+        <path class="flame" d="M24 4 C33 16, 35 28, 24 38 C13 28, 15 16, 24 4 Z" fill="#FF9800"/>
+        <path class="flame" d="M24 14 C28 22, 29 30, 24 36 C19 30, 20 22, 24 14 Z" fill="#FFF9C4"/>
+        <path d="M12 38 L36 38 L31 52 L17 52 Z" fill="#D4AF37"/>
+        <rect x="21" y="52" width="6" height="36" fill="#9B7424"/>
+      </svg>
+
+      <!-- Double Doors -->
+      <div class="palace-door-frame">
+        <div class="palace-door palace-door-left">
+          <svg width="100%" height="100%" viewBox="0 0 210 560" preserveAspectRatio="none" fill="none">
+            <rect x="12" y="18" width="184" height="524" rx="8" stroke="#D4AF37" stroke-width="2"/>
+            <path d="M34 220 L34 95 C34 65, 76 50, 104 38 C132 50, 174 65, 174 95 L174 220 Z" fill="#4A0B16" stroke="#D4AF37" stroke-width="1.8"/>
+            <circle cx="156" cy="306" r="16" fill="#B8860B" stroke="#FFF0B3" stroke-width="1.6"/>
+            <circle cx="156" cy="326" r="14" stroke="#F6DC8D" stroke-width="4" fill="none"/>
+            <rect x="34" y="388" width="140" height="86" rx="4" fill="#2A0907" stroke="#D4AF37" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="palace-door palace-door-right">
+          <svg width="100%" height="100%" style="transform:scaleX(-1)" viewBox="0 0 210 560" preserveAspectRatio="none" fill="none">
+            <rect x="12" y="18" width="184" height="524" rx="8" stroke="#D4AF37" stroke-width="2"/>
+            <path d="M34 220 L34 95 C34 65, 76 50, 104 38 C132 50, 174 65, 174 95 L174 220 Z" fill="#4A0B16" stroke="#D4AF37" stroke-width="1.8"/>
+            <circle cx="156" cy="306" r="16" fill="#B8860B" stroke="#FFF0B3" stroke-width="1.6"/>
+            <circle cx="156" cy="326" r="14" stroke="#F6DC8D" stroke-width="4" fill="none"/>
+            <rect x="34" y="388" width="140" height="86" rx="4" fill="#2A0907" stroke="#D4AF37" stroke-width="1.5"/>
+          </svg>
         </div>
       </div>
+
+      <!-- Center Crest -->
+      <div id="crestTrigger" onclick="openPalaceGates()">
+        <div class="crest-medallion">
+          <svg width="64" height="64" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="34" stroke="#F6DC8D" stroke-width="1.4" stroke-dasharray="3 2.5"/>
+            <path d="M22 46 L26 28 L34 36 L40 22 L46 36 L54 28 L58 46 Z" fill="#D4AF37" stroke="#FFF4C4" stroke-width="1.4"/>
+            <rect x="22" y="47" width="36" height="5" rx="2" fill="#F6DC8D"/>
+          </svg>
+        </div>
+        <div class="crest-pill">
+          <p id="gateCoupleTag" class="font-cinzel gold-foil" style="font-size:12px;font-weight:700;">Shahi Nimantran</p>
+          <p class="font-ui" style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;margin-top:3px;">Tap to Open Mahal</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. TOP BAR -->
+    <header id="floatingBar">
+      <button class="pill-btn" onclick="toggleRoyalMusic()" id="musicBtnText">🎺 Shehnai: Off</button>
+      <button class="pill-btn" onclick="replayPalaceGates()">↺ Replay Gates</button>
+    </header>
+
+    <!-- 3. INSIDE THE MAHAL -->
+    <main>
+      <section class="section" style="margin-top:0;">
+        <div class="jhoomar-row">
+          <svg class="sway" width="54" height="80" viewBox="0 0 64 96" fill="none">
+            <line x1="32" y1="0" x2="32" y2="24" stroke="#F6DC8D" stroke-width="1.6"/>
+            <path d="M18 32 Q32 22 46 32 L40 44 L24 44 Z" fill="#D4AF37"/>
+            <path d="M12 46 Q32 38 52 46 L46 58 L18 58 Z" fill="#B88A28"/>
+            <circle cx="32" cy="70" r="4" fill="#FFF4C4"/>
+          </svg>
+          <svg class="sway" width="54" height="80" viewBox="0 0 64 96" fill="none">
+            <line x1="32" y1="0" x2="32" y2="24" stroke="#F6DC8D" stroke-width="1.6"/>
+            <path d="M18 32 Q32 22 46 32 L40 44 L24 44 Z" fill="#D4AF37"/>
+            <path d="M12 46 Q32 38 52 46 L46 58 L18 58 Z" fill="#B88A28"/>
+            <circle cx="32" cy="70" r="4" fill="#FFF4C4"/>
+          </svg>
+        </div>
+
+        <div class="mandala-box">
+          <svg class="spin-slow" width="120" height="120" viewBox="0 0 140 140" fill="none" stroke="#D4AF37" stroke-width="1">
+            <circle cx="70" cy="70" r="64" stroke-dasharray="3 3"/>
+            <circle cx="70" cy="70" r="52"/>
+          </svg>
+          <span style="position:absolute;font-size:38px;">🕉️</span>
+        </div>
+
+        <p class="font-hindi" style="color:#F6DC8D;font-size:14px;">|| श्री गणेशाय नमः ||</p>
+        <p class="font-ui" style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;opacity:0.8;margin-top:4px;">Shahi Vivah Patrika</p>
+
+        <div class="hero-arch-card">
+          <p style="font-style:italic;font-size:15px;opacity:0.9;margin-bottom:12px;">
+            With the blessings of Royal Ancestors &amp; Elders, we cordially invite you to the grand union of
+          </p>
+          <h1 id="displayGroom" class="font-cinzel gold-foil couple-title">Loading...</h1>
+          <p id="displayGroomParents" style="font-style:italic;font-size:13px;color:#F6DC8D;margin-top:2px;"></p>
+
+          <div class="divider-amp"><span></span>&amp;<span></span></div>
+
+          <h1 id="displayBride" class="font-cinzel gold-foil couple-title">Loading...</h1>
+          <p id="displayBrideParents" style="font-style:italic;font-size:13px;color:#F6DC8D;margin-top:2px;"></p>
+
+          <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(212,175,55,0.35);">
+            <p id="displayDateFull" class="font-cinzel" style="font-size:12px;color:#F6DC8D;letter-spacing:0.14em;"></p>
+            <p id="displayVenue" style="font-size:18px;margin-top:4px;"></p>
+          </div>
+        </div>
+
+        <!-- Countdown -->
+        <div style="margin-top:22px;">
+          <p class="font-ui" style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#F6DC8D;">Royal Muhurat Countdown</p>
+          <div class="cd-grid">
+            <div class="cd-box"><div id="cdDays" class="cd-num">00</div><div class="cd-lbl">Days</div></div>
+            <div class="cd-box"><div id="cdHours" class="cd-num">00</div><div class="cd-lbl">Hours</div></div>
+            <div class="cd-box"><div id="cdMins" class="cd-num">00</div><div class="cd-lbl">Mins</div></div>
+            <div class="cd-box"><div id="cdSecs" class="cd-num">00</div><div class="cd-lbl">Secs</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SHAHI JODI -->
+      <section class="section">
+        <div class="sandstone-card">
+          <p class="font-hindi" style="color:#6E1122;font-size:12px;font-weight:700;">शाही जोड़ी</p>
+          <h2 class="font-cinzel" style="color:#4A0B16;font-size:20px;margin-top:2px;">Shahi Jodi</h2>
+          <div class="jodi-grid">
+            <div>
+              <div class="jharokha">
+                <div class="jharokha-inner">
+                  <img id="groomImg" class="hidden" alt="Dulha" />
+                  <span id="groomFallback" style="font-size:52px;">🤴</span>
+                </div>
+              </div>
+              <p class="font-ui" style="font-size:10px;font-weight:700;text-transform:uppercase;color:#6E1122;margin-top:8px;">Dulha</p>
+              <p id="jodiGroomName" class="font-cinzel" style="font-size:12px;font-weight:700;color:#4A0B16;margin-top:2px;"></p>
+            </div>
+            <div>
+              <div class="jharokha">
+                <div class="jharokha-inner">
+                  <img id="brideImg" class="hidden" alt="Dulhan" />
+                  <span id="brideFallback" style="font-size:52px;">👸</span>
+                </div>
+              </div>
+              <p class="font-ui" style="font-size:10px;font-weight:700;text-transform:uppercase;color:#6E1122;margin-top:8px;">Dulhan</p>
+              <p id="jodiBrideName" class="font-cinzel" style="font-size:12px;font-weight:700;color:#4A0B16;margin-top:2px;"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHOOLON KI VARSHA -->
+      <section class="section">
+        <button onclick="showerRoyalBlessings(event)" style="width:100%;padding:14px;border-radius:99px;background:linear-gradient(90deg,#4A0B16,#7E1427,#4A0B16);border:2px solid #D4AF37;color:#F6DC8D;font-family:'Cinzel Decorative',serif;font-size:13px;font-weight:700;cursor:pointer;">
+          🌸 Phoolon Ki Varsha 🌼
+        </button>
+        <p class="font-ui" style="font-size:11px;color:#F6DC8D;margin-top:6px;">
+          ✨ <strong id="blessingCounter">108</strong> Royal Blessings Showered
+        </p>
+      </section>
+
+      <!-- EVENTS & VENUE -->
+      <section class="section">
+        <p class="font-hindi" style="color:#F6DC8D;font-size:12px;">शाही कार्यक्रम</p>
+        <h2 class="font-cinzel gold-foil" style="font-size:21px;">Palace Celebrations</h2>
+        <div id="eventsGrid" class="events-grid"></div>
+
+        <div style="margin-top:16px;padding:18px;border-radius:16px;background:rgba(6,30,34,0.92);border:1px solid #D4AF37;">
+          <p class="font-ui" style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#F6DC8D;">Royal Palace Venue</p>
+          <h3 id="venueCardTitle" class="font-cinzel" style="font-size:17px;margin-top:4px;">Royal Palace</h3>
+          <p id="venueAddressText" style="font-size:15px;opacity:0.85;margin:4px 0 12px;"></p>
+          <button class="gold-btn" onclick="openPalaceMap()">📍 Open in Google Maps</button>
+        </div>
+      </section>
+
+      <!-- MINI-GAME -->
+      <section class="section">
+        <p class="font-hindi" style="color:#F6DC8D;font-size:12px;">शाही खेल — बारात उत्सव</p>
+        <h2 class="font-cinzel gold-foil" style="font-size:19px;">Mohar &amp; Varmala Catch</h2>
+        <p class="font-ui" style="font-size:11px;opacity:0.85;margin-top:4px;">Catch 🪙 +10, 🌺 +20, 👑 +30 | Dodge ⛈️ -15</p>
+
+        <div class="game-frame">
+          <div class="game-hud">
+            <span class="hud-pill">Score: <strong id="gameScore">0</strong></span>
+            <span class="hud-pill">Time: <strong id="gameTimer">30s</strong></span>
+          </div>
+          <div class="game-wrap" id="gameCanvasWrap">
+            <canvas id="mahalGameCanvas"></canvas>
+            <div id="gameStartScreen" class="game-overlay">
+              <div style="font-size:32px;margin-bottom:6px;">🐘🪙👑</div>
+              <h3 class="font-cinzel gold-foil" style="font-size:16px;">Join the Shahi Baraat!</h3>
+              <p class="font-ui" style="font-size:11px;margin:6px 0 14px;opacity:0.85;">Slide the Golden Palki to collect royal blessings.</p>
+              <button class="gold-btn" onclick="startRoyalGame()">Start Royal Game</button>
+            </div>
+            <div id="gameEndScreen" class="game-overlay hidden">
+              <div id="endBadgeIcon" style="font-size:32px;margin-bottom:4px;">🏅</div>
+              <h3 id="endBadgeTitle" class="font-cinzel gold-foil" style="font-size:17px;">Baraat Complete!</h3>
+              <p class="font-ui" style="font-size:12px;margin:6px 0 14px;">Final Score: <strong id="endFinalScore" style="color:#F6DC8D;">0</strong></p>
+              <button class="gold-btn" onclick="startRoyalGame()">Play Again</button>
+            </div>
+          </div>
+          <div class="ctrl-row">
+            <button type="button" class="ctrl-btn" id="ctrlLeft">◀ Left</button>
+            <button type="button" class="ctrl-btn" id="ctrlRight">Right ▶</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RSVP -->
+      <section class="section">
+        <div class="sandstone-card" style="text-align:left;">
+          <h2 class="font-cinzel" style="color:#4A0B16;font-size:19px;text-align:center;margin-bottom:12px;">Royal RSVP &amp; Blessings</h2>
+          <form id="rsvpForm" onsubmit="handleRsvp(event)">
+            <label class="font-ui" style="font-size:10px;font-weight:700;text-transform:uppercase;color:#4A0B16;">Guest Name</label>
+            <input id="rsvpGuestName" class="rsvp-input" type="text" required placeholder="e.g. Thakur Devendra Singh & Family" />
+
+            <label class="font-ui" style="font-size:10px;font-weight:700;text-transform:uppercase;color:#4A0B16;">No. of Guests</label>
+            <select id="rsvpGuestCount" class="rsvp-input">
+              <option value="1">1 Guest</option>
+              <option value="2" selected>2 Guests</option>
+              <option value="3">3 Guests</option>
+              <option value="4">4 Guests</option>
+              <option value="5+">5+ Family</option>
+            </select>
+
+            <label class="font-ui" style="font-size:10px;font-weight:700;text-transform:uppercase;color:#4A0B16;">Blessings Message</label>
+            <textarea id="rsvpMessage" class="rsvp-input" rows="2" placeholder="Write your wishes..."></textarea>
+
+            <button type="submit" style="width:100%;padding:12px;border-radius:10px;background:#4A0B16;color:#F6DC8D;border:1px solid #D4AF37;font-family:'Cinzel Decorative',serif;font-size:12px;font-weight:700;cursor:pointer;">
+              Seal Royal RSVP
+            </button>
+          </form>
+          <div id="rsvpConfirmed" class="hidden" style="text-align:center;padding:12px 0;">
+            <h3 class="font-cinzel" style="color:#4A0B16;font-size:18px;">✦ Royal Seal Confirmed! ✦</h3>
+            <p id="rsvpConfirmedText" style="font-size:15px;margin-top:8px;"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- BOTTOM UNLOCK / SHARE BAR -->
+  <div id="actionBar" class="hidden">
+    <div id="unpaidBar" class="hidden" style="display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;">
+      <div>
+        <div style="color:#F6DC8D;font-size:11px;font-weight:700;text-transform:uppercase;">1-Hour Preview Mode</div>
+        <div style="font-size:10px;opacity:0.85;">Remove watermark &amp; keep 15 days</div>
+      </div>
+      <button id="unlockBtn" class="gold-btn" onclick="unlockCardWithRazorpay()">Pay ₹29 &amp; Unlock</button>
+    </div>
+    <div id="paidBar" class="hidden" style="display:flex;width:100%;gap:8px;">
+      <button onclick="shareWhatsApp()" style="flex:1;padding:10px;border-radius:10px;border:none;background:#15803d;color:#fff;font-weight:700;font-size:12px;cursor:pointer;">💬 Share on WhatsApp</button>
+      <button onclick="copyShareLink()" class="pill-btn" style="border-radius:10px;padding:10px 14px;">🔗 Copy Link</button>
+    </div>
+  </div>
+
+  <script>
+    const cardId = window.location.pathname.split('/').filter(Boolean).pop();
+    let currentCard = null;
+    let gatesOpened = false;
+    let weddingTarget = new Date(Date.now() + 30 * 86400000);
+    let blessingsCount = 108;
+
+    function esc(s) {
+      return String(s || '').replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+    }
+
+    async function loadCardData() {
+      try {
+        const res = await fetch(`/api/card/${encodeURIComponent(cardId)}`);
+        if (!res.ok) return;
+        const card = await res.json();
+        currentCard = card;
+
+        document.title = `${card.groomName} & ${card.brideName} — Shahi Darbar`;
+        document.getElementById('gateCoupleTag').textContent = `${card.groomName} & ${card.brideName}`;
+        document.getElementById('displayGroom').textContent = card.groomName;
+        document.getElementById('displayBride').textContent = card.brideName;
+        document.getElementById('jodiGroomName').textContent = card.groomName;
+        document.getElementById('jodiBrideName').textContent = card.brideName;
+
+        if (card.groomParents) document.getElementById('displayGroomParents').textContent = `(${card.groomParents})`;
+        if (card.brideParents) document.getElementById('displayBrideParents').textContent = `(${card.brideParents})`;
+
+        document.getElementById('displayVenue').textContent = card.venueName || 'Royal Palace';
+        document.getElementById('venueCardTitle').textContent = card.venueName || 'Royal Palace';
+        document.getElementById('venueAddressText').textContent = card.venueAddress || '';
+
+        if (card.weddingDate) {
+          const parsed = new Date(card.weddingDate);
+          if (!isNaN(parsed.getTime())) {
+            weddingTarget = parsed;
+            document.getElementById('displayDateFull').textContent = parsed.toLocaleDateString('en-IN', {
+              weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+            }).toUpperCase();
+            updateCountdown();
+          }
+        }
+
+        if (card.groomPhoto) {
+          const img = document.getElementById('groomImg');
+          img.src = card.groomPhoto;
+          img.classList.remove('hidden');
+          document.getElementById('groomFallback').classList.add('hidden');
+        }
+        if (card.bridePhoto) {
+          const img = document.getElementById('brideImg');
+          img.src = card.bridePhoto;
+          img.classList.remove('hidden');
+          document.getElementById('brideFallback').classList.add('hidden');
+        }
+
+        blessingsCount = 108 + (Array.isArray(card.blessings) ? card.blessings.length : 0);
+        document.getElementById('blessingCounter').textContent = blessingsCount;
+
+        const icons = ['🌼', '🌿', '🎶', '👑', '🪔'];
+        const evList = (Array.isArray(card.events) && card.events.length) ? card.events : [
+          { name: 'Haldi Darbar', time: '11:00 AM', venue: 'Royal Courtyard' },
+          { name: 'Mehendi & Sangeet', time: '07:00 PM', venue: 'Sheesh Mahal' },
+          { name: 'Shubh Vivah', time: '08:30 PM', venue: 'Grand Darbar Hall' }
+        ];
+        document.getElementById('eventsGrid').innerHTML = evList.map((ev, i) => `
+          <div class="event-arch">
+            <div style="font-size:22px;margin-bottom:4px;">${icons[i % icons.length]}</div>
+            <h3 class="font-cinzel" style="color:#F6DC8D;font-size:13px;">${esc(ev.name)}</h3>
+            <p class="font-ui" style="font-size:10px;color:#fde68a;margin-top:4px;">${esc(ev.time)}</p>
+            <p style="font-style:italic;font-size:14px;margin-top:4px;">${esc(ev.venue)}</p>
+          </div>
+        `).join('');
+
+        document.getElementById('actionBar').classList.remove('hidden');
+        if (card.isPaid) {
+          document.getElementById('paidBar').classList.remove('hidden');
+        } else {
+          document.getElementById('previewWatermark').classList.remove('hidden');
+          document.getElementById('unpaidBar').classList.remove('hidden');
+        }
+      } catch (e) { console.error(e); }
+    }
+
+    async function unlockCardWithRazorpay() {
+      const btn = document.getElementById('unlockBtn');
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+      try {
+        const orderRes = await fetch('/api/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cardId })
+        });
+        const orderData = await orderRes.json();
+        if (!orderRes.ok) throw new Error(orderData.error || 'Order failed');
+
+        const rzp = new Razorpay({
+          key: orderData.keyId,
+          amount: orderData.amount,
+          currency: 'INR',
+          name: 'Royal Wedding Invitations',
+          description: 'Unlock Shahi Darbar Card (15 Days)',
+          order_id: orderData.orderId,
+          handler: async function (response) {
+            const vRes = await fetch('/api/unlock-card', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                cardId,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
+              })
+            });
+            const vData = await vRes.json();
+            if (vData.success) {
+              alert('🎉 Card Unlocked! Link & Invoice sent to your email.');
+              window.location.reload();
+            } else {
+              alert(vData.error || 'Verification failed');
+            }
+          },
+          theme: { color: '#4A0B16' }
+        });
+        rzp.open();
+      } catch (err) {
+        alert(err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Pay ₹29 & Unlock';
+      }
+    }
+
+    function shareWhatsApp() {
+      const text = currentCard
+        ? `👑 *Shahi Nimantran* 👑\nYou are cordially invited to the royal wedding of *${currentCard.groomName} & ${currentCard.brideName}*.\nTap to open Palace Gates:\n${window.location.href}`
+        : window.location.href;
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function copyShareLink() {
+      navigator.clipboard.writeText(window.location.href);
+      alert('🔗 Invitation Link Copied!');
+    }
+
+    /* GATES & AUDIO */
+    let audioCtx = null, isMusicOn = false, musicTimer = null;
+    function openPalaceGates() {
+      if (gatesOpened) return;
+      gatesOpened = true;
+      document.getElementById('shahiDarwaza').classList.add('doors-swinging');
+      spawnBurst(window.innerWidth / 2, window.innerHeight / 2, 60);
+      if (!isMusicOn) toggleRoyalMusic();
+      setTimeout(() => {
+        document.getElementById('shahiDarwaza').classList.add('gates-gone');
+        document.body.classList.remove('gates-locked');
+        document.getElementById('floatingBar').classList.add('visible');
+        resizeGame();
+      }, 1300);
+    }
+
+    function replayPalaceGates() {
+      window.scrollTo(0, 0);
+      gatesOpened = false;
+      document.body.classList.add('gates-locked');
+      document.getElementById('floatingBar').classList.remove('visible');
+      document.getElementById('shahiDarwaza').classList.remove('gates-gone', 'doors-swinging');
+    }
+
+    function toggleRoyalMusic() {
+      const btn = document.getElementById('musicBtnText');
+      if (!isMusicOn) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!audioCtx) audioCtx = new Ctx();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const notes = [329.63, 392.00, 440.00, 523.25, 440.00, 392.00, 329.63, 293.66];
+        let i = 0;
+        musicTimer = setInterval(() => {
+          if (!isMusicOn) return;
+          const now = audioCtx.currentTime;
+          const osc = audioCtx.createOscillator(), g = audioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(notes[i++ % notes.length], now);
+          g.gain.setValueAtTime(0.001, now);
+          g.gain.linearRampToValueAtTime(0.08, now + 0.05);
+          g.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+          osc.connect(g); g.connect(audioCtx.destination);
+          osc.start(now); osc.stop(now + 0.45);
+        }, 450);
+        isMusicOn = true;
+        btn.textContent = '🎺 Shehnai: On';
+      } else {
+        isMusicOn = false;
+        clearInterval(musicTimer);
+        btn.textContent = '🎺 Shehnai: Off';
+      }
+    }
+
+    function updateCountdown() {
+      const diff = Math.max(0, weddingTarget.getTime() - Date.now());
+      document.getElementById('cdDays').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+      document.getElementById('cdHours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+      document.getElementById('cdMins').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+      document.getElementById('cdSecs').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+    }
+    setInterval(updateCountdown, 1000);
+
+    function showerRoyalBlessings(e) {
+      blessingsCount++;
+      document.getElementById('blessingCounter').textContent = blessingsCount;
+      spawnBurst(e?.clientX || window.innerWidth / 2, e?.clientY || window.innerHeight / 2, 65);
+    }
+
+    function openPalaceMap() {
+      const q = [document.getElementById('venueCardTitle').textContent, document.getElementById('venueAddressText').textContent].filter(Boolean).join(', ');
+      window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q), '_blank');
+    }
+
+    async function handleRsvp(e) {
+      e.preventDefault();
+      const name = document.getElementById('rsvpGuestName').value.trim();
+      const count = document.getElementById('rsvpGuestCount').value;
+      const wish = document.getElementById('rsvpMessage').value.trim() || 'Heartiest Royal Blessings!';
+      try {
+        await fetch(`/api/card/${encodeURIComponent(cardId)}/blessing`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, status: `Attending (${count})`, wish })
+        });
+      } catch (_) {}
+      document.getElementById('rsvpForm').classList.add('hidden');
+      document.getElementById('rsvpConfirmedText').innerHTML = `Khamma Ghani <strong>${esc(name)}</strong>! We eagerly await your royal presence (${esc(count)} guests).`;
+      document.getElementById('rsvpConfirmed').classList.remove('hidden');
+      spawnBurst(window.innerWidth / 2, window.innerHeight / 2, 60);
+    }
+
+    /* MINI-GAME */
+    const gCanvas = document.getElementById('mahalGameCanvas');
+    const gCtx = gCanvas.getContext('2d');
+    let gRun = false, gScore = 0, gTime = 30, gInt = null, palkiX = 150, keyL = false, keyR = false, drops = [];
+
+    function resizeGame() {
+      const r = document.getElementById('gameCanvasWrap').getBoundingClientRect();
+      if (r.width > 0) { gCanvas.width = r.width; gCanvas.height = r.height; palkiX = r.width / 2; }
+    }
+    function startRoyalGame() {
+      resizeGame();
+      gRun = true; gScore = 0; gTime = 30; drops = [];
+      document.getElementById('gameScore').textContent = '0';
+      document.getElementById('gameTimer').textContent = '30s';
+      document.getElementById('gameStartScreen').classList.add('hidden');
+      document.getElementById('gameEndScreen').classList.add('hidden');
+      clearInterval(gInt);
+      gInt = setInterval(() => {
+        gTime--;
+        document.getElementById('gameTimer').textContent = gTime + 's';
+        if (gTime <= 0) {
+          gRun = false;
+          clearInterval(gInt);
+          document.getElementById('endFinalScore').textContent = gScore;
+          document.getElementById('endBadgeTitle').textContent = gScore >= 100 ? 'Shahi Aashirwad Unlocked!' : 'Baraat Complete!';
+          document.getElementById('gameEndScreen').classList.remove('hidden');
+        }
+      }, 1000);
+      loopGame();
+    }
+    function loopGame() {
+      if (!gRun) return;
+      gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
+      if (keyL) palkiX -= 6;
+      if (keyR) palkiX += 6;
+      palkiX = Math.max(40, Math.min(gCanvas.width - 40, palkiX));
+
+      if (Math.random() < 0.04) {
+        const types = [{ e: '🪙', p: 10 }, { e: '🌺', p: 20 }, { e: '👑', p: 30 }, { e: '⛈️', p: -15 }];
+        const t = types[Math.floor(Math.random() * types.length)];
+        drops.push({ x: 24 + Math.random() * (gCanvas.width - 48), y: -20, vy: 2.5 + Math.random() * 2, e: t.e, p: t.p });
+      }
+      const py = gCanvas.height - 28;
+      for (let i = drops.length - 1; i >= 0; i--) {
+        const d = drops[i];
+        d.y += d.vy;
+        gCtx.font = '24px serif'; gCtx.textAlign = 'center';
+        gCtx.fillText(d.e, d.x, d.y);
+        if (Math.abs(d.y - py) < 22 && Math.abs(d.x - palkiX) < 42) {
+          gScore = Math.max(0, gScore + d.p);
+          document.getElementById('gameScore').textContent = gScore;
+          drops.splice(i, 1);
+          continue;
+        }
+        if (d.y > gCanvas.height + 20) drops.splice(i, 1);
+      }
+      gCtx.fillStyle = '#6E1122'; gCtx.strokeStyle = '#F6DC8D'; gCtx.lineWidth = 2;
+      gCtx.beginPath(); gCtx.roundRect(palkiX - 36, py - 8, 72, 18, 8); gCtx.fill(); gCtx.stroke();
+      gCtx.font = '14px serif'; gCtx.fillText('🐘', palkiX, py + 5);
+      requestAnimationFrame(loopGame);
+    }
+    gCanvas.addEventListener('touchmove', e => { if (gRun && e.touches[0]) { e.preventDefault(); palkiX = e.touches[0].clientX - gCanvas.getBoundingClientRect().left; } }, { passive: false });
+    gCanvas.addEventListener('mousemove', e => { if (gRun) palkiX = e.clientX - gCanvas.getBoundingClientRect().left; });
+    document.getElementById('ctrlLeft').onmousedown = document.getElementById('ctrlLeft').ontouchstart = () => keyL = true;
+    document.getElementById('ctrlLeft').onmouseup = document.getElementById('ctrlLeft').ontouchend = () => keyL = false;
+    document.getElementById('ctrlRight').onmousedown = document.getElementById('ctrlRight').ontouchstart = () => keyR = true;
+    document.getElementById('ctrlRight').onmouseup = document.getElementById('ctrlRight').ontouchend = () => keyR = false;
+
+    /* PETAL BURST FX */
+    const fx = document.getElementById('royalFxCanvas'), fCtx = fx.getContext('2d');
+    let burst = [];
+    function resizeFx() { fx.width = window.innerWidth; fx.height = window.innerHeight; }
+    window.addEventListener('resize', resizeFx); resizeFx();
+    function spawnBurst(cx, cy, n) {
+      const cols = ['#F6DC8D', '#FB7185', '#F59E0B', '#FFF4C4'];
+      for (let i = 0; i < n; i++) {
+        const a = Math.random() * Math.PI * 2, s = 2 + Math.random() * 5;
+        burst.push({ x: cx, y: cy, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 2, r: 3 + Math.random() * 4, c: cols[i % cols.length], life: 1 });
+      }
+    }
+    function animFx() {
+      fCtx.clearRect(0, 0, fx.width, fx.height);
+      for (let i = burst.length - 1; i >= 0; i--) {
+        const b = burst[i];
+        b.x += b.vx; b.y += b.vy; b.vy += 0.1; b.life -= 0.015;
+        if (b.life <= 0) { burst.splice(i, 1); continue; }
+        fCtx.globalAlpha = b.life; fCtx.fillStyle = b.c;
+        fCtx.beginPath(); fCtx.arc(b.x, b.y, b.r, 0, Math.PI * 2); fCtx.fill();
+      }
+      requestAnimationFrame(animFx);
+    }
+
+    window.onload = function () { loadCardData(); animFx(); resizeGame(); };
+  </script>
+</body>
+</html>
