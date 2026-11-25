@@ -20,5 +20,12 @@
     "tagline": "3D Palace Gates",
     "icon": "🚪👑",
     "file": "darbar-card.html"
+  },
+  {
+    "id": "shahi-parda",
+    "name": "Shahi Parda",
+    "tagline": "Pull Cord + Hindi",
+    "icon": "🎭✨",
+    "file": "curtain-card.html"
   }
 ]
