@@ -328,10 +328,13 @@ app.post('/api/card/:id/blessing', async (req, res) => {
   }
 });
 
-// 9. CARD PAGE ROUTE
+// 9. CARD PAGE ROUTE (Shahi Darbar vs Shahi Scroll vs Royal Palace)
 app.get('/card/:id', async (req, res) => {
   try {
     const card = await Card.findOne({ id: req.params.id });
+    if (card && card.design === 'shahi-darbar') {
+      return res.sendFile(path.join(__dirname, 'public', 'darbar-card.html'));
+    }
     if (card && card.design === 'shahi-scroll') {
       return res.sendFile(path.join(__dirname, 'public', 'scroll-card.html'));
     }
