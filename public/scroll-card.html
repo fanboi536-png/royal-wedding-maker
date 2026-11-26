@@ -15,9 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Noto+Serif+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* ==========================================================================
-           ROYAL DESIGN TOKENS & TYPOGRAPHY
-           ========================================================================== */
         :root {
             --royal-night: #1c0205;
             --royal-maroon: #4A0404;
@@ -50,7 +47,7 @@
 
         body {
             margin: 0;
-            padding: 0 0 76px 0;
+            padding: 0 0 84px 0;
             min-height: 100vh;
             background-color: var(--royal-night);
             background-image:
@@ -66,21 +63,10 @@
         .font-serif-royal { font-family: 'Cormorant Garamond', serif; }
         .font-hindi { font-family: 'Noto Serif Devanagari', serif; }
 
-        /* ==========================================================================
-           AMBIENT BACKGROUND MANDALA & ROTATING HALOS
-           ========================================================================== */
-        .bg-mandala-spin {
-            animation: slowSpinCenter 95s linear infinite;
-        }
-        .bg-mandala-spin-reverse {
-            animation: slowSpinCenter 135s linear infinite reverse;
-        }
-        .halo-spin {
-            animation: slowSpin 38s linear infinite;
-        }
-        .halo-spin-reverse {
-            animation: slowSpin 28s linear infinite reverse;
-        }
+        /* Ambient Mandala Halos */
+        .bg-mandala-spin { animation: slowSpinCenter 95s linear infinite; }
+        .bg-mandala-spin-reverse { animation: slowSpinCenter 135s linear infinite reverse; }
+        .halo-spin { animation: slowSpin 38s linear infinite; }
 
         @keyframes slowSpinCenter {
             from { transform: translate(-50%, -50%) rotate(0deg); }
@@ -91,37 +77,18 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ==========================================================================
-           SHIMMERING METALLIC GOLD FOIL TEXT
-           ========================================================================== */
+        /* Shimmering Metallic Gold Foil Text */
         .gold-foil-text {
-            background: linear-gradient(
-                110deg,
-                #8f6310 0%,
-                #c99a2e 20%,
-                #fff0b3 38%,
-                #d4af37 52%,
-                #8c5e08 70%,
-                #f6db82 88%,
-                #9e6e14 100%
-            );
+            background: linear-gradient(110deg, #8f6310 0%, #c99a2e 20%, #fff0b3 38%, #d4af37 52%, #8c5e08 70%, #f6db82 88%, #9e6e14 100%);
             background-size: 220% auto;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             animation: goldShimmer 5s linear infinite;
-            filter: drop-shadow(0 1px 1px rgba(60, 20, 5, 0.25));
         }
 
         .gold-foil-bright {
-            background: linear-gradient(
-                110deg,
-                #c99a2e 0%,
-                #fff4c2 28%,
-                #e0b84c 50%,
-                #fff7d6 72%,
-                #b8860b 100%
-            );
+            background: linear-gradient(110deg, #c99a2e 0%, #fff4c2 28%, #e0b84c 50%, #fff7d6 72%, #b8860b 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
@@ -134,9 +101,7 @@
             100% { background-position: 220% center; }
         }
 
-        /* ==========================================================================
-           FLICKERING ANIMATED DIYA FLAME & GLOWING VARMALA HEART
-           ========================================================================== */
+        /* Flickering Diya & Heart */
         .diya-flame {
             transform-origin: 50% 85%;
             animation: flameFlicker 1.45s ease-in-out infinite alternate;
@@ -151,27 +116,21 @@
 
         @keyframes flameFlicker {
             0%   { transform: scale(1, 1) rotate(-2deg); opacity: 0.95; }
-            35%  { transform: scale(1.06, 0.94) rotate(2.5deg); opacity: 1; }
-            70%  { transform: scale(0.95, 1.09) rotate(-1.5deg); opacity: 0.92; }
+            50%  { transform: scale(0.95, 1.08) rotate(-1.5deg); opacity: 0.92; }
             100% { transform: scale(1.04, 1.03) rotate(1.5deg); opacity: 1; }
         }
-
         @keyframes auraPulse {
             0%   { opacity: 0.45; transform: scale(0.92); }
             100% { opacity: 0.85; transform: scale(1.12); }
         }
 
-        .varmala-pulse {
-            animation: heartGlow 2.4s ease-in-out infinite;
-        }
+        .varmala-pulse { animation: heartGlow 2.4s ease-in-out infinite; }
         @keyframes heartGlow {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.55)); }
-            50% { transform: scale(1.12); filter: drop-shadow(0 0 14px rgba(196, 24, 58, 0.75)); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
-        /* ==========================================================================
-           ANIMATED EQUALIZER BARS FOR MUSIC BUTTON
-           ========================================================================== */
+        /* Equalizer Bars */
         .eq-bar {
             width: 3px;
             border-radius: 2px;
@@ -183,54 +142,29 @@
         .music-playing .eq-bar-2 { animation: eqBounce 0.45s ease-in-out 0.15s infinite alternate; }
         .music-playing .eq-bar-3 { animation: eqBounce 0.75s ease-in-out 0.3s infinite alternate; }
         .music-playing .eq-bar-4 { animation: eqBounce 0.55s ease-in-out 0.1s infinite alternate; }
-
         @keyframes eqBounce {
-            0%   { height: 4px; }
+            0% { height: 4px; }
             100% { height: 15px; }
         }
 
-        /* ==========================================================================
-           3D CARVED GOLD & ROSEWOOD SCROLL ROLLERS
-           ========================================================================== */
+        /* 3D Carved Gold & Rosewood Rollers */
         .roller-rod {
             position: relative;
             height: 36px;
             border-radius: 18px;
-            background: linear-gradient(
-                180deg,
-                #47120e 0%,
-                #7e241b 16%,
-                #a33b2c 28%,
-                #5c1610 55%,
-                #290705 85%,
-                #170302 100%
-            );
-            box-shadow:
-                0 14px 28px rgba(0, 0, 0, 0.72),
-                0 4px 10px rgba(0, 0, 0, 0.5),
-                inset 0 2px 3px rgba(255, 226, 150, 0.35),
-                inset 0 -3px 6px rgba(0, 0, 0, 0.75);
+            background: linear-gradient(180deg, #47120e 0%, #7e241b 16%, #a33b2c 28%, #5c1610 55%, #290705 85%, #170302 100%);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.72), inset 0 2px 3px rgba(255, 226, 150, 0.35), inset 0 -3px 6px rgba(0, 0, 0, 0.75);
             z-index: 30;
         }
-
         .roller-gold-band {
             position: absolute;
             top: -2px;
             bottom: -2px;
             width: 18px;
             border-radius: 4px;
-            background: linear-gradient(
-                180deg,
-                #825708 0%,
-                #e3ba4b 20%,
-                #fff2be 38%,
-                #c49424 60%,
-                #694304 88%,
-                #3d2401 100%
-            );
+            background: linear-gradient(180deg, #825708 0%, #e3ba4b 20%, #fff2be 38%, #c49424 60%, #694304 88%, #3d2401 100%);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
         }
-
         .roller-center-medallion {
             position: absolute;
             left: 50%;
@@ -239,53 +173,33 @@
             width: 58px;
             height: 40px;
             border-radius: 20px;
-            background: linear-gradient(
-                180deg,
-                #9e6e14 0%,
-                #f8df89 25%,
-                #fff7d4 40%,
-                #c89624 68%,
-                #6b4505 100%
-            );
-            box-shadow:
-                0 4px 12px rgba(0, 0, 0, 0.65),
-                inset 0 1px 2px rgba(255, 255, 255, 0.7);
+            background: linear-gradient(180deg, #9e6e14 0%, #f8df89 25%, #fff7d4 40%, #c89624 68%, #6b4505 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.65), inset 0 1px 2px rgba(255, 255, 255, 0.7);
             display: flex;
             align-items: center;
             justify-content: center;
             border: 1px solid #ffe99e;
         }
 
-        .tassel-sway {
-            transform-origin: top center;
-            animation: tasselSwing 4.2s ease-in-out infinite;
-        }
-        .tassel-sway-delayed {
-            transform-origin: top center;
-            animation: tasselSwing 4.6s ease-in-out 0.7s infinite;
-        }
+        .tassel-sway { transform-origin: top center; animation: tasselSwing 4.2s ease-in-out infinite; }
+        .tassel-sway-delayed { transform-origin: top center; animation: tasselSwing 4.6s ease-in-out 0.7s infinite; }
         @keyframes tasselSwing {
             0%, 100% { transform: rotate(-4deg); }
             50% { transform: rotate(4.5deg); }
         }
 
-        /* ==========================================================================
-           ANTIQUE PARCHMENT PAPER TEXTURE & DAMASK WATERMARK
-           ========================================================================== */
+        /* Lightweight GPU-Friendly Parchment Body (No Heavy SVG Turbulence Lag) */
         .scroll-parchment-wrapper {
             position: relative;
             width: 92%;
             margin: -10px auto -10px auto;
             overflow: hidden;
             z-index: 20;
-            height: 118px;
-            transition: height 1.15s cubic-bezier(0.22, 1, 0.36, 1);
-            box-shadow:
-                0 22px 58px rgba(0, 0, 0, 0.78),
-                -8px 0 20px rgba(0, 0, 0, 0.45),
-                8px 0 20px rgba(0, 0, 0, 0.45);
+            height: 124px;
+            transition: height 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: height;
+            box-shadow: 0 22px 58px rgba(0, 0, 0, 0.78);
         }
-
         .scroll-parchment-wrapper.is-dragging {
             transition: none !important;
         }
@@ -293,26 +207,16 @@
         .parchment-surface {
             position: relative;
             background:
-                radial-gradient(ellipse at 50% 0%, rgba(255, 250, 234, 0.94) 0%, rgba(251, 243, 224, 0.94) 55%, rgba(226, 196, 140, 0.98) 100%),
+                radial-gradient(ellipse at 50% 0%, rgba(255, 250, 234, 0.96) 0%, rgba(251, 243, 224, 0.96) 55%, rgba(226, 196, 140, 0.98) 100%),
                 linear-gradient(90deg, #d7b272 0%, #f8ebd0 7%, #FBF3E0 50%, #f8ebd0 93%, #d7b272 100%);
-            min-height: 118px;
-        }
-
-        .parchment-grain {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            opacity: 0.38;
-            mix-blend-mode: multiply;
-            filter: url(#parchmentNoise);
-            z-index: 1;
+            min-height: 124px;
         }
 
         .parchment-damask {
             position: absolute;
             inset: 0;
             pointer-events: none;
-            opacity: 0.06;
+            opacity: 0.055;
             background-image: radial-gradient(#7A0C16 1px, transparent 1px), radial-gradient(#b8860b 1px, transparent 1px);
             background-size: 32px 32px;
             background-position: 0 0, 16px 16px;
@@ -324,10 +228,10 @@
             inset: 0;
             pointer-events: none;
             box-shadow:
-                inset 0 28px 34px -10px rgba(68, 32, 8, 0.65),
-                inset 0 -28px 34px -10px rgba(68, 32, 8, 0.65),
-                inset 18px 0 26px -12px rgba(105, 58, 18, 0.42),
-                inset -18px 0 26px -12px rgba(105, 58, 18, 0.42);
+                inset 0 24px 30px -10px rgba(68, 32, 8, 0.55),
+                inset 0 -24px 30px -10px rgba(68, 32, 8, 0.55),
+                inset 16px 0 22px -12px rgba(105, 58, 18, 0.35),
+                inset -16px 0 22px -12px rgba(105, 58, 18, 0.35);
             z-index: 4;
         }
 
@@ -337,11 +241,8 @@
             margin: 14px;
             padding: 22px 14px;
             border: 2px solid #b8860b;
-            box-shadow:
-                inset 0 0 0 4px rgba(251, 243, 224, 0.78),
-                inset 0 0 0 5.5px rgba(184, 134, 11, 0.85),
-                0 0 18px rgba(184, 134, 11, 0.15);
-            background: rgba(255, 250, 238, 0.34);
+            box-shadow: inset 0 0 0 4px rgba(251, 243, 224, 0.78), inset 0 0 0 5.5px rgba(184, 134, 11, 0.85);
+            background: rgba(255, 250, 238, 0.38);
         }
 
         @media (min-width: 640px) {
@@ -351,9 +252,7 @@
             }
         }
 
-        /* ==========================================================================
-           EMBOSSED ROYAL WAX SEAL & PULL PROMPT
-           ========================================================================== */
+        /* Embossed Royal Wax Seal */
         .wax-seal-overlay {
             position: absolute;
             inset: 0;
@@ -362,15 +261,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(180deg, rgba(74, 4, 4, 0.2) 0%, rgba(74, 4, 4, 0.38) 50%, rgba(74, 4, 4, 0.2) 100%);
+            background: linear-gradient(180deg, rgba(74, 4, 4, 0.22) 0%, rgba(74, 4, 4, 0.4) 50%, rgba(74, 4, 4, 0.22) 100%);
             cursor: pointer;
-            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            touch-action: none;
+            transition: opacity 0.45s ease, transform 0.45s ease;
         }
-
         .wax-seal-overlay.broken {
             opacity: 0;
-            transform: scale(1.48) rotate(14deg);
+            transform: scale(1.35);
             pointer-events: none;
         }
 
@@ -382,7 +279,7 @@
             background: linear-gradient(90deg, #4A0404 0%, #7A0C16 30%, #b51c38 50%, #7A0C16 70%, #4A0404 100%);
             border-left: 1.5px solid #e0b84c;
             border-right: 1.5px solid #e0b84c;
-            box-shadow: 0 0 14px rgba(0, 0, 0, 0.55);
+            pointer-events: none;
         }
 
         .wax-seal-disc {
@@ -391,124 +288,72 @@
             height: 84px;
             border-radius: 50%;
             background: radial-gradient(circle at 35% 30%, #d42640 0%, #9c1127 42%, #5e0615 80%, #3b020c 100%);
-            box-shadow:
-                0 8px 22px rgba(0, 0, 0, 0.72),
-                inset 0 2px 4px rgba(255, 196, 196, 0.45),
-                inset 0 -4px 8px rgba(35, 0, 8, 0.8),
-                0 0 0 3px #D4AF37,
-                0 0 24px rgba(212, 175, 55, 0.65);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.72), 0 0 0 3px #D4AF37, 0 0 24px rgba(212, 175, 55, 0.65);
             display: flex;
             align-items: center;
             justify-content: center;
             animation: sealPulse 2.4s ease-in-out infinite;
+            pointer-events: none;
         }
 
         @keyframes sealPulse {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 8px 22px rgba(0,0,0,0.72), 0 0 0 3px #D4AF37, 0 0 16px rgba(212,175,55,0.45);
-            }
-            50% {
-                transform: scale(1.07);
-                box-shadow: 0 10px 26px rgba(0,0,0,0.8), 0 0 0 4px #ffe899, 0 0 32px rgba(255,215,100,0.88);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.07); }
         }
 
-        .bounce-down {
-            animation: gentleBounce 1.8s ease-in-out infinite;
-        }
+        .bounce-down { animation: gentleBounce 1.8s ease-in-out infinite; }
         @keyframes gentleBounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(6px); }
         }
 
-        /* ==========================================================================
-           INTERSECTION OBSERVER + UNROLL STAGGERED REVEAL ANIMATIONS
-           ========================================================================== */
+        /* Section Reveal */
         .scroll-section {
             opacity: 0;
-            transform: translateY(28px) scale(0.985);
-            transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateY(18px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
         }
         .scroll-open .scroll-section.is-visible {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
 
-        /* ==========================================================================
-           SHAHI JODI PHOTO FRAMES, TIMELINE NODES & ARCH COUNTDOWN
-           ========================================================================== */
+        /* Shahi Jodi, Countdown & Ceremony Cards */
         .jodi-frame-ring {
-            background: conic-gradient(
-                from 0deg,
-                #8c5e08,
-                #f6db82,
-                #D4AF37,
-                #fff3c4,
-                #9e6e14,
-                #e3ba4b,
-                #8c5e08
-            );
+            background: conic-gradient(from 0deg, #8c5e08, #f6db82, #D4AF37, #fff3c4, #9e6e14, #e3ba4b, #8c5e08);
             padding: 4px;
-            box-shadow:
-                0 10px 24px rgba(74, 4, 4, 0.25),
-                0 0 0 2px rgba(122, 12, 22, 0.25);
+            box-shadow: 0 10px 24px rgba(74, 4, 4, 0.25);
         }
 
         .arch-countdown-box {
             background: linear-gradient(180deg, #fffaf0 0%, #f5e1b5 75%, #dfb764 100%);
             border: 2px solid #a87616;
             border-radius: 36px 36px 12px 12px;
-            box-shadow:
-                0 6px 14px rgba(74, 4, 4, 0.2),
-                inset 0 2px 5px rgba(255, 255, 255, 0.85),
-                inset 0 -3px 6px rgba(130, 82, 8, 0.28);
-            transition: transform 0.3s ease;
-        }
-        .arch-countdown-box:hover {
-            transform: translateY(-3px);
+            box-shadow: 0 6px 14px rgba(74, 4, 4, 0.2);
         }
 
         .timeline-node {
             box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.28), 0 0 14px rgba(212, 175, 55, 0.75);
-            animation: nodeGlow 2.6s ease-in-out infinite alternate;
-        }
-        @keyframes nodeGlow {
-            0%   { box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.22), 0 0 10px rgba(212, 175, 55, 0.55); }
-            100% { box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.42), 0 0 18px rgba(212, 175, 55, 0.95); }
         }
 
         .ceremony-card {
-            background: linear-gradient(145deg, rgba(255, 252, 244, 0.92) 0%, rgba(247, 232, 198, 0.78) 100%);
+            background: linear-gradient(145deg, rgba(255, 252, 244, 0.94) 0%, rgba(247, 232, 198, 0.82) 100%);
             border: 1.5px solid rgba(184, 134, 11, 0.65);
             box-shadow: 0 6px 20px rgba(72, 24, 12, 0.09);
-            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
-        }
-        .ceremony-card:hover {
-            transform: translateY(-4px) scale(1.01);
-            border-color: #7A0C16;
-            box-shadow: 0 14px 28px rgba(122, 12, 22, 0.16);
         }
 
         .game-stage-frame {
             background: radial-gradient(circle at 50% 25%, #5c0912 0%, #2b0308 75%, #160104 100%);
             border: 2.5px solid #D4AF37;
-            box-shadow:
-                0 12px 30px rgba(74, 4, 4, 0.35),
-                inset 0 0 24px rgba(0, 0, 0, 0.65);
+            box-shadow: 0 12px 30px rgba(74, 4, 4, 0.35);
         }
 
         #bottomRoller {
-            cursor: grab;
-            touch-action: none;
+            cursor: pointer;
             user-select: none;
         }
-        #bottomRoller:active {
-            cursor: grabbing;
-        }
 
-        /* Watermark & Bottom Action Bar for Live Cards */
+        /* Watermark & Bottom Action Bar */
         #scrollPreviewWatermark {
             position: fixed;
             inset: 0;
@@ -539,49 +384,23 @@
             max-width: 470px;
             z-index: 60;
             background: rgba(24, 3, 7, 0.96);
-            backdrop-filter: blur(10px);
             border: 1.5px solid #D4AF37;
             border-radius: 14px;
             padding: 9px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
             box-shadow: 0 10px 28px rgba(0, 0, 0, 0.85);
-        }
-
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1c0205; }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #D4AF37, #7a5205);
-            border-radius: 4px;
         }
     </style>
 </head>
 <body data-native-card="true" class="antialiased selection:bg-amber-200 selection:text-rose-950">
 
-    <!-- INLINE SVG FILTERS (REALISTIC ANTIQUE PAPER GRAIN) -->
-    <svg class="hidden" width="0" height="0" aria-hidden="true">
-        <defs>
-            <filter id="parchmentNoise" x="0%" y="0%" width="100%" height="100%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch" result="noise"/>
-                <feColorMatrix type="matrix" values="
-                    0.55 0    0    0 0.25
-                    0    0.45 0    0 0.18
-                    0    0    0.25 0 0.08
-                    0    0    0    0.45 0" in="noise" result="coloredNoise"/>
-            </filter>
-        </defs>
-    </svg>
-
-    <!-- Preview Watermark (Hidden after ₹29 Unlock) -->
-    <div id="scrollPreviewWatermark" class="hidden">
+    <!-- Preview Watermark -->
+    <div id="scrollPreviewWatermark" style="display:none;">
         <div class="scroll-wm-line">PREVIEW ONLY • PAY ₹29 TO UNLOCK • PREVIEW ONLY</div>
         <div class="scroll-wm-line">PAY ₹29 TO REMOVE WATERMARK • PREVIEW ONLY</div>
         <div class="scroll-wm-line">PREVIEW ONLY • PAY ₹29 TO UNLOCK • PREVIEW ONLY</div>
     </div>
 
-    <!-- AMBIENT BACKGROUND WATERMARK MANDALAS & PARTICLE CANVAS -->
+    <!-- Ambient Background Mandalas -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
         <svg class="absolute top-1/4 left-1/2 w-[780px] h-[780px] opacity-[0.075] text-amber-300 bg-mandala-spin" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="0.6">
             <circle cx="100" cy="100" r="92" stroke-dasharray="3 3"/>
@@ -592,34 +411,24 @@
             <path d="M100 192 C112 168, 112 148, 100 134 C88 148, 88 168, 100 192 Z"/>
             <path d="M8 100 C32 88, 52 88, 66 100 C52 112, 32 112, 8 100 Z"/>
             <path d="M192 100 C168 88, 148 88, 134 100 C148 112, 168 112, 192 100 Z"/>
-            <path d="M35 35 C58 42, 72 56, 76 76 C56 72, 42 58, 35 35 Z"/>
-            <path d="M165 165 C142 158, 128 144, 124 124 C144 128, 158 142, 165 165 Z"/>
-            <path d="M165 35 C158 58, 144 72, 124 76 C128 56, 142 42, 165 35 Z"/>
-            <path d="M35 165 C42 142, 56 128, 76 124 C72 144, 58 158, 35 165 Z"/>
-        </svg>
-
-        <svg class="absolute top-1/2 left-1/2 w-[1080px] h-[1080px] opacity-[0.045] text-amber-200 bg-mandala-spin-reverse" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="0.45">
-            <circle cx="100" cy="100" r="95" stroke-dasharray="1 4"/>
-            <polygon points="100,10 120,75 185,75 132,115 152,180 100,140 48,180 68,115 15,75 80,75"/>
-            <polygon points="100,190 120,125 185,125 132,85 152,20 100,60 48,20 68,85 15,125 80,125"/>
         </svg>
     </div>
 
-    <!-- Full-Screen Interactive Golden Dust, Marigold & Rose Petals Canvas -->
+    <!-- Full-Screen Interactive Petals Canvas -->
     <canvas id="ambientCanvas" class="fixed inset-0 pointer-events-none z-40"></canvas>
 
-    <!-- FLOATING ROYAL CONTROLS -->
+    <!-- Floating Royal Controls -->
     <div class="fixed top-4 right-4 z-50 flex items-center gap-2 sm:gap-2.5">
-        <button id="topRollUpBtn" onclick="closeScroll()" title="Roll Up Scroll"
-            class="hidden items-center gap-1.5 px-3 py-2 rounded-full bg-[#4A0404]/90 hover:bg-[#7A0C16] text-amber-200 border border-amber-400/60 shadow-lg backdrop-blur-md transition-all text-xs sm:text-sm font-cinzel tracking-wider cursor-pointer">
+        <button id="topRollUpBtn" type="button" onclick="closeScroll()" title="Roll Up Scroll" style="display:none;"
+            class="items-center gap-1.5 px-3 py-2 rounded-full bg-[#4A0404]/90 hover:bg-[#7A0C16] text-amber-200 border border-amber-400/60 shadow-lg transition-all text-xs sm:text-sm font-cinzel tracking-wider cursor-pointer">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
             </svg>
             <span class="hidden sm:inline">Roll Up</span>
         </button>
 
-        <button id="musicToggleBtn" onclick="toggleRoyalMusic()" title="Toggle Indian Wedding Shehnai & Tabla Music"
-            class="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#4A0404]/90 hover:bg-[#7A0C16] text-amber-200 border border-amber-400/60 shadow-lg backdrop-blur-md transition-all text-xs sm:text-sm font-cinzel cursor-pointer">
+        <button id="musicToggleBtn" type="button" onclick="toggleRoyalMusic()" title="Toggle Shehnai & Tabla Music"
+            class="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#4A0404]/90 hover:bg-[#7A0C16] text-amber-200 border border-amber-400/60 shadow-lg transition-all text-xs sm:text-sm font-cinzel cursor-pointer">
             <span id="musicEq" class="flex items-end gap-[2.5px] h-4 w-4 justify-center">
                 <span class="eq-bar eq-bar-1"></span>
                 <span class="eq-bar eq-bar-2"></span>
@@ -629,19 +438,16 @@
             <span id="musicLabel" class="hidden sm:inline tracking-wider">Shehnai: Off</span>
         </button>
 
-        <button id="customizeTriggerBtn" onclick="toggleCustomizeDrawer(true)" title="Customize Photos, Names, Date & Venue"
+        <button id="customizeTriggerBtn" type="button" onclick="toggleCustomizeDrawer(true)" title="Customize Card"
             class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 hover:brightness-110 text-[#4A0404] font-bold border border-amber-200 shadow-lg transition-all text-xs sm:text-sm font-cinzel cursor-pointer">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-            </svg>
             <span class="tracking-wider">Customize</span>
         </button>
     </div>
 
-    <!-- MAIN STAGE: CENTERED ROYAL SCROLL -->
-    <main id="mainStage" class="relative z-10 min-h-screen flex flex-col items-center justify-center px-3 sm:px-6 py-16 sm:py-20 transition-all duration-700">
+    <!-- MAIN STAGE -->
+    <main id="mainStage" class="relative z-10 min-h-screen flex flex-col items-center justify-center px-3 sm:px-6 py-16 sm:py-20">
 
-        <div id="closedHeader" class="text-center mb-6 sm:mb-8 transition-all duration-700">
+        <div id="closedHeader" class="text-center mb-6 sm:mb-8 transition-all duration-500">
             <p class="font-hindi text-amber-300/90 text-sm sm:text-base tracking-widest mb-1">|| श्री गणेशाय नमः ||</p>
             <h1 class="font-cinzel gold-foil-bright text-xl sm:text-3xl tracking-[0.18em] uppercase font-bold">
                 Shahi Vivah Patrika
@@ -651,7 +457,7 @@
             </p>
         </div>
 
-        <!-- THE INTERACTIVE ROYAL SCROLL ASSEMBLY -->
+        <!-- SCROLL ASSEMBLY -->
         <div id="scrollAssembly" class="w-full max-w-[710px] mx-auto relative">
 
             <!-- TOP 3D ROLLER -->
@@ -675,7 +481,6 @@
                         <line x1="14" y1="0" x2="14" y2="18" stroke="#e0b84c" stroke-width="2"/>
                         <circle cx="14" cy="21" r="4.5" fill="#D4AF37" stroke="#7a5205" stroke-width="1"/>
                         <path d="M10 25 L18 25 L23 64 C18 67, 10 67, 5 64 Z" fill="#7A0C16"/>
-                        <path d="M12 25 L16 25 L18 65 L10 65 Z" fill="#b81d38" opacity="0.6"/>
                         <line x1="9" y1="30" x2="19" y2="30" stroke="#f5d77f" stroke-width="2"/>
                     </svg>
                 </div>
@@ -700,7 +505,6 @@
                         <line x1="14" y1="0" x2="14" y2="18" stroke="#e0b84c" stroke-width="2"/>
                         <circle cx="14" cy="21" r="4.5" fill="#D4AF37" stroke="#7a5205" stroke-width="1"/>
                         <path d="M10 25 L18 25 L23 64 C18 67, 10 67, 5 64 Z" fill="#7A0C16"/>
-                        <path d="M12 25 L16 25 L18 65 L10 65 Z" fill="#b81d38" opacity="0.6"/>
                         <line x1="9" y1="30" x2="19" y2="30" stroke="#f5d77f" stroke-width="2"/>
                     </svg>
                 </div>
@@ -709,7 +513,7 @@
             <!-- UNFURLING PARCHMENT BODY -->
             <div id="scrollBody" class="scroll-parchment-wrapper">
                 <!-- Interactive Crimson Wax Seal Overlay -->
-                <div id="waxSealOverlay" class="wax-seal-overlay" onclick="openScroll()" role="button" aria-label="Tap or pull to open royal invitation">
+                <div id="waxSealOverlay" class="wax-seal-overlay" onclick="openScroll()" role="button" tabindex="0" aria-label="Tap to open royal invitation">
                     <div class="royal-ribbon-band"></div>
                     <div class="wax-seal-disc" title="Tap to Break Royal Seal">
                         <svg class="w-12 h-12 text-amber-200 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" viewBox="0 0 64 64" fill="none" stroke="currentColor">
@@ -726,7 +530,6 @@
 
                 <!-- Textured Antique Parchment Surface -->
                 <div id="parchmentContent" class="parchment-surface">
-                    <div class="parchment-grain"></div>
                     <div class="parchment-damask"></div>
                     <div class="parchment-vignette"></div>
 
@@ -735,25 +538,21 @@
                         <svg class="w-12 h-12 sm:w-16 sm:h-16 absolute top-1.5 left-1.5 text-amber-700/85 pointer-events-none" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6">
                             <path d="M6 74 L6 14 C6 8, 8 6, 14 6 L74 6"/>
                             <path d="M14 58 C14 28, 28 14, 58 14"/>
-                            <path d="M18 18 C28 18, 34 24, 34 34 C24 34, 18 28, 18 18 Z" fill="currentColor" opacity="0.22"/>
                             <circle cx="24" cy="24" r="3" fill="currentColor"/>
                         </svg>
                         <svg class="w-12 h-12 sm:w-16 sm:h-16 absolute top-1.5 right-1.5 text-amber-700/85 scale-x-[-1] pointer-events-none" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6">
                             <path d="M6 74 L6 14 C6 8, 8 6, 14 6 L74 6"/>
                             <path d="M14 58 C14 28, 28 14, 58 14"/>
-                            <path d="M18 18 C28 18, 34 24, 34 34 C24 34, 18 28, 18 18 Z" fill="currentColor" opacity="0.22"/>
                             <circle cx="24" cy="24" r="3" fill="currentColor"/>
                         </svg>
                         <svg class="w-12 h-12 sm:w-16 sm:h-16 absolute bottom-1.5 left-1.5 text-amber-700/85 scale-y-[-1] pointer-events-none" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6">
                             <path d="M6 74 L6 14 C6 8, 8 6, 14 6 L74 6"/>
                             <path d="M14 58 C14 28, 28 14, 58 14"/>
-                            <path d="M18 18 C28 18, 34 24, 34 34 C24 34, 18 28, 18 18 Z" fill="currentColor" opacity="0.22"/>
                             <circle cx="24" cy="24" r="3" fill="currentColor"/>
                         </svg>
                         <svg class="w-12 h-12 sm:w-16 sm:h-16 absolute bottom-1.5 right-1.5 text-amber-700/85 scale-[-1] pointer-events-none" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.6">
                             <path d="M6 74 L6 14 C6 8, 8 6, 14 6 L74 6"/>
                             <path d="M14 58 C14 28, 28 14, 58 14"/>
-                            <path d="M18 18 C28 18, 34 24, 34 34 C24 34, 18 28, 18 18 Z" fill="currentColor" opacity="0.22"/>
                             <circle cx="24" cy="24" r="3" fill="currentColor"/>
                         </svg>
 
@@ -767,19 +566,13 @@
                                 <svg class="absolute inset-0 w-full h-full text-amber-600/75 halo-spin" viewBox="0 0 140 140" fill="none" stroke="currentColor" stroke-width="1">
                                     <circle cx="70" cy="70" r="65" stroke-dasharray="3 3"/>
                                     <circle cx="70" cy="70" r="56" stroke-opacity="0.5"/>
-                                    <g stroke-width="0.9">
-                                        <path d="M70 5 L74 18 L66 18 Z" fill="#D4AF37" fill-opacity="0.45"/>
-                                        <path d="M70 135 L74 122 L66 122 Z" fill="#D4AF37" fill-opacity="0.45"/>
-                                        <path d="M5 70 L18 74 L18 66 Z" fill="#D4AF37" fill-opacity="0.45"/>
-                                        <path d="M135 70 L122 74 L122 66 Z" fill="#D4AF37" fill-opacity="0.45"/>
-                                        <path d="M24 24 L35 30 L30 35 Z" fill="#D4AF37" fill-opacity="0.45"/>
-                                        <path d="M116 116 L105 110 L110 105 Z" fill="#D4AF37" fill-opacity="0.45"/>
-                                        <path d="M116 24 L110 35 L105 30 Z" fill="#D4AF37" fill-opacity="0.45"/>
-                                        <path d="M24 116 L30 105 L35 110 Z" fill="#D4AF37" fill-opacity="0.45"/>
-                                    </g>
+                                    <path d="M70 5 L74 18 L66 18 Z" fill="#D4AF37" fill-opacity="0.45"/>
+                                    <path d="M70 135 L74 122 L66 122 Z" fill="#D4AF37" fill-opacity="0.45"/>
+                                    <path d="M5 70 L18 74 L18 66 Z" fill="#D4AF37" fill-opacity="0.45"/>
+                                    <path d="M135 70 L122 74 L122 66 Z" fill="#D4AF37" fill-opacity="0.45"/>
                                 </svg>
 
-                                <svg class="relative z-10 w-24 h-24 sm:w-28 sm:h-28 drop-shadow-[0_3px_6px_rgba(122,12,22,0.28)]" viewBox="0 0 120 120" fill="none">
+                                <svg class="relative z-10 w-24 h-24 sm:w-28 sm:h-28" viewBox="0 0 120 120" fill="none">
                                     <defs>
                                         <linearGradient id="ganeshaGold" x1="0%" y1="0%" x2="100%" y2="100%">
                                             <stop offset="0%" stop-color="#7A0C16"/>
@@ -792,13 +585,9 @@
                                     <circle cx="60" cy="13" r="3" fill="#b8860b"/>
                                     <path d="M42 44 C26 42, 23 64, 38 66" stroke="url(#ganeshaGold)" stroke-width="3.2" stroke-linecap="round"/>
                                     <path d="M78 44 C94 42, 97 64, 82 66" stroke="url(#ganeshaGold)" stroke-width="3.2" stroke-linecap="round"/>
-                                    <path d="M55 42 Q60 46 65 42" stroke="#7A0C16" stroke-width="2" stroke-linecap="round"/>
-                                    <circle cx="60" cy="40" r="1.8" fill="#7A0C16"/>
                                     <path d="M44 46 C44 36, 76 36, 76 46 C76 56, 66 59, 64 68 C62 76, 71 80, 68 87 C65 92, 55 92, 52 86" stroke="url(#ganeshaGold)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                                     <circle cx="52" cy="52" r="2" fill="#4A0404"/>
                                     <circle cx="68" cy="52" r="2" fill="#4A0404"/>
-                                    <path d="M49 62 L44 68" stroke="#b8860b" stroke-width="2.2" stroke-linecap="round"/>
-                                    <path d="M71 62 L75 66" stroke="#b8860b" stroke-width="2.2" stroke-linecap="round"/>
                                     <path d="M36 96 Q60 106 84 96" stroke="#b8860b" stroke-width="2" stroke-linecap="round"/>
                                 </svg>
                             </div>
@@ -819,10 +608,9 @@
                             </p>
 
                             <div class="relative flex items-center justify-center gap-1 sm:gap-3 my-6">
-                                <!-- Left Animated Flickering SVG Diya -->
+                                <!-- Left Diya -->
                                 <div class="hidden sm:flex flex-col items-center flex-shrink-0 -mr-2">
                                     <svg class="w-14 h-20 overflow-visible" viewBox="0 0 60 80">
-                                        <circle class="diya-glow" cx="30" cy="24" r="20" fill="url(#flameAura)"/>
                                         <defs>
                                             <radialGradient id="flameAura" cx="50%" cy="50%" r="50%">
                                                 <stop offset="0%" stop-color="#ffbb33" stop-opacity="0.75"/>
@@ -835,10 +623,10 @@
                                                 <stop offset="100%" stop-color="#fff8c4"/>
                                             </linearGradient>
                                         </defs>
+                                        <circle class="diya-glow" cx="30" cy="24" r="20" fill="url(#flameAura)"/>
                                         <path class="diya-flame" d="M30 8 C37 18, 38 28, 30 35 C22 28, 23 18, 30 8 Z" fill="url(#flameGrad)"/>
                                         <path class="diya-flame" d="M30 16 C33 22, 34 28, 30 33 C26 28, 27 22, 30 16 Z" fill="#fffce0"/>
                                         <path d="M10 38 Q30 33 50 38 C46 52, 14 52, 10 38 Z" fill="#b8860b" stroke="#613b04" stroke-width="1.2"/>
-                                        <path d="M16 42 Q30 47 44 42" stroke="#ffe599" stroke-width="1.5" fill="none"/>
                                         <path d="M23 50 L37 50 L40 56 L20 56 Z" fill="#8c5e08"/>
                                     </svg>
                                 </div>
@@ -879,32 +667,16 @@
                                     </div>
                                 </div>
 
-                                <!-- Right Animated Flickering SVG Diya -->
+                                <!-- Right Diya -->
                                 <div class="hidden sm:flex flex-col items-center flex-shrink-0 -ml-2">
                                     <svg class="w-14 h-20 overflow-visible" viewBox="0 0 60 80">
                                         <circle class="diya-glow" cx="30" cy="24" r="20" fill="url(#flameAura)"/>
                                         <path class="diya-flame-delayed" d="M30 8 C37 18, 38 28, 30 35 C22 28, 23 18, 30 8 Z" fill="url(#flameGrad)"/>
                                         <path class="diya-flame-delayed" d="M30 16 C33 22, 34 28, 30 33 C26 28, 27 22, 30 16 Z" fill="#fffce0"/>
                                         <path d="M10 38 Q30 33 50 38 C46 52, 14 52, 10 38 Z" fill="#b8860b" stroke="#613b04" stroke-width="1.2"/>
-                                        <path d="M16 42 Q30 47 44 42" stroke="#ffe599" stroke-width="1.5" fill="none"/>
                                         <path d="M23 50 L37 50 L40 56 L20 56 Z" fill="#8c5e08"/>
                                     </svg>
                                 </div>
-                            </div>
-
-                            <!-- Mobile Diyas Pair -->
-                            <div class="flex sm:hidden items-center justify-center gap-8 -mt-2 mb-4">
-                                <svg class="w-10 h-12 overflow-visible" viewBox="0 0 60 80">
-                                    <circle class="diya-glow" cx="30" cy="24" r="18" fill="url(#flameAura)"/>
-                                    <path class="diya-flame" d="M30 8 C37 18, 38 28, 30 35 C22 28, 23 18, 30 8 Z" fill="url(#flameGrad)"/>
-                                    <path d="M10 38 Q30 33 50 38 C46 52, 14 52, 10 38 Z" fill="#b8860b" stroke="#613b04" stroke-width="1.2"/>
-                                </svg>
-                                <span class="font-hindi text-xs text-amber-900 tracking-widest">शुभ मंगलम</span>
-                                <svg class="w-10 h-12 overflow-visible" viewBox="0 0 60 80">
-                                    <circle class="diya-glow" cx="30" cy="24" r="18" fill="url(#flameAura)"/>
-                                    <path class="diya-flame-delayed" d="M30 8 C37 18, 38 28, 30 35 C22 28, 23 18, 30 8 Z" fill="url(#flameGrad)"/>
-                                    <path d="M10 38 Q30 33 50 38 C46 52, 14 52, 10 38 Z" fill="#b8860b" stroke="#613b04" stroke-width="1.2"/>
-                                </svg>
                             </div>
 
                             <!-- Auspicious Wedding Date Banner -->
@@ -923,37 +695,21 @@
                             </h3>
 
                             <div class="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-6">
-                                <!-- Dulhan (Bride) Frame -->
+                                <!-- Dulhan Frame -->
                                 <div class="flex flex-col items-center">
                                     <div class="relative">
                                         <div class="jodi-frame-ring rounded-full w-36 h-36 sm:w-40 sm:h-40 flex items-center justify-center relative">
                                             <div class="w-full h-full rounded-full overflow-hidden bg-gradient-to-b from-[#7A0C16] to-[#3a0408] flex items-center justify-center border-2 border-amber-100">
                                                 <img id="bridePhotoImg" src="" alt="Dulhan Portrait" class="hidden w-full h-full object-cover"/>
                                                 <svg id="brideDefaultSvg" class="w-full h-full" viewBox="0 0 160 160">
-                                                    <defs>
-                                                        <radialGradient id="brideBg" cx="50%" cy="35%" r="65%">
-                                                            <stop offset="0%" stop-color="#a8182e"/>
-                                                            <stop offset="100%" stop-color="#4A0404"/>
-                                                        </radialGradient>
-                                                    </defs>
-                                                    <rect width="160" height="160" fill="url(#brideBg)"/>
-                                                    <circle cx="80" cy="68" r="44" fill="none" stroke="#D4AF37" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.7"/>
+                                                    <rect width="160" height="160" fill="#7A0C16"/>
                                                     <path d="M36 160 C34 105, 42 52, 80 34 C118 52, 126 105, 124 160 Z" fill="#9c0f24" stroke="#f2cf68" stroke-width="2.5"/>
-                                                    <path d="M52 68 C52 44, 108 44, 108 68 C108 82, 102 90, 96 90 L64 90 C58 90, 52 82, 52 68 Z" fill="#23120b"/>
-                                                    <path d="M44 160 C48 124, 62 114, 80 114 C98 114, 112 124, 116 160 Z" fill="#c41932" stroke="#D4AF37" stroke-width="2"/>
-                                                    <rect x="72" y="96" width="16" height="22" rx="6" fill="#f2c49b"/>
-                                                    <path d="M62 116 Q80 134 98 116" fill="none" stroke="#ffe07d" stroke-width="4" stroke-linecap="round"/>
-                                                    <circle cx="80" cy="127" r="4" fill="#D4AF37" stroke="#7A0C16" stroke-width="1"/>
                                                     <ellipse cx="80" cy="76" rx="22" ry="26" fill="#f7cfa8"/>
-                                                    <line x1="80" y1="45" x2="80" y2="60" stroke="#ffe07d" stroke-width="2"/>
-                                                    <circle cx="80" cy="61" r="4.5" fill="#D4AF37" stroke="#7A0C16" stroke-width="1"/>
+                                                    <circle cx="80" cy="61" r="4.5" fill="#D4AF37"/>
                                                     <circle cx="80" cy="69" r="2" fill="#b80f24"/>
-                                                    <path d="M68 75 Q72 72 76 75" stroke="#2e1509" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-                                                    <path d="M84 75 Q88 72 92 75" stroke="#2e1509" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-                                                    <path d="M74 88 Q80 93 86 88" stroke="#a81e30" stroke-width="2" fill="none" stroke-linecap="round"/>
-                                                    <circle cx="85" cy="83" r="5" fill="none" stroke="#ffe07d" stroke-width="1.6"/>
-                                                    <circle cx="57" cy="84" r="4" fill="#D4AF37"/>
-                                                    <circle cx="103" cy="84" r="4" fill="#D4AF37"/>
+                                                    <path d="M68 75 Q72 72 76 75" stroke="#2e1509" stroke-width="1.8" fill="none"/>
+                                                    <path d="M84 75 Q88 72 92 75" stroke="#2e1509" stroke-width="1.8" fill="none"/>
+                                                    <path d="M74 88 Q80 93 86 88" stroke="#a81e30" stroke-width="2" fill="none"/>
                                                 </svg>
                                             </div>
                                         </div>
@@ -965,7 +721,7 @@
                                     <p id="jodiBrideParents" class="text-xs italic text-stone-700 -mt-1"></p>
                                 </div>
 
-                                <!-- Animated Glowing Floral Varmala / Heart Emblem -->
+                                <!-- Varmala Heart -->
                                 <div class="flex flex-col items-center justify-center my-1 sm:my-0">
                                     <div class="varmala-pulse w-14 h-14 rounded-full bg-gradient-to-br from-amber-100 via-amber-200 to-amber-400 border-2 border-[#7A0C16] flex items-center justify-center shadow-lg">
                                         <svg class="w-8 h-8 text-[#7A0C16]" viewBox="0 0 32 32" fill="currentColor">
@@ -975,36 +731,20 @@
                                     <span class="text-[10px] font-cinzel uppercase tracking-widest text-amber-900 font-bold mt-1">Weds</span>
                                 </div>
 
-                                <!-- Dulha (Groom) Frame -->
+                                <!-- Dulha Frame -->
                                 <div class="flex flex-col items-center">
                                     <div class="relative">
                                         <div class="jodi-frame-ring rounded-full w-36 h-36 sm:w-40 sm:h-40 flex items-center justify-center relative">
                                             <div class="w-full h-full rounded-full overflow-hidden bg-gradient-to-b from-[#4A0404] to-[#240205] flex items-center justify-center border-2 border-amber-100">
                                                 <img id="groomPhotoImg" src="" alt="Dulha Portrait" class="hidden w-full h-full object-cover"/>
                                                 <svg id="groomDefaultSvg" class="w-full h-full" viewBox="0 0 160 160">
-                                                    <defs>
-                                                        <radialGradient id="groomBg" cx="50%" cy="35%" r="65%">
-                                                            <stop offset="0%" stop-color="#8c1528"/>
-                                                            <stop offset="100%" stop-color="#360308"/>
-                                                        </radialGradient>
-                                                    </defs>
-                                                    <rect width="160" height="160" fill="url(#groomBg)"/>
-                                                    <circle cx="80" cy="68" r="44" fill="none" stroke="#D4AF37" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.7"/>
+                                                    <rect width="160" height="160" fill="#4A0404"/>
                                                     <path d="M36 160 C40 120, 58 110, 80 110 C102 110, 120 120, 124 160 Z" fill="#f7ecd4" stroke="#D4AF37" stroke-width="2.5"/>
-                                                    <path d="M52 114 L70 160 L54 160 L42 124 Z" fill="#8f1128" stroke="#D4AF37" stroke-width="1.2"/>
-                                                    <path d="M62 115 Q80 142 98 115" fill="none" stroke="#fff8e6" stroke-width="4" stroke-dasharray="4 2"/>
-                                                    <circle cx="80" cy="130" r="4.5" fill="#9c0f24" stroke="#D4AF37" stroke-width="1.5"/>
-                                                    <rect x="72" y="96" width="16" height="20" rx="6" fill="#e8b68c"/>
                                                     <ellipse cx="80" cy="76" rx="22" ry="25" fill="#efc096"/>
                                                     <path d="M52 66 C48 44, 62 32, 80 32 C98 32, 112 44, 108 66 C98 58, 62 58, 52 66 Z" fill="#9c0f24" stroke="#D4AF37" stroke-width="2"/>
-                                                    <path d="M56 54 Q80 42 104 54" fill="none" stroke="#ffe07d" stroke-width="2.2"/>
-                                                    <path d="M84 36 C88 20, 98 16, 102 22 C96 28, 92 34, 88 40 Z" fill="#fff0b3" stroke="#b8860b" stroke-width="1"/>
-                                                    <circle cx="85" cy="40" r="4.5" fill="#D4AF37" stroke="#4A0404" stroke-width="1"/>
-                                                    <line x1="80" y1="62" x2="80" y2="69" stroke="#b80f24" stroke-width="2.2" stroke-linecap="round"/>
                                                     <circle cx="71" cy="75" r="2" fill="#23120b"/>
                                                     <circle cx="89" cy="75" r="2" fill="#23120b"/>
-                                                    <path d="M70 86 Q75 82 80 85 Q85 82 90 86" stroke="#2b160c" stroke-width="2.3" fill="none" stroke-linecap="round"/>
-                                                    <path d="M75 91 Q80 94 85 91" stroke="#8a3b2a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+                                                    <path d="M70 86 Q75 82 80 85 Q85 82 90 86" stroke="#2b160c" stroke-width="2.3" fill="none"/>
                                                 </svg>
                                             </div>
                                         </div>
@@ -1017,17 +757,13 @@
                                 </div>
                             </div>
 
-                            <button id="uploadCoupleQuickBtn" onclick="toggleCustomizeDrawer(true)"
+                            <button id="uploadCoupleQuickBtn" type="button" onclick="toggleCustomizeDrawer(true)"
                                 class="mt-4 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-700/60 bg-amber-100/70 hover:bg-amber-200/80 text-[#4A0404] font-cinzel text-[11px] uppercase tracking-wider transition cursor-pointer">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
-                                    <circle cx="12" cy="13" r="3"/>
-                                </svg>
                                 Upload Dulha &amp; Dulhan Photos
                             </button>
                         </section>
 
-                        <!-- SECTION 4: LIVE COUNTDOWN + PHOOLON KI VARSHA BLESSINGS -->
+                        <!-- SECTION 4: LIVE COUNTDOWN + PHOOLON KI VARSHA -->
                         <section class="py-6 text-center scroll-section">
                             <p class="font-cinzel text-xs uppercase tracking-[0.24em] text-amber-900 font-bold mb-4">
                                 Counting Down to the Royal Union
@@ -1052,11 +788,11 @@
                             </div>
 
                             <div class="mt-7">
-                                <button onclick="triggerPhoolonKiVarsha(event)"
+                                <button type="button" onclick="triggerPhoolonKiVarsha(event)"
                                     class="group relative inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-[#7A0C16] via-[#9e1424] to-[#7A0C16] hover:brightness-110 active:scale-95 text-amber-100 border-2 border-[#D4AF37] shadow-[0_8px_22px_rgba(122,12,22,0.35)] transition-all font-cinzel text-xs sm:text-sm tracking-wider cursor-pointer">
-                                    <span class="text-base group-hover:scale-125 transition-transform">🌸</span>
+                                    <span>🌸</span>
                                     <span>Phoolon Ki Varsha (Shower Blessings)</span>
-                                    <span class="text-base group-hover:scale-125 transition-transform">🌼</span>
+                                    <span>🌼</span>
                                 </button>
                                 <p class="text-xs sm:text-sm text-amber-950/90 mt-2 font-semibold">
                                     ✨ <span id="blessingsCount" class="font-cinzel text-[#7A0C16] font-bold">108</span> Royal Blessings Showered
@@ -1064,7 +800,7 @@
                             </div>
                         </section>
 
-                        <!-- SECTION 5: ANIMATED WEDDING EVENTS TIMELINE -->
+                        <!-- SECTION 5: WEDDING EVENTS TIMELINE -->
                         <section class="py-6 scroll-section">
                             <div class="text-center mb-6">
                                 <p class="font-hindi text-[#7A0C16] text-xs sm:text-sm mb-1">मांगलिक कार्यक्रम</p>
@@ -1073,13 +809,10 @@
                                 </h3>
                             </div>
 
-                            <!-- Dynamic Vertical Gold Timeline -->
                             <div id="ceremoniesTimeline" class="relative max-w-lg mx-auto pl-7 sm:pl-9 space-y-5 before:content-[''] before:absolute before:left-2.5 sm:before:left-3.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-gradient-to-b before:from-amber-400 before:via-[#D4AF37] before:to-amber-600">
-                                <!-- Populated dynamically with user's events -->
                             </div>
 
-                            <!-- Add / Edit Events Trigger (Preview Mode) -->
-                            <div id="scrollEditEventsWrap" class="text-center mt-5 hidden">
+                            <div id="scrollEditEventsWrap" class="text-center mt-5" style="display:none;">
                                 <button type="button" onclick="window.openRoyalEventsEditor && window.openRoyalEventsEditor(window.ROYAL_CARD)"
                                     class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-700/70 bg-amber-100/80 hover:bg-amber-200/90 text-[#4A0404] font-cinzel text-[11px] font-bold uppercase tracking-wider transition cursor-pointer">
                                     ✎ Add / Edit Events
@@ -1087,7 +820,7 @@
                             </div>
                         </section>
 
-                        <!-- SECTION 6: PLAYABLE WEDDING MINI-GAME ("SHAHI KHEL: JOOTA & SHAGUN CATCH") -->
+                        <!-- SECTION 6: PLAYABLE WEDDING MINI-GAME -->
                         <section class="py-6 scroll-section">
                             <div class="text-center mb-4">
                                 <p class="font-hindi text-[#7A0C16] text-xs sm:text-sm mb-1">शाही खेल — बारात स्पेशल</p>
@@ -1111,10 +844,10 @@
                                     </div>
                                 </div>
 
-                                <div id="gameCanvasWrap" class="relative w-full h-[310px] sm:h-[340px] rounded-xl overflow-hidden border border-amber-500/40 bg-[#1a0205]">
+                                <div id="gameCanvasWrap" class="relative w-full h-[300px] sm:h-[330px] rounded-xl overflow-hidden border border-amber-500/40 bg-[#1a0205]">
                                     <canvas id="weddingGameCanvas" class="block w-full h-full touch-none cursor-ew-resize"></canvas>
 
-                                    <div id="gameStartOverlay" class="absolute inset-0 bg-[#1c0205]/85 backdrop-blur-[2px] flex flex-col items-center justify-center p-4 text-center">
+                                    <div id="gameStartOverlay" class="absolute inset-0 bg-[#1c0205]/85 flex flex-col items-center justify-center p-4 text-center">
                                         <div class="text-4xl mb-2">👞🍬🌺</div>
                                         <h4 class="font-cinzel gold-foil-bright text-lg sm:text-xl font-bold tracking-wider mb-1">
                                             Ready for Joota Chupai?
@@ -1122,13 +855,13 @@
                                         <p class="text-xs sm:text-sm text-amber-100/85 max-w-xs mb-4">
                                             Move with Mouse, Touch Drag, or Arrow Buttons to catch Shahi Shagun in 25 seconds!
                                         </p>
-                                        <button onclick="startWeddingGame()"
+                                        <button type="button" onclick="startWeddingGame()"
                                             class="px-7 py-2.5 rounded-full bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 hover:brightness-110 text-[#4A0404] font-cinzel font-bold text-xs sm:text-sm uppercase tracking-widest border border-amber-200 shadow-lg cursor-pointer">
                                             Start Shahi Khel
                                         </button>
                                     </div>
 
-                                    <div id="gameOverOverlay" class="hidden absolute inset-0 bg-[#1c0205]/90 backdrop-blur-[3px] flex flex-col items-center justify-center p-4 text-center">
+                                    <div id="gameOverOverlay" class="hidden absolute inset-0 bg-[#1c0205]/90 flex flex-col items-center justify-center p-4 text-center">
                                         <span class="text-3xl mb-1">👑</span>
                                         <p class="text-xs uppercase tracking-[0.22em] font-cinzel text-amber-300">Royal Title Unlocked</p>
                                         <h4 id="gameTitleReveal" class="font-cinzel gold-foil-bright text-xl sm:text-2xl font-bold mt-1">
@@ -1137,7 +870,7 @@
                                         <p class="text-sm text-amber-100 mt-1 mb-4">
                                             Final Shagun Score: <strong id="gameFinalScore" class="text-amber-300 text-lg">0</strong>
                                         </p>
-                                        <button onclick="startWeddingGame()"
+                                        <button type="button" onclick="startWeddingGame()"
                                             class="px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 hover:brightness-110 text-[#4A0404] font-cinzel font-bold text-xs sm:text-sm uppercase tracking-widest border border-amber-200 shadow-lg cursor-pointer">
                                             Play Again
                                         </button>
@@ -1145,11 +878,11 @@
                                 </div>
 
                                 <div class="flex items-center justify-center gap-4 mt-3">
-                                    <button id="btnMoveLeft" type="button" aria-label="Move Thali Left"
+                                    <button id="btnMoveLeft" type="button"
                                         class="flex-1 max-w-[140px] py-2.5 rounded-xl bg-gradient-to-b from-[#7A0C16] to-[#4A0404] active:scale-95 border border-amber-400/70 text-amber-200 font-cinzel text-xs font-bold tracking-wider shadow-md cursor-pointer select-none">
                                         ◀ Left
                                     </button>
-                                    <button id="btnMoveRight" type="button" aria-label="Move Thali Right"
+                                    <button id="btnMoveRight" type="button"
                                         class="flex-1 max-w-[140px] py-2.5 rounded-xl bg-gradient-to-b from-[#7A0C16] to-[#4A0404] active:scale-95 border border-amber-400/70 text-amber-200 font-cinzel text-xs font-bold tracking-wider shadow-md cursor-pointer select-none">
                                         Right ▶
                                     </button>
@@ -1160,12 +893,6 @@
                         <!-- SECTION 7: ROYAL VENUE & RSVP -->
                         <section class="py-5 text-center scroll-section">
                             <div class="rounded-2xl border border-amber-700/50 bg-gradient-to-b from-[#7A0C16]/[0.06] to-amber-700/[0.08] p-5 sm:p-6 mb-6">
-                                <svg class="w-11 h-11 mx-auto mb-2 text-[#7A0C16]" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6">
-                                    <path d="M24 6 L24 10"/>
-                                    <path d="M12 24 C12 16, 18 12, 24 10 C30 12, 36 16, 36 24 Z" fill="#D4AF37" fill-opacity="0.35"/>
-                                    <path d="M8 24 L40 24 M10 24 L10 40 M38 24 L38 40 M6 40 L42 40"/>
-                                    <path d="M20 40 L20 31 C20 28, 28 28, 28 31 L28 40"/>
-                                </svg>
                                 <p class="font-cinzel text-xs uppercase tracking-[0.25em] text-amber-900 font-bold">Royal Venue</p>
                                 <h3 id="displayVenueName" class="font-cinzel text-lg sm:text-xl font-bold text-[#4A0404] mt-1">
                                     The Taj Lake Palace, Udaipur, Rajasthan
@@ -1173,13 +900,12 @@
                                 <p id="displayVenueAddress" class="text-xs sm:text-sm text-stone-700 mt-1 mb-4">
                                     Royal Hospitality Awaits You
                                 </p>
-                                <button onclick="openVenueMap()"
+                                <button type="button" onclick="openVenueMap()"
                                     class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#4A0404] via-[#7A0C16] to-[#4A0404] hover:brightness-115 text-amber-200 border border-amber-400/80 shadow-md transition-all text-xs sm:text-sm font-cinzel tracking-wider cursor-pointer">
                                     📍 View Royal Venue Map
                                 </button>
                             </div>
 
-                            <!-- RSVP Form -->
                             <div class="mb-4">
                                 <p class="font-cinzel text-xs uppercase tracking-[0.25em] text-amber-900 font-bold">Kindly Respond</p>
                                 <h3 class="font-cinzel gold-foil-text text-xl sm:text-2xl font-bold tracking-[0.14em] uppercase">
@@ -1222,7 +948,7 @@
                                 <div class="text-3xl mb-2">✨</div>
                                 <h4 class="font-cinzel text-[#4A0404] font-bold text-lg tracking-wider">Dhanyavaad &amp; Warmest Regards!</h4>
                                 <p id="rsvpThankYouText" class="text-sm sm:text-base text-stone-800 mt-2 leading-relaxed"></p>
-                                <button onclick="resetRsvp()" class="mt-4 text-xs font-cinzel uppercase tracking-widest text-[#7A0C16] underline cursor-pointer">
+                                <button type="button" onclick="resetRsvp()" class="mt-4 text-xs font-cinzel uppercase tracking-widest text-[#7A0C16] underline cursor-pointer">
                                     Update Response
                                 </button>
                             </div>
@@ -1231,8 +957,8 @@
                         <!-- Footer Signature & Roll Up -->
                         <footer class="pt-4 pb-2 text-center border-t border-amber-700/30 mt-4 scroll-section">
                             <p class="font-vibes text-2xl sm:text-3xl text-[#4A0404] mb-1">We eagerly await to welcome you!</p>
-                            <p id="footerFamilyText" class="text-xs uppercase tracking-[0.2em] font-cinzel text-amber-900 mb-5">With Warmest Regards From Both Families</p>
-                            <button onclick="closeScroll()"
+                            <p class="text-xs uppercase tracking-[0.2em] font-cinzel text-amber-900 mb-5">With Warmest Regards From Both Families</p>
+                            <button type="button" onclick="closeScroll()"
                                 class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-amber-700/70 bg-amber-100/70 hover:bg-amber-200/80 text-[#4A0404] font-cinzel text-xs tracking-[0.16em] uppercase transition-all cursor-pointer">
                                 ▲ Roll Up Scroll
                             </button>
@@ -1242,8 +968,8 @@
                 </div>
             </div>
 
-            <!-- BOTTOM 3D DRAGGABLE ROLLER -->
-            <div id="bottomRoller" class="relative w-full flex items-center justify-center" title="Drag down or tap to open scroll">
+            <!-- BOTTOM 3D DRAGGABLE / CLICKABLE ROLLER -->
+            <div id="bottomRoller" onclick="openScroll()" class="relative w-full flex items-center justify-center" title="Tap or drag down to open scroll">
                 <div class="relative flex-shrink-0 -mr-1.5 z-30 pointer-events-none">
                     <svg class="w-10 h-11 sm:w-14 sm:h-12 drop-shadow-[0_6px_8px_rgba(0,0,0,0.75)]" viewBox="0 0 60 50">
                         <path d="M6 25 C12 18, 16 20, 20 14 C26 8, 36 10, 42 15 L58 12 L58 38 L42 35 C36 40, 26 42, 20 36 C16 30, 12 32, 6 25 Z" fill="url(#finialGold)" stroke="#5c3804" stroke-width="1"/>
@@ -1272,8 +998,8 @@
             </div>
 
             <!-- Pull Prompt -->
-            <div id="pullPrompt" onclick="openScroll()" class="mt-7 text-center cursor-pointer select-none transition-all duration-500">
-                <div class="inline-flex flex-col items-center gap-1.5 px-6 py-2.5 rounded-full bg-[#4A0404]/80 border border-amber-400/55 shadow-[0_0_24px_rgba(212,175,55,0.3)] backdrop-blur-sm">
+            <div id="pullPrompt" onclick="openScroll()" class="mt-7 text-center cursor-pointer select-none transition-all duration-300">
+                <div class="inline-flex flex-col items-center gap-1.5 px-6 py-2.5 rounded-full bg-[#4A0404]/85 border border-amber-400/55 shadow-[0_0_24px_rgba(212,175,55,0.3)]">
                     <span class="font-cinzel text-amber-200 text-xs sm:text-sm tracking-[0.18em] uppercase font-bold">
                         Pull Scroll Down or Tap Seal to Open
                     </span>
@@ -1287,18 +1013,14 @@
     </main>
 
     <!-- SLIDE-OUT CUSTOMIZE DRAWER (Standalone Mode) -->
-    <div id="customizeBackdrop" onclick="toggleCustomizeDrawer(false)" class="fixed inset-0 bg-black/65 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
+    <div id="customizeBackdrop" onclick="toggleCustomizeDrawer(false)" class="fixed inset-0 bg-black/65 z-50 hidden opacity-0 transition-opacity duration-300"></div>
     <aside id="customizeDrawer" class="fixed top-0 right-0 h-full w-full max-w-sm bg-gradient-to-b from-[#33040a] to-[#170205] border-l border-amber-500/40 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
         <div class="p-5 border-b border-amber-500/30 flex items-center justify-between">
             <div>
                 <h3 class="font-cinzel gold-foil-bright text-lg font-bold tracking-wider">Customize Shahi Card</h3>
                 <p class="text-xs text-amber-200/75">Upload Dulha-Dulhan photos &amp; edit details live</p>
             </div>
-            <button onclick="toggleCustomizeDrawer(false)" class="p-2 rounded-full text-amber-200 hover:bg-rose-900/60 transition cursor-pointer" aria-label="Close drawer">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
+            <button type="button" onclick="toggleCustomizeDrawer(false)" class="p-2 rounded-full text-amber-200 hover:bg-rose-900/60 transition cursor-pointer">✕</button>
         </div>
 
         <div class="p-5 space-y-4 overflow-y-auto flex-grow text-amber-100">
@@ -1307,49 +1029,49 @@
                 <div>
                     <div class="flex items-center justify-between mb-1">
                         <label class="text-xs text-amber-100 font-semibold">Dulhan (Bride) Photo</label>
-                        <button type="button" onclick="resetPhoto('bride')" class="text-[11px] text-amber-300 underline hover:text-white cursor-pointer">Reset</button>
+                        <button type="button" onclick="resetPhoto('bride')" class="text-[11px] text-amber-300 underline cursor-pointer">Reset</button>
                     </div>
                     <input id="uploadBridePhoto" type="file" accept="image/*" onchange="handlePhotoUpload(event, 'bride')"
-                        class="block w-full text-xs text-amber-200 file:mr-3 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-amber-400 file:text-[#4A0404] hover:file:bg-amber-300 cursor-pointer"/>
+                        class="block w-full text-xs text-amber-200 file:mr-3 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-amber-400 file:text-[#4A0404] cursor-pointer"/>
                 </div>
                 <div>
                     <div class="flex items-center justify-between mb-1">
                         <label class="text-xs text-amber-100 font-semibold">Dulha (Groom) Photo</label>
-                        <button type="button" onclick="resetPhoto('groom')" class="text-[11px] text-amber-300 underline hover:text-white cursor-pointer">Reset</button>
+                        <button type="button" onclick="resetPhoto('groom')" class="text-[11px] text-amber-300 underline cursor-pointer">Reset</button>
                     </div>
                     <input id="uploadGroomPhoto" type="file" accept="image/*" onchange="handlePhotoUpload(event, 'groom')"
-                        class="block w-full text-xs text-amber-200 file:mr-3 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-amber-400 file:text-[#4A0404] hover:file:bg-amber-300 cursor-pointer"/>
+                        class="block w-full text-xs text-amber-200 file:mr-3 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-amber-400 file:text-[#4A0404] cursor-pointer"/>
                 </div>
             </div>
 
             <div>
                 <label class="block text-xs font-cinzel uppercase tracking-wider text-amber-300 mb-1">Dulhan (Bride) Name</label>
                 <input id="inputBride" type="text" value="Ananya" oninput="applyCustomization()"
-                    class="w-full px-3.5 py-2 rounded-lg bg-[#4A0404]/70 border border-amber-500/40 focus:border-amber-300 outline-none text-amber-50 text-sm"/>
+                    class="w-full px-3.5 py-2 rounded-lg bg-[#4A0404]/70 border border-amber-500/40 outline-none text-amber-50 text-sm"/>
             </div>
             <div>
                 <label class="block text-xs font-cinzel uppercase tracking-wider text-amber-300 mb-1">Dulha (Groom) Name</label>
                 <input id="inputGroom" type="text" value="Vikramaditya" oninput="applyCustomization()"
-                    class="w-full px-3.5 py-2 rounded-lg bg-[#4A0404]/70 border border-amber-500/40 focus:border-amber-300 outline-none text-amber-50 text-sm"/>
+                    class="w-full px-3.5 py-2 rounded-lg bg-[#4A0404]/70 border border-amber-500/40 outline-none text-amber-50 text-sm"/>
             </div>
             <div>
                 <label class="block text-xs font-cinzel uppercase tracking-wider text-amber-300 mb-1">Wedding Date</label>
                 <input id="inputDate" type="date" value="2027-02-14" oninput="applyCustomization()"
-                    class="w-full px-3.5 py-2 rounded-lg bg-[#4A0404]/70 border border-amber-500/40 focus:border-amber-300 outline-none text-amber-50 text-sm"/>
+                    class="w-full px-3.5 py-2 rounded-lg bg-[#4A0404]/70 border border-amber-500/40 outline-none text-amber-50 text-sm"/>
             </div>
             <div>
                 <label class="block text-xs font-cinzel uppercase tracking-wider text-amber-300 mb-1">Royal Venue</label>
                 <input id="inputVenue" type="text" value="The Taj Lake Palace, Udaipur, Rajasthan" oninput="applyCustomization()"
-                    class="w-full px-3.5 py-2 rounded-lg bg-[#4A0404]/70 border border-amber-500/40 focus:border-amber-300 outline-none text-amber-50 text-sm"/>
+                    class="w-full px-3.5 py-2 rounded-lg bg-[#4A0404]/70 border border-amber-500/40 outline-none text-amber-50 text-sm"/>
             </div>
             <div>
                 <label class="block text-xs font-cinzel uppercase tracking-wider text-amber-300 mb-1">Invitation Message</label>
                 <textarea id="inputMessage" rows="3" oninput="applyCustomization()"
-                    class="w-full px-3.5 py-2 rounded-lg bg-[#4A0404]/70 border border-amber-500/40 focus:border-amber-300 outline-none text-amber-50 text-xs resize-none">Together with their loving families, we cordially invite you to grace the auspicious Royal Wedding of</textarea>
+                    class="w-full px-3.5 py-2 rounded-lg bg-[#4A0404]/70 border border-amber-500/40 outline-none text-amber-50 text-xs resize-none">Together with their loving families, we cordially invite you to grace the auspicious Royal Wedding of</textarea>
             </div>
 
             <div class="pt-2">
-                <button onclick="openScroll(); toggleCustomizeDrawer(false);"
+                <button type="button" onclick="openScroll(); toggleCustomizeDrawer(false);"
                     class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-600 via-amber-400 to-amber-600 text-[#4A0404] font-cinzel font-bold text-xs uppercase tracking-widest shadow-lg cursor-pointer">
                     Apply &amp; Preview Scroll
                 </button>
@@ -1358,8 +1080,8 @@
     </aside>
 
     <!-- Single Clean Bottom Action Bar (Pay ₹29 Unlock / WhatsApp Share) -->
-    <div id="scrollNativeBar" class="hidden">
-        <div id="scrollUnpaidBar" class="hidden flex w-full items-center justify-between gap-2.5">
+    <div id="scrollNativeBar" style="display:none;">
+        <div id="scrollUnpaidBar" style="display:none;width:100%;align-items:center;justify-content:space-between;gap:10px;">
             <div>
                 <div class="font-cinzel text-[11px] font-bold text-amber-200 tracking-wider">1-Hour Free Preview</div>
                 <div class="text-[11px] text-amber-100/80 font-sans">Remove watermark &amp; keep 15 days</div>
@@ -1370,7 +1092,7 @@
             </button>
         </div>
 
-        <div id="scrollPaidBar" class="hidden flex w-full gap-2">
+        <div id="scrollPaidBar" style="display:none;width:100%;gap:8px;">
             <button type="button" id="scrollWaBtn"
                 class="flex-1 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-cinzel font-bold text-xs tracking-wider uppercase cursor-pointer">
                 💬 Share on WhatsApp
@@ -1391,14 +1113,11 @@
         </div>
     </div>
 
-    <!-- =========================================================================
-         INTERACTIVE ENGINE: SCROLL + OBSERVER + SHEHNAI/TABLA + MINI-GAME + BRIDGE
-         ========================================================================= -->
     <script>
         const pathParts = window.location.pathname.split('/').filter(Boolean);
         const cardId = pathParts[0] === 'card' ? pathParts[1] : null;
 
-        const CLOSED_HEIGHT = 118;
+        const CLOSED_HEIGHT = 124;
         let isScrollOpen = false;
         let isDragging = false;
         let dragStartY = 0;
@@ -1423,33 +1142,34 @@
             isScrollOpen = true;
 
             waxSealOverlay.classList.add('broken');
-            const rect = waxSealOverlay.getBoundingClientRect();
-            spawnCelebrationBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 65);
+            try {
+                const rect = waxSealOverlay.getBoundingClientRect();
+                spawnCelebrationBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 55);
+            } catch (_) {}
 
-            if (!isMusicPlaying) {
-                toggleRoyalMusic(true);
-            }
-
-            pullPrompt.classList.add('opacity-0', 'pointer-events-none', 'h-0', 'mt-0', 'overflow-hidden');
+            pullPrompt.style.display = 'none';
             closedHeader.classList.add('opacity-75', 'mb-4');
-            topRollUpBtn.classList.remove('hidden');
-            topRollUpBtn.classList.add('flex');
+            topRollUpBtn.style.display = 'inline-flex';
 
             scrollBody.classList.remove('is-dragging');
-            const fullHeight = parchmentContent.scrollHeight;
-            scrollBody.style.height = fullHeight + 'px';
             scrollBody.classList.add('scroll-open');
 
-            initSectionObserver();
+            // Make all inner sections ready & animate height smoothly on GPU
+            document.querySelectorAll('.scroll-section').forEach((sec) => sec.classList.add('is-visible'));
+            const targetHeight = Math.max(parchmentContent.scrollHeight, 1200);
+            scrollBody.style.height = targetHeight + 'px';
 
             setTimeout(() => {
                 if (isScrollOpen) {
                     scrollBody.style.height = 'auto';
                     resizeGameCanvas();
                 }
-            }, 1200);
+            }, 980);
 
-            enableRosePetals(true);
+            setTimeout(() => {
+                if (!isMusicPlaying) toggleRoyalMusic(true);
+                enableRosePetals(true);
+            }, 180);
         }
 
         function closeScroll() {
@@ -1466,16 +1186,22 @@
             setTimeout(() => {
                 if (!isScrollOpen) {
                     waxSealOverlay.classList.remove('broken');
-                    pullPrompt.classList.remove('opacity-0', 'pointer-events-none', 'h-0', 'mt-0', 'overflow-hidden');
+                    waxSealOverlay.style.opacity = '';
+                    pullPrompt.style.display = 'block';
                     closedHeader.classList.remove('opacity-75', 'mb-4');
-                    topRollUpBtn.classList.add('hidden');
-                    topRollUpBtn.classList.remove('flex');
+                    topRollUpBtn.style.display = 'none';
                 }
-            }, 650);
+            }, 550);
 
             enableRosePetals(false);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // Direct tap/click support on Wax Seal, Bottom Roller, and Pull Prompt
+        waxSealOverlay.addEventListener('pointerup', (e) => {
+            e.preventDefault();
+            openScroll();
+        });
 
         function startDrag(clientY) {
             if (isScrollOpen) return;
@@ -1487,17 +1213,17 @@
         function moveDrag(clientY) {
             if (!isDragging || isScrollOpen) return;
             const deltaY = Math.max(0, clientY - dragStartY);
-            const maxPreview = Math.min(parchmentContent.scrollHeight, 450);
-            currentDragHeight = Math.min(CLOSED_HEIGHT + deltaY * 1.15, maxPreview);
+            currentDragHeight = Math.min(CLOSED_HEIGHT + deltaY * 1.15, 420);
             scrollBody.style.height = currentDragHeight + 'px';
-            waxSealOverlay.style.opacity = String(1 - Math.min(1, deltaY / 110) * 0.85);
+            waxSealOverlay.style.opacity = String(1 - Math.min(1, deltaY / 100) * 0.85);
         }
         function endDrag() {
             if (!isDragging) return;
             isDragging = false;
             scrollBody.classList.remove('is-dragging');
             waxSealOverlay.style.opacity = '';
-            if (currentDragHeight > CLOSED_HEIGHT + 70 || Math.abs(currentDragHeight - CLOSED_HEIGHT) < 6) {
+            // Open on pull OR simple tap
+            if (currentDragHeight > CLOSED_HEIGHT + 45 || Math.abs(currentDragHeight - CLOSED_HEIGHT) < 12) {
                 openScroll();
             } else {
                 scrollBody.style.height = CLOSED_HEIGHT + 'px';
@@ -1514,31 +1240,6 @@
             if (isDragging && e.touches.length > 0) moveDrag(e.touches[0].clientY);
         }, { passive: true });
         window.addEventListener('touchend', () => endDrag());
-
-        /* =========================================================================
-           INTERSECTION OBSERVER FOR STAGGERED INSIDE-CARD ANIMATIONS
-           ========================================================================= */
-        let sectionObserver = null;
-        function initSectionObserver() {
-            const sections = document.querySelectorAll('.scroll-section');
-            if ('IntersectionObserver' in window) {
-                if (sectionObserver) sectionObserver.disconnect();
-                sectionObserver = new IntersectionObserver((entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('is-visible');
-                        }
-                    });
-                }, { threshold: 0.12 });
-
-                sections.forEach((sec, idx) => {
-                    sec.style.transitionDelay = Math.min(idx * 0.08, 0.32) + 's';
-                    sectionObserver.observe(sec);
-                });
-            } else {
-                sections.forEach((sec) => sec.classList.add('is-visible'));
-            }
-        }
 
         /* =========================================================================
            DYNAMIC ROYAL CEREMONIES TIMELINE RENDERER
@@ -1636,81 +1337,25 @@
             blessingsTotal = 108 + (Array.isArray(card.blessings) ? card.blessings.length : 0);
             document.getElementById('blessingsCount').textContent = blessingsTotal;
 
-            // Hide standalone Customize drawer on live database cards so guests cannot edit
             if (cardId) {
                 const custBtn = document.getElementById('customizeTriggerBtn');
                 const quickUploadBtn = document.getElementById('uploadCoupleQuickBtn');
-                if (custBtn) custBtn.classList.add('hidden');
-                if (quickUploadBtn) quickUploadBtn.classList.add('hidden');
+                if (custBtn) custBtn.style.display = 'none';
+                if (quickUploadBtn) quickUploadBtn.style.display = 'none';
             }
 
-            // Show Preview / Paid Native Bar
-            document.getElementById('scrollNativeBar').classList.remove('hidden');
+            document.getElementById('scrollNativeBar').style.display = 'flex';
             if (card.isPaid) {
-                document.getElementById('scrollPaidBar').classList.remove('hidden');
+                document.getElementById('scrollPaidBar').style.display = 'flex';
             } else {
-                document.getElementById('scrollPreviewWatermark').classList.remove('hidden');
-                document.getElementById('scrollUnpaidBar').classList.remove('hidden');
-                document.getElementById('scrollEditEventsWrap').classList.remove('hidden');
+                document.getElementById('scrollPreviewWatermark').style.display = 'flex';
+                document.getElementById('scrollUnpaidBar').style.display = 'flex';
+                document.getElementById('scrollEditEventsWrap').style.display = 'block';
             }
         }
 
         window.addEventListener('royalCardReady', (e) => hydrateScrollPatrika(e.detail));
         if (window.ROYAL_CARD) hydrateScrollPatrika(window.ROYAL_CARD);
-
-        /* =========================================================================
-           RAZORPAY ₹29 UNLOCK & WHATSAPP SHARE
-           ========================================================================= */
-        document.getElementById('scrollUnlockBtn').addEventListener('click', async function () {
-            if (!cardId) return;
-            const btn = this;
-            btn.disabled = true;
-            btn.textContent = 'Processing...';
-            try {
-                const res = await fetch('/api/create-order', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ cardId })
-                });
-                const order = await res.json();
-                if (!res.ok) throw new Error(order.error || 'Order failed');
-
-                const rzp = new Razorpay({
-                    key: order.keyId,
-                    amount: order.amount,
-                    currency: 'INR',
-                    name: 'Royal Wedding Invitations',
-                    description: 'Unlock Shahi Vivah Patrika (15 Days)',
-                    order_id: order.orderId,
-                    handler: async function (response) {
-                        const vRes = await fetch('/api/unlock-card', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                cardId,
-                                razorpay_order_id: response.razorpay_order_id,
-                                razorpay_payment_id: response.razorpay_payment_id,
-                                razorpay_signature: response.razorpay_signature
-                            })
-                        });
-                        const vData = await vRes.json();
-                        if (vData.success) {
-                            alert('🎉 Card Unlocked! Invoice & link sent to your email.');
-                            window.location.reload();
-                        } else {
-                            alert(vData.error || 'Verification failed');
-                        }
-                    },
-                    theme: { color: '#4A0404' }
-                });
-                rzp.open();
-            } catch (err) {
-                alert(err.message);
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Pay ₹29 & Unlock';
-            }
-        });
 
         document.getElementById('scrollWaBtn').addEventListener('click', () => {
             const c = window.ROYAL_CARD;
@@ -1756,7 +1401,7 @@
         updateCountdown();
 
         /* =========================================================================
-           DULHA & DULHAN PHOTO UPLOAD + LIVE CUSTOMIZE DRAWER
+           CUSTOMIZE DRAWER (Standalone Preview)
            ========================================================================= */
         function toggleCustomizeDrawer(open) {
             const drawer = document.getElementById('customizeDrawer');
@@ -1797,7 +1442,6 @@
             imgEl.classList.add('hidden');
             svgEl.classList.remove('hidden');
             inputEl.value = '';
-            showRoyalToast('Restored Royal Illustrated Portrait');
         }
 
         function applyCustomization() {
@@ -1827,7 +1471,7 @@
         }
 
         /* =========================================================================
-           RSVP, VENUE & ROYAL TOAST
+           RSVP & VENUE
            ========================================================================= */
         async function handleRsvpSubmit(e) {
             e.preventDefault();
@@ -1866,7 +1510,6 @@
             const venue = document.getElementById('displayVenueName').textContent.trim();
             const addr = (window.ROYAL_CARD && window.ROYAL_CARD.venueAddress) ? `, ${window.ROYAL_CARD.venueAddress}` : '';
             window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(venue + addr), '_blank', 'noopener,noreferrer');
-            showRoyalToast('Opening Royal Venue in Maps...');
         }
 
         let toastTimeout;
@@ -1879,7 +1522,7 @@
         }
 
         /* =========================================================================
-           AUTHENTIC INDIAN WEDDING MUSIC ENGINE (WEB AUDIO API)
+           SHEHNAI & TABLA MUSIC ENGINE
            ========================================================================= */
         let audioCtx = null;
         let isMusicPlaying = false;
@@ -1930,21 +1573,19 @@
                 const ctxA = ensureAudioCtx();
                 masterMusicGain = ctxA.createGain();
                 masterMusicGain.gain.setValueAtTime(0.001, ctxA.currentTime);
-                masterMusicGain.gain.exponentialRampToValueAtTime(0.45, ctxA.currentTime + 1.2);
+                masterMusicGain.gain.exponentialRampToValueAtTime(0.42, ctxA.currentTime + 1.0);
                 masterMusicGain.connect(ctxA.destination);
 
                 tanpuraOscs = [];
-                [130.81, 196.00, 261.63].forEach((freq, i) => {
+                [130.81, 196.00].forEach((freq, i) => {
                     const osc = ctxA.createOscillator();
                     const filter = ctxA.createBiquadFilter();
                     const gain = ctxA.createGain();
-
                     osc.type = i === 0 ? 'sawtooth' : 'triangle';
                     osc.frequency.value = freq;
                     filter.type = 'lowpass';
                     filter.frequency.value = 340;
-                    gain.gain.value = i === 0 ? 0.06 : 0.035;
-
+                    gain.gain.value = i === 0 ? 0.055 : 0.03;
                     osc.connect(filter);
                     filter.connect(gain);
                     gain.connect(masterMusicGain);
@@ -1953,22 +1594,492 @@
                 });
 
                 currentBeat = 0;
-                const stepMs = 460;
                 const runStep = () => {
                     if (!isMusicPlaying || !audioCtx) return;
                     const now = audioCtx.currentTime;
                     const taalPos = currentBeat % 8;
 
                     if (taalPos === 0) {
-                        playBayan(now, 108, 72, 0.22);
-                        playDayan(now, 262, 0.14);
-                        playManjira(now, 0.045);
-                    } else if (taalPos === 1) {
-                        playBayan(now, 96, 68, 0.14);
-                    } else if (taalPos === 2) {
-                        playDayan(now, 294, 0.12);
-                    } else if (taalPos === 3) {
-                        playDayan(now, 330, 0.08);
-                    } else if (taalPos === 4) {
+                        playBayan(now, 108, 72, 0.2);
                         playDayan(now, 262, 0.13);
-                        playManjira
+                    } else if (taalPos === 2 || taalPos === 4 || taalPos === 7) {
+                        playDayan(now, 294, 0.11);
+                    } else if (taalPos === 6) {
+                        playBayan(now, 112, 74, 0.16);
+                    }
+
+                    const melFreq = SHEHNAI_MELODY[currentBeat % SHEHNAI_MELODY.length];
+                    if (melFreq > 0) {
+                        playShehnaiNote(now, prevShehnaiFreq, melFreq, 0.44);
+                        prevShehnaiFreq = melFreq;
+                    }
+                    currentBeat++;
+                };
+
+                runStep();
+                sequencerTimer = setInterval(runStep, 460);
+            } catch (_) {}
+        }
+
+        function stopIndianWeddingMusic() {
+            if (sequencerTimer) {
+                clearInterval(sequencerTimer);
+                sequencerTimer = null;
+            }
+            if (masterMusicGain && audioCtx) {
+                try { masterMusicGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.3); } catch (_) {}
+            }
+            tanpuraOscs.forEach(osc => { setTimeout(() => { try { osc.stop(); } catch (_) {} }, 320); });
+            tanpuraOscs = [];
+        }
+
+        function playShehnaiNote(startTime, fromFreq, toFreq, dur) {
+            const ctxA = audioCtx;
+            const osc = ctxA.createOscillator();
+            const bandpass = ctxA.createBiquadFilter();
+            const env = ctxA.createGain();
+
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(fromFreq, startTime);
+            osc.frequency.exponentialRampToValueAtTime(toFreq, startTime + 0.07);
+
+            bandpass.type = 'bandpass';
+            bandpass.frequency.setValueAtTime(1150, startTime);
+            bandpass.Q.value = 3.0;
+
+            env.gain.setValueAtTime(0.001, startTime);
+            env.gain.linearRampToValueAtTime(0.13, startTime + 0.05);
+            env.gain.exponentialRampToValueAtTime(0.001, startTime + dur);
+
+            osc.connect(bandpass);
+            bandpass.connect(env);
+            env.connect(masterMusicGain);
+
+            osc.start(startTime);
+            osc.stop(startTime + dur + 0.03);
+        }
+
+        function playBayan(time, startFreq, endFreq, vol) {
+            const ctxA = audioCtx;
+            const osc = ctxA.createOscillator();
+            const env = ctxA.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(startFreq, time);
+            osc.frequency.exponentialRampToValueAtTime(endFreq, time + 0.18);
+            env.gain.setValueAtTime(vol, time);
+            env.gain.exponentialRampToValueAtTime(0.001, time + 0.24);
+            osc.connect(env);
+            env.connect(masterMusicGain);
+            osc.start(time);
+            osc.stop(time + 0.25);
+        }
+
+        function playDayan(time, freq, vol) {
+            const ctxA = audioCtx;
+            const osc = ctxA.createOscillator();
+            const env = ctxA.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, time);
+            env.gain.setValueAtTime(vol, time);
+            env.gain.exponentialRampToValueAtTime(0.001, time + 0.14);
+            osc.connect(env);
+            env.connect(masterMusicGain);
+            osc.start(time);
+            osc.stop(time + 0.15);
+        }
+
+        function playFestiveChime(pitch = 659.25) {
+            try {
+                const ctxA = ensureAudioCtx();
+                const now = ctxA.currentTime;
+                [pitch, pitch * 1.25, pitch * 1.5].forEach((f, idx) => {
+                    const osc = ctxA.createOscillator();
+                    const env = ctxA.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(f, now + idx * 0.05);
+                    env.gain.setValueAtTime(0.001, now + idx * 0.05);
+                    env.gain.linearRampToValueAtTime(0.08, now + idx * 0.05 + 0.015);
+                    env.gain.exponentialRampToValueAtTime(0.0008, now + idx * 0.05 + 0.3);
+                    osc.connect(env);
+                    env.connect(ctxA.destination);
+                    osc.start(now + idx * 0.05);
+                    osc.stop(now + idx * 0.05 + 0.32);
+                });
+            } catch (_) {}
+        }
+
+        function playMirchiBuzz() {
+            try {
+                const ctxA = ensureAudioCtx();
+                const now = ctxA.currentTime;
+                const osc = ctxA.createOscillator();
+                const env = ctxA.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(175, now);
+                osc.frequency.linearRampToValueAtTime(110, now + 0.2);
+                env.gain.setValueAtTime(0.08, now);
+                env.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+                osc.connect(env);
+                env.connect(ctxA.destination);
+                osc.start(now);
+                osc.stop(now + 0.24);
+            } catch (_) {}
+        }
+
+        /* =========================================================================
+           MINI-GAME: SHAHI KHEL: JOOTA & SHAGUN CATCH
+           ========================================================================= */
+        const gameCanvas = document.getElementById('weddingGameCanvas');
+        const gCtx = gameCanvas.getContext('2d');
+        const gameWrap = document.getElementById('gameCanvasWrap');
+
+        let gameRunning = false;
+        let gameScore = 0;
+        let gameTimeLeft = 25;
+        let gameTimerInterval = null;
+        let gameAnimId = null;
+        let lastSpawnTime = 0;
+
+        const thali = { x: 180, width: 84, height: 18, speed: 6.5 };
+        let moveLeftPressed = false;
+        let moveRightPressed = false;
+        let fallingItems = [];
+        let scorePopups = [];
+
+        const ITEM_TYPES = [
+            { id: 'laddoo',  emoji: '🍬', label: '+10', points: 10,  color: '#fbbf24', weight: 42 },
+            { id: 'varmala', emoji: '🌺', label: '+20', points: 20,  color: '#fb7185', weight: 28 },
+            { id: 'joota',   emoji: '👞', label: '+50', points: 50,  color: '#fde047', weight: 14 },
+            { id: 'mirchi',  emoji: '🌶️', label: '-15', points: -15, color: '#ef4444', weight: 16 }
+        ];
+
+        function resizeGameCanvas() {
+            if (!gameWrap) return;
+            const rect = gameWrap.getBoundingClientRect();
+            if (rect.width > 0 && rect.height > 0) {
+                gameCanvas.width = rect.width;
+                gameCanvas.height = rect.height;
+                thali.width = Math.max(72, Math.min(96, gameCanvas.width * 0.22));
+                thali.x = Math.min(Math.max(thali.x, thali.width / 2), gameCanvas.width - thali.width / 2);
+            }
+        }
+        window.addEventListener('resize', resizeGameCanvas);
+
+        function pickItemType() {
+            const total = ITEM_TYPES.reduce((s, t) => s + t.weight, 0);
+            let r = Math.random() * total;
+            for (const t of ITEM_TYPES) {
+                if ((r -= t.weight) <= 0) return t;
+            }
+            return ITEM_TYPES[0];
+        }
+
+        function startWeddingGame() {
+            resizeGameCanvas();
+            gameRunning = true;
+            gameScore = 0;
+            gameTimeLeft = 25;
+            fallingItems = [];
+            scorePopups = [];
+            thali.x = gameCanvas.width / 2;
+            lastSpawnTime = 0;
+
+            document.getElementById('gameScore').textContent = '0';
+            document.getElementById('gameTimer').textContent = '25s';
+            document.getElementById('gameStartOverlay').classList.add('hidden');
+            document.getElementById('gameOverOverlay').classList.add('hidden');
+
+            clearInterval(gameTimerInterval);
+            gameTimerInterval = setInterval(() => {
+                if (!gameRunning) return;
+                gameTimeLeft--;
+                document.getElementById('gameTimer').textContent = gameTimeLeft + 's';
+                if (gameTimeLeft <= 0) endWeddingGame();
+            }, 1000);
+
+            cancelAnimationFrame(gameAnimId);
+            gameLoop(performance.now());
+        }
+
+        function endWeddingGame() {
+            gameRunning = false;
+            clearInterval(gameTimerInterval);
+
+            let title = 'Shahi Baraat Guest!';
+            if (gameScore >= 260) title = '👑 Shahi Baraat Champion!';
+            else if (gameScore >= 170) title = '👞 Supreme Joota Rakshak!';
+            else if (gameScore >= 90) title = '🎉 Best Saali / Jija!';
+
+            document.getElementById('gameTitleReveal').textContent = title;
+            document.getElementById('gameFinalScore').textContent = gameScore;
+            document.getElementById('gameOverOverlay').classList.remove('hidden');
+
+            playFestiveChime(784);
+            spawnCelebrationBurst(window.innerWidth / 2, window.innerHeight / 2, 55);
+        }
+
+        function gameLoop(timestamp) {
+            if (!gameRunning) return;
+
+            gCtx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+
+            if (moveLeftPressed) thali.x -= thali.speed;
+            if (moveRightPressed) thali.x += thali.speed;
+            thali.x = Math.max(thali.width / 2 + 6, Math.min(gameCanvas.width - thali.width / 2 - 6, thali.x));
+
+            if (timestamp - lastSpawnTime > 580) {
+                lastSpawnTime = timestamp;
+                const type = pickItemType();
+                fallingItems.push({
+                    ...type,
+                    x: Math.random() * (gameCanvas.width - 48) + 24,
+                    y: -24,
+                    vy: Math.random() * 1.9 + 2.4 + (25 - gameTimeLeft) * 0.04,
+                    wobble: Math.random() * Math.PI * 2
+                });
+            }
+
+            const thaliY = gameCanvas.height - 28;
+
+            for (let i = fallingItems.length - 1; i >= 0; i--) {
+                const item = fallingItems[i];
+                item.y += item.vy;
+                item.wobble += 0.06;
+                const drawX = item.x + Math.sin(item.wobble) * 1.2;
+
+                gCtx.font = '26px serif';
+                gCtx.textAlign = 'center';
+                gCtx.textBaseline = 'middle';
+                gCtx.fillText(item.emoji, drawX, item.y);
+
+                if (item.y + 12 >= thaliY - 6 && item.y - 12 <= thaliY + 14 &&
+                    Math.abs(drawX - thali.x) <= thali.width / 2 + 12) {
+
+                    gameScore = Math.max(0, gameScore + item.points);
+                    document.getElementById('gameScore').textContent = gameScore;
+
+                    scorePopups.push({
+                        x: drawX,
+                        y: thaliY - 18,
+                        text: item.label,
+                        color: item.color,
+                        life: 1
+                    });
+
+                    if (item.points > 0) playFestiveChime(item.id === 'joota' ? 880 : 620);
+                    else playMirchiBuzz();
+
+                    fallingItems.splice(i, 1);
+                    continue;
+                }
+
+                if (item.y > gameCanvas.height + 30) fallingItems.splice(i, 1);
+            }
+
+            // Draw Golden Wedding Thali
+            gCtx.save();
+            gCtx.fillStyle = '#D4AF37';
+            gCtx.strokeStyle = '#fff5cc';
+            gCtx.lineWidth = 1.5;
+            gCtx.beginPath();
+            gCtx.ellipse(thali.x, thaliY, thali.width / 2, 10, 0, 0, Math.PI * 2);
+            gCtx.fill();
+            gCtx.stroke();
+
+            gCtx.fillStyle = '#7A0C16';
+            gCtx.beginPath();
+            gCtx.ellipse(thali.x, thaliY, thali.width / 2 - 10, 5.5, 0, 0, Math.PI * 2);
+            gCtx.fill();
+            gCtx.restore();
+
+            for (let i = scorePopups.length - 1; i >= 0; i--) {
+                const p = scorePopups[i];
+                p.y -= 1.3;
+                p.life -= 0.025;
+                if (p.life <= 0) { scorePopups.splice(i, 1); continue; }
+                gCtx.save();
+                gCtx.globalAlpha = p.life;
+                gCtx.font = 'bold 16px "Cinzel Decorative", serif';
+                gCtx.textAlign = 'center';
+                gCtx.fillStyle = p.color;
+                gCtx.fillText(p.text, p.x, p.y);
+                gCtx.restore();
+            }
+
+            gameAnimId = requestAnimationFrame(gameLoop);
+        }
+
+        function updateThaliFromPointer(clientX) {
+            if (!gameRunning) return;
+            const rect = gameCanvas.getBoundingClientRect();
+            thali.x = clientX - rect.left;
+        }
+        gameCanvas.addEventListener('mousemove', (e) => updateThaliFromPointer(e.clientX));
+        gameCanvas.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                e.preventDefault();
+                updateThaliFromPointer(e.touches[0].clientX);
+            }
+        }, { passive: false });
+
+        const btnLeft = document.getElementById('btnMoveLeft');
+        const btnRight = document.getElementById('btnMoveRight');
+        ['mousedown', 'touchstart'].forEach(ev => {
+            btnLeft.addEventListener(ev, () => moveLeftPressed = true, { passive: true });
+            btnRight.addEventListener(ev, () => moveRightPressed = true, { passive: true });
+        });
+        ['mouseup', 'mouseleave', 'touchend'].forEach(ev => {
+            btnLeft.addEventListener(ev, () => moveLeftPressed = false);
+            btnRight.addEventListener(ev, () => moveRightPressed = false);
+        });
+
+        /* =========================================================================
+           AMBIENT PETALS & CELEBRATION BURST CANVAS
+           ========================================================================= */
+        const canvas = document.getElementById('ambientCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let burstParticles = [];
+
+        function resizeAmbientCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeAmbientCanvas);
+        resizeAmbientCanvas();
+
+        function initAmbientDust() {
+            particles = [];
+            const count = window.innerWidth < 640 ? 24 : 42;
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    type: 'gold',
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 2 + 0.6,
+                    vx: (Math.random() - 0.5) * 0.35,
+                    vy: -Math.random() * 0.45 - 0.12,
+                    alpha: Math.random() * 0.7 + 0.25,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        function enableRosePetals(active) {
+            if (active) {
+                const petalCount = window.innerWidth < 640 ? 12 : 22;
+                for (let i = 0; i < petalCount; i++) {
+                    particles.push({
+                        type: Math.random() > 0.38 ? 'rose' : 'marigold',
+                        x: Math.random() * canvas.width,
+                        y: -Math.random() * canvas.height * 0.7,
+                        size: Math.random() * 6 + 5,
+                        vx: (Math.random() - 0.5) * 0.85,
+                        vy: Math.random() * 1.15 + 0.65,
+                        angle: Math.random() * Math.PI * 2,
+                        spin: (Math.random() - 0.5) * 0.045,
+                        alpha: Math.random() * 0.45 + 0.48
+                    });
+                }
+            } else {
+                particles = particles.filter(p => p.type === 'gold');
+            }
+        }
+
+        function spawnCelebrationBurst(cx, cy, count = 55) {
+            for (let i = 0; i < count; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 5.2 + 1.5;
+                const roll = Math.random();
+                const kind = roll > 0.62 ? 'rose' : (roll > 0.34 ? 'marigold' : 'gold');
+                burstParticles.push({
+                    kind,
+                    x: cx,
+                    y: cy,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - 1.8,
+                    size: kind === 'gold' ? (Math.random() * 3 + 1.4) : (Math.random() * 6 + 5),
+                    angle: Math.random() * Math.PI * 2,
+                    spin: (Math.random() - 0.5) * 0.15,
+                    life: 1,
+                    decay: Math.random() * 0.015 + 0.009
+                });
+            }
+        }
+
+        function drawFloralPetal(x, y, size, angle, alpha, isMarigold) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = isMarigold ? '#f59e0b' : '#be123c';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, size, size * 0.58, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function animateAmbient() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                if (p.type === 'gold') {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.phase += 0.03;
+                    if (p.y < -10) p.y = canvas.height + 10;
+                    if (p.x < -10) p.x = canvas.width + 10;
+                    if (p.x > canvas.width + 10) p.x = -10;
+
+                    ctx.save();
+                    ctx.globalAlpha = p.alpha * (0.6 + 0.4 * Math.sin(p.phase));
+                    ctx.fillStyle = '#ffe596';
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                } else {
+                    p.x += p.vx + Math.sin(p.y * 0.015) * 0.45;
+                    p.y += p.vy;
+                    p.angle += p.spin;
+                    if (p.y > canvas.height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * canvas.width;
+                    }
+                    drawFloralPetal(p.x, p.y, p.size, p.angle, p.alpha, p.type === 'marigold');
+                }
+            }
+
+            for (let i = burstParticles.length - 1; i >= 0; i--) {
+                const b = burstParticles[i];
+                b.x += b.vx;
+                b.y += b.vy;
+                b.vy += 0.085;
+                b.angle += b.spin;
+                b.life -= b.decay;
+                if (b.life <= 0) { burstParticles.splice(i, 1); continue; }
+
+                if (b.kind === 'gold') {
+                    ctx.save();
+                    ctx.globalAlpha = b.life;
+                    ctx.fillStyle = '#fff0b3';
+                    ctx.beginPath();
+                    ctx.arc(b.x, b.y, b.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                } else {
+                    drawFloralPetal(b.x, b.y, b.size, b.angle, b.life, b.kind === 'marigold');
+                }
+            }
+
+            requestAnimationFrame(animateAmbient);
+        }
+
+        initAmbientDust();
+        animateAmbient();
+        resizeGameCanvas();
+    </script>
+    <script src="/card-bridge.js"></script>
+</body>
+</html>
