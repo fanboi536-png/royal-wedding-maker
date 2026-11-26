@@ -124,7 +124,7 @@
       .rb-btn-gold {
         background: linear-gradient(135deg, #f6dc8d, #c99a2e);
         color: #240907; border: none; border-radius: 10px;
-        padding: 9px 13px; font-weight: 700; font-size: 11px;
+        padding: 10px 15px; font-weight: 700; font-size: 12px;
         text-transform: uppercase; letter-spacing: 0.05em;
         cursor: pointer; white-space: nowrap;
       }
@@ -144,31 +144,161 @@
         border: 1px solid #d4af37; border-radius: 10px;
         padding: 10px 14px; font-weight: 700; font-size: 12px; cursor: pointer;
       }
-      #rb-events-modal {
-        position: fixed; inset: 0; z-index: 100005;
-        background: rgba(0,0,0,0.84); backdrop-filter: blur(6px);
+      .rb-overlay-modal {
+        position: fixed; inset: 0; z-index: 100010;
+        background: rgba(0,0,0,0.85); backdrop-filter: blur(7px);
         display: none; align-items: center; justify-content: center;
         padding: 16px; font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
       }
-      #rb-events-modal.open { display: flex; }
+      .rb-overlay-modal.open { display: flex; }
       .rb-modal-box {
-        width: 100%; max-width: 430px; background: #240409;
-        border: 1px solid rgba(212,175,55,0.65); border-radius: 16px;
-        padding: 18px; color: #fffaf0; max-height: 85vh; overflow-y: auto;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.85);
+        width: 100%; max-width: 420px; background: #240409;
+        border: 1.5px solid rgba(212,175,55,0.75); border-radius: 18px;
+        padding: 20px; color: #fffaf0; max-height: 85vh; overflow-y: auto;
+        box-shadow: 0 24px 60px rgba(0,0,0,0.9);
       }
       .rb-ev-row {
         display: grid; grid-template-columns: 1.2fr 0.9fr 1fr auto;
         gap: 6px; margin-bottom: 8px; align-items: center;
       }
-      .rb-ev-row input {
-        width: 100%; background: #120204; border: 1px solid rgba(212,175,55,0.38);
-        border-radius: 8px; padding: 8px; color: #fff; font-size: 12px;
+      .rb-ev-row input, .rb-email-input {
+        width: 100%; background: #120204; border: 1px solid rgba(212,175,55,0.45);
+        border-radius: 10px; padding: 11px 12px; color: #fff; font-size: 13px;
+        outline: none;
       }
+      .rb-email-input:focus { border-color: #f6dc8d; }
     `;
     document.head.appendChild(style);
   }
 
+  /* ===== PRE-PAYMENT EMAIL POPUP (Works on ALL 4 Card Templates) ===== */
+  function openPrePaymentEmailModal() {
+    injectBridgeStyles();
+    let modal = document.getElementById('rb-email-pay-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'rb-email-pay-modal';
+      modal.className = 'rb-overlay-modal';
+      modal.innerHTML = `
+        <div class="rb-modal-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <strong style="color:#f6dc8d;font-size:15px;">📧 Invoice &amp; Card Link Kahan Bhejein?</strong>
+            <button type="button" id="rb-mail-close" style="background:none;border:none;color:#f6dc8d;font-size:18px;cursor:pointer;">✕</button>
+          </div>
+          <p style="font-size:12px;color:rgba(247,238,220,0.85);line-height:1.5;margin:0 0 14px 0;">
+            Apna Email ID dalein — payment ke turant baad <strong>₹29 Invoice</strong> aur <strong>Watermark-Free Card Link</strong> isi email par bheja jayega:
+          </p>
+          <form id="rb-mail-pay-form">
+            <input type="email" id="rb-buyer-email-input" class="rb-email-input" required placeholder="e.g. aapka.naam@gmail.com" />
+            <div id="rb-mail-err" style="color:#fca5a5;font-size:11px;margin-top:6px;display:none;"></div>
+            <button type="submit" id="rb-proceed-rzp-btn" class="rb-btn-gold" style="width:100%;margin-top:14px;padding:12px;">
+              Proceed to Pay ₹29 ➔
+            </button>
+          </form>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      document.getElementById('rb-mail-close').onclick = () => modal.classList.remove('open');
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('open');
+      });
+
+      document.getElementById('rb-mail-pay-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const emailInput = document.getElementById('rb-buyer-email-input');
+        const errBox = document.getElementById('rb-mail-err');
+        const submitBtn = document.getElementById('rb-proceed-rzp-btn');
+        const enteredEmail = emailInput.value.trim();
+
+        errBox.style.display = 'none';
+        if (!enteredEmail || !enteredEmail.includes('@')) {
+          errBox.textContent = 'Kripya sahi Email ID dalein.';
+          errBox.style.display = 'block';
+          return;
+        }
+
+        try { localStorage.setItem('royal_buyer_email', enteredEmail); } catch (_) {}
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⏳ Opening Razorpay...';
+
+        try {
+          await loadRazorpaySdk();
+          const orderRes = await fetch('/api/create-order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cardId })
+          });
+          const order = await orderRes.json();
+          if (!orderRes.ok) throw new Error(order.error || 'Order create nahi ho paya.');
+
+          modal.classList.remove('open');
+
+          const cardInfo = window.ROYAL_CARD || {};
+          const rzp = new window.Razorpay({
+            key: order.keyId,
+            amount: order.amount,
+            currency: 'INR',
+            name: 'Royal Wedding Invitations',
+            description: 'Unlock Digital Wedding Card (15 Days)',
+            order_id: order.orderId,
+            prefill: {
+              email: enteredEmail,
+              contact: cardInfo.whatsappNumber || ''
+            },
+            handler: async function (response) {
+              const vRes = await fetch('/api/unlock-card', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  cardId,
+                  buyerEmail: enteredEmail,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature
+                })
+              });
+              const vData = await vRes.json();
+              if (vData.success) {
+                const sentTo = vData.buyerEmail || enteredEmail;
+                alert(`🎉 Card Unlocked!\nInvoice & permanent card link sent to: ${sentTo}`);
+                window.location.reload();
+              } else {
+                alert(vData.error || 'Payment verification failed');
+              }
+            },
+            theme: { color: '#4a0b16' }
+          });
+          rzp.open();
+        } catch (err) {
+          errBox.textContent = err.message;
+          errBox.style.display = 'block';
+          modal.classList.add('open');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Proceed to Pay ₹29 ➔';
+        }
+      });
+    }
+
+    const inputEl = document.getElementById('rb-buyer-email-input');
+    const savedMail = (window.ROYAL_CARD && window.ROYAL_CARD.buyerEmail) || localStorage.getItem('royal_buyer_email') || '';
+    if (savedMail && !inputEl.value) inputEl.value = savedMail;
+    modal.classList.add('open');
+    setTimeout(() => inputEl.focus(), 80);
+  }
+
+  // Intercept "Pay ₹29 & Unlock" button click on ALL 4 cards before Razorpay opens
+  document.addEventListener('click', function (e) {
+    const unlockTrigger = e.target.closest('#unlockRazorpayBtn, #scrollUnlockBtn, #unlockBtn, #rb-pay-btn');
+    if (!unlockTrigger) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    openPrePaymentEmailModal();
+  }, true);
+
+  /* ===== EVENTS EDITOR MODAL ===== */
   function openEventsEditor(card) {
     injectBridgeStyles();
     const targetCard = card || window.ROYAL_CARD || { events: [] };
@@ -176,6 +306,7 @@
     if (!modal) {
       modal = document.createElement('div');
       modal.id = 'rb-events-modal';
+      modal.className = 'rb-overlay-modal';
       modal.innerHTML = `
         <div class="rb-modal-box">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
@@ -280,9 +411,7 @@
   }
 
   function renderBars(card) {
-    // Native cards (like Royal Palace) manage their own UI, watermark, and bottom bar cleanly
     if (isNativeCard()) return;
-
     injectBridgeStyles();
 
     if (!card.isPaid) {
@@ -309,58 +438,7 @@
           </div>
         `;
         document.body.appendChild(bar);
-
         document.getElementById('rb-edit-ev-btn').addEventListener('click', () => openEventsEditor(card));
-        document.getElementById('rb-pay-btn').addEventListener('click', async function () {
-          const btn = this;
-          btn.disabled = true;
-          btn.textContent = 'Processing...';
-          try {
-            await loadRazorpaySdk();
-            const res = await fetch('/api/create-order', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ cardId })
-            });
-            const order = await res.json();
-            if (!res.ok) throw new Error(order.error || 'Order failed');
-
-            const rzp = new window.Razorpay({
-              key: order.keyId,
-              amount: order.amount,
-              currency: 'INR',
-              name: 'Royal Wedding Invitations',
-              description: 'Unlock Digital Wedding Card (15 Days)',
-              order_id: order.orderId,
-              handler: async function (response) {
-                const vRes = await fetch('/api/unlock-card', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    cardId,
-                    razorpay_order_id: response.razorpay_order_id,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_signature: response.razorpay_signature
-                  })
-                });
-                const vData = await vRes.json();
-                if (vData.success) {
-                  alert('🎉 Card Unlocked! Invoice & link sent to your email.');
-                  window.location.reload();
-                } else {
-                  alert(vData.error || 'Verification failed');
-                }
-              },
-              theme: { color: '#4a0b16' }
-            });
-            rzp.open();
-          } catch (err) {
-            alert(err.message);
-          } finally {
-            btn.disabled = false;
-            btn.textContent = 'Pay ₹29 & Unlock';
-          }
-        });
       }
     } else if (!document.getElementById('actionBar') && !document.getElementById('rb-action-bar')) {
       const bar = document.createElement('div');
