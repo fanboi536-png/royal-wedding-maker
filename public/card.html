@@ -1,1121 +1,1056 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rahul weds Kanika | Royal Wedding Invitation</title>
-  <meta name="description" content="Together with our families, we cordially invite you to the auspicious wedding celebration." />
-
-  <!-- Google Fonts for Royal Indian Typography -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Royal Vivah Nimantran — Shahi Wedding Invitation</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Noto+Serif+Devanagari:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
-  <!-- Tailwind CSS & Razorpay Checkout -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            maroon: {
-              950: '#1f0205',
-              900: '#2d0408',
-              800: '#45060d',
-              700: '#630913',
-              600: '#820d1a',
-            },
-            crimson: {
-              royal: '#9b111e',
-              velvet: '#700914',
-            },
-            gold: {
-              100: '#fdf6d8',
-              200: '#f9e79f',
-              300: '#f3d078',
-              400: '#e5b84b',
-              500: '#d4af37',
-              600: '#aa771c',
-              700: '#7d5410',
-            },
-            ivory: {
-              50: '#fffdf9',
-              100: '#fdf8f0',
-              200: '#f7eedc',
-              300: '#efe0c4',
-            }
-          },
-          fontFamily: {
-            cinzel: ['"Cinzel Decorative"', 'serif'],
-            vibes: ['"Great Vibes"', 'cursive'],
-            cormorant: ['"Cormorant Garamond"', 'serif'],
-            hindi: ['"Noto Serif Devanagari"', 'serif'],
-            poppins: ['"Poppins"', 'sans-serif'],
-          }
-        }
-      }
-    };
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    /* 4 ROYAL THEMES */
-    :root, [data-theme="royal-maroon"] {
-      --bg-gradient: radial-gradient(circle at top, #5c0812 0%, #240206 60%, #140103 100%);
-      --card-bg: rgba(45, 4, 8, 0.9);
-      --accent: #f3d078;
-      --border-col: rgba(212, 175, 55, 0.5);
-      --gold-gradient: linear-gradient(135deg, #aa771c 0%, #f6e27a 25%, #d4af37 50%, #fceabb 75%, #aa771c 100%);
+    :root {
+      --bg-deep: #1b0205;
+      --bg-mid: #32050c;
+      --bg-card: rgba(24, 3, 7, 0.78);
+      --gold-light: #f6dc8d;
+      --gold-main: #d4af37;
+      --gold-dark: #9e7720;
+      --text-cream: #f7eedc;
+      --border-gold: rgba(212, 175, 55, 0.36);
+      --font-display: 'Cinzel Decorative', Georgia, serif;
+      --font-caps: 'Cinzel', Georgia, serif;
+      --font-body: 'Cormorant Garamond', Georgia, serif;
+      --font-script: 'Great Vibes', cursive;
+      --font-ui: 'Plus Jakarta Sans', system-ui, sans-serif;
     }
-    [data-theme="emerald-gold"] {
-      --bg-gradient: radial-gradient(circle at top, #065f46 0%, #022c22 60%, #011a14 100%);
-      --card-bg: rgba(4, 47, 36, 0.9);
-      --accent: #f3d078;
-      --border-col: rgba(212, 175, 55, 0.5);
-    }
-    [data-theme="floral-pink"] {
-      --bg-gradient: radial-gradient(circle at top, #831843 0%, #4c0519 60%, #2b0310 100%);
-      --card-bg: rgba(76, 5, 25, 0.88);
-      --accent: #fbcfe8;
-      --border-col: rgba(244, 114, 182, 0.5);
-    }
-    [data-theme="midnight-royal"] {
-      --bg-gradient: radial-gradient(circle at top, #1e3a8a 0%, #0f172a 60%, #020617 100%);
-      --card-bg: rgba(15, 23, 42, 0.9);
-      --accent: #fde047;
-      --border-col: rgba(250, 204, 21, 0.45);
-    }
-    /* DESIGN 2: MODERN MINIMAL */
-[data-design="modern-minimal"] .damask-pattern { background-image: none !important; }
-[data-design="modern-minimal"] .rounded-t-full { border-radius: 1.25rem !important; }
-[data-design="modern-minimal"] .font-vibes { font-family: 'Cormorant Garamond', serif !important; font-style: italic; font-weight: 600; }
-[data-design="modern-minimal"] .gold-border-glow {
-  background: rgba(255, 255, 255, 0.06) !important;
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
 
-/* DESIGN 3: FLORAL OVAL */
-[data-design="floral-oval"] .rounded-t-full { border-radius: 9999px !important; }
-[data-design="floral-oval"] .gold-border-glow {
-  border: 2px dashed var(--border-col) !important;
-  border-radius: 2rem !important;
-}
-
-/* DESIGN 4: CLASSIC PRINT */
-[data-design="classic-print"] .rounded-t-full,
-[data-design="classic-print"] .rounded-3xl,
-[data-design="classic-print"] .rounded-2xl {
-  border-radius: 4px !important;
-}
-[data-design="classic-print"] .gold-border-glow {
-  border: 2px solid var(--border-col) !important;
-  outline: 1px solid var(--border-col);
-  outline-offset: -8px;
-}
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg-gradient) !important;
-      color: #fdf8f0;
-      font-family: 'Cormorant Garamond', serif;
+      min-height: 100vh;
+      background-color: var(--bg-deep);
+      background-image:
+        radial-gradient(ellipse at 50% 0%, var(--bg-mid) 0%, var(--bg-deep) 55%),
+        linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-mid) 50%, var(--bg-deep) 100%);
+      color: var(--text-cream);
+      font-family: var(--font-body);
       overflow-x: hidden;
+      padding-bottom: 96px;
     }
 
-    .royal-velvet-bg {
-      background: var(--bg-gradient);
-    }
-
-    /* BIG LOW-OPACITY WATERMARK */
-    #previewWatermark {
+    #petalCanvas {
       position: fixed;
       inset: 0;
-      z-index: 9998;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
-      overflow: hidden;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 95px;
-    }
-    .wm-text {
-      font-family: 'Poppins', sans-serif;
-      font-size: clamp(2.2rem, 7.5vw, 4.8rem);
-      font-weight: 800;
-      color: rgba(255, 255, 255, 0.14);
-      transform: rotate(-28deg);
-      white-space: nowrap;
-      letter-spacing: 0.16em;
-      user-select: none;
-      text-transform: uppercase;
+      z-index: 3;
     }
 
-    /* FLOATING PAY ₹29 BAR */
-    #unlockBar {
+    .gold-gradient-text {
+      background: linear-gradient(120deg, var(--gold-dark) 0%, var(--gold-light) 45%, var(--gold-main) 75%, var(--gold-light) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .royal-section {
+      position: relative;
+      z-index: 2;
+      padding: 64px 20px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.22);
+    }
+
+    .section-inner {
+      max-width: 920px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-family: var(--font-caps);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold-main);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 4.5vw, 38px);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .section-sub {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 18px;
+      color: rgba(247, 238, 220, 0.8);
+      margin-top: 6px;
+    }
+
+    .ornament-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 18px auto 34px;
+      max-width: 260px;
+      color: var(--gold-main);
+      font-size: 14px;
+    }
+    .ornament-divider span {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-main), transparent);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero-section {
+      padding-top: 56px;
+      padding-bottom: 68px;
+      background: radial-gradient(circle at 50% 25%, rgba(122, 18, 36, 0.35) 0%, transparent 65%);
+    }
+
+    .mandala-halo {
+      position: relative;
+      width: 116px;
+      height: 116px;
+      margin: 0 auto 14px;
+      display: grid;
+      place-items: center;
+    }
+    .mandala-halo svg {
+      width: 100%;
+      height: 100%;
+      animation: spinSlow 45s linear infinite;
+    }
+    @keyframes spinSlow { to { transform: rotate(360deg); } }
+
+    .hero-couple-script {
+      font-family: var(--font-script);
+      font-size: clamp(46px, 9vw, 84px);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--gold-light);
+      text-shadow: 0 4px 24px rgba(212, 175, 55, 0.25);
+      margin: 14px 0;
+    }
+
+    .hero-amp {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(20px, 3vw, 28px);
+      color: var(--gold-main);
+      margin: 2px 0;
+    }
+
+    .hero-date-pill {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 26px;
+      border-radius: 999px;
+      border: 1px solid var(--border-gold);
+      background: var(--bg-card);
+      font-family: var(--font-caps);
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+
+    /* ===== COUPLE ARCH FRAMES ===== */
+    .couple-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      max-width: 660px;
+      margin: 0 auto;
+    }
+    @media (max-width: 560px) {
+      .couple-grid { grid-template-columns: 1fr; max-width: 300px; }
+    }
+
+    .royal-card-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 24px 18px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .arch-frame {
+      width: 170px;
+      height: 220px;
+      margin: 0 auto 16px;
+      border-radius: 999px 999px 14px 14px;
+      padding: 4px;
+      background: linear-gradient(145deg, var(--gold-light), var(--gold-dark));
+    }
+    .arch-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 999px 999px 10px 10px;
+      overflow: hidden;
+      background: #2b050b;
+      display: grid;
+      place-items: center;
+    }
+    .arch-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .person-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--gold-light);
+      letter-spacing: 0.04em;
+    }
+    .person-parents {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 16px;
+      color: rgba(247, 238, 220, 0.8);
+      margin-top: 4px;
+    }
+
+    /* ===== COUNTDOWN ===== */
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+    .cd-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 14px;
+      padding: 18px 8px;
+    }
+    .cd-val {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 5vw, 34px);
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+    .cd-label {
+      font-family: var(--font-caps);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-main);
+      margin-top: 4px;
+    }
+
+    /* ===== EVENTS (MATCHING ROYAL PALACE CARDS) ===== */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-top: 10px;
+    }
+    .event-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 24px 18px;
+      text-align: center;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+    .event-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold-light);
+    }
+    .event-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    .event-name {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .event-time {
+      font-family: var(--font-caps);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold-main);
+      margin-top: 8px;
+    }
+    .event-venue {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 17px;
+      color: var(--text-cream);
+      opacity: 0.88;
+      margin-top: 4px;
+    }
+
+    .edit-events-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 22px;
+      padding: 9px 20px;
+      border-radius: 999px;
+      border: 1px solid var(--border-gold);
+      background: var(--bg-card);
+      color: var(--gold-light);
+      font-family: var(--font-caps);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .edit-events-btn:hover {
+      border-color: var(--gold-light);
+    }
+
+    /* ===== VENUE ===== */
+    .venue-box {
+      max-width: 580px;
+      margin: 0 auto;
+    }
+    .map-btn {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 12px 28px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+      color: #220408;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    /* ===== RSVP & ROYAL BLESSINGS (EXACT 2-COLUMN LAYOUT) ===== */
+    .rsvp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      text-align: left;
+      align-items: start;
+    }
+    @media (max-width: 720px) {
+      .rsvp-grid { grid-template-columns: 1fr; }
+    }
+
+    .card-heading-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .card-heading {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .wishes-pill {
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-gold);
+      font-family: var(--font-ui);
+      font-size: 11px;
+      color: var(--gold-light);
+      white-space: nowrap;
+    }
+
+    .royal-field {
+      width: 100%;
+      background: rgba(14, 2, 4, 0.72);
+      border: 1px solid var(--border-gold);
+      border-radius: 10px;
+      padding: 11px 14px;
+      color: var(--text-cream);
+      font-family: var(--font-ui);
+      font-size: 13px;
+      outline: none;
+      margin-bottom: 12px;
+    }
+    .royal-field:focus {
+      border-color: var(--gold-light);
+    }
+
+    .field-row-2 {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-post-gold {
+      width: 100%;
+      padding: 13px 16px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+      color: #240408;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .btn-wa-green {
+      width: 100%;
+      padding: 13px 16px;
+      border: none;
+      border-radius: 10px;
+      background: #0f6b4e;
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .blessings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 340px;
+      overflow-y: auto;
+    }
+    .blessing-item {
+      background: rgba(14, 2, 4, 0.55);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .blessing-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .blessing-author {
+      font-family: var(--font-display);
+      font-size: 12px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .blessing-status {
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      font-family: var(--font-ui);
+      font-size: 10px;
+      color: var(--gold-light);
+    }
+    .blessing-quote {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 16px;
+      color: rgba(247, 238, 220, 0.9);
+    }
+
+    /* ===== SIGNATURE FOOTER ===== */
+    .signature-footer {
+      padding: 56px 20px 44px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .footer-script-names {
+      font-family: var(--font-script);
+      font-size: clamp(36px, 7vw, 62px);
+      color: var(--gold-light);
+      line-height: 1.2;
+      margin-top: 8px;
+    }
+
+    /* ===== FLOATING AUDIO & PREVIEW BAR ===== */
+    #audioToggleBtn {
       position: fixed;
-      bottom: 16px;
+      right: 16px;
+      bottom: 84px;
+      z-index: 40;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--gold-main);
+      background: rgba(28, 3, 7, 0.92);
+      color: var(--gold-light);
+      font-size: 18px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.65);
+    }
+
+    #nativeWatermark {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      overflow: hidden;
+      opacity: 0.14;
+    }
+    .wm-line {
+      white-space: nowrap;
+      font-family: var(--font-caps);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      color: var(--gold-light);
+      transform: rotate(-22deg);
+    }
+
+    #nativeBottomBar {
+      position: fixed;
+      bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 9999;
-      width: 92%;
+      width: calc(100% - 24px);
       max-width: 460px;
-      background: rgba(20, 2, 5, 0.96);
-      border: 1.5px solid #f3d078;
-      border-radius: 18px;
-      padding: 12px 16px;
-      display: none;
+      z-index: 50;
+      background: rgba(18, 2, 5, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      border-radius: 14px;
+      padding: 10px 14px;
+      display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.75);
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
+      font-family: var(--font-ui);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     }
-    #payUnlockBtn {
-      background: linear-gradient(135deg, #aa771c 0%, #f3d078 50%, #aa771c 100%);
-      color: #240206;
-      font-weight: 700;
-      font-size: 13px;
-      padding: 10px 16px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #1f0205; }
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, #aa771c, #f3d078, #aa771c);
-      border-radius: 9999px;
-    }
-
-    /* Metallic Shimmering Gold Text */
-    .gold-shimmer-text {
-      background: linear-gradient(110deg, #b8860b 10%, #f9e79f 28%, #d4af37 45%, #fff6cc 52%, #d4af37 62%, #996515 88%);
-      background-size: 220% auto;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: goldShimmer 4.5s linear infinite;
-      filter: drop-shadow(0 2px 10px rgba(212, 175, 55, 0.25));
-    }
-
-    @keyframes goldShimmer {
-      0% { background-position: 200% center; }
-      100% { background-position: -200% center; }
-    }
-
-    .gold-border-glow {
-      border: 1px solid var(--border-col);
-      box-shadow: 0 10px 35px -5px rgba(0, 0, 0, 0.65), inset 0 0 24px rgba(212, 175, 55, 0.12);
-    }
-
-    .damask-pattern {
-      background-image: radial-gradient(rgba(212, 175, 55, 0.08) 1px, transparent 1px),
-                        radial-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px);
-      background-size: 40px 40px;
-      background-position: 0 0, 20px 20px;
-    }
-
-    /* Curtain Entrance Transitions */
-    .curtain-panel {
-      transition: transform 1.65s cubic-bezier(0.77, 0, 0.175, 1), opacity 1.4s ease;
-      will-change: transform;
-    }
-    .curtain-left {
-      background: repeating-linear-gradient(90deg, #2b0307 0px, #4e0710 24px, #260206 48px, #590913 72px, #2b0307 96px);
-    }
-    .curtain-right {
-      background: repeating-linear-gradient(90deg, #2b0307 0px, #590913 24px, #260206 48px, #4e0710 72px, #2b0307 96px);
-    }
-    .curtain-opened .curtain-left { transform: translateX(-102%); }
-    .curtain-opened .curtain-right { transform: translateX(102%); }
-    .curtain-opened .curtain-center-seal { opacity: 0; transform: scale(1.25); pointer-events: none; }
-
-    /* Continuous Ambient Animations */
-    @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    @keyframes spinReverseSlow { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-    @keyframes floatGentle { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
-    @keyframes swayToran { 0%, 100% { transform: rotate(-1.2deg); } 50% { transform: rotate(1.2deg); } }
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 18px rgba(212, 175, 55, 0.35), 0 0 36px rgba(212, 175, 55, 0.15); }
-      50% { box-shadow: 0 0 28px rgba(243, 208, 120, 0.65), 0 0 55px rgba(212, 175, 55, 0.3); }
-    }
-    @keyframes flameFlicker {
-      0%, 100% { transform: scaleY(1) scaleX(1); opacity: 0.95; }
-      25% { transform: scaleY(1.08) scaleX(0.95); opacity: 1; }
-      50% { transform: scaleY(0.94) scaleX(1.04); opacity: 0.88; }
-      75% { transform: scaleY(1.05) scaleX(0.97); opacity: 0.98; }
-    }
-
-    .animate-spin-slow { animation: spinSlow 48s linear infinite; }
-    .animate-spin-reverse-slow { animation: spinReverseSlow 60s linear infinite; }
-    .animate-float { animation: floatGentle 4.5s ease-in-out infinite; }
-    .animate-sway { transform-origin: top center; animation: swayToran 5s ease-in-out infinite; }
-    .animate-pulse-glow { animation: pulseGlow 3s ease-in-out infinite; }
-    .animate-flame { transform-origin: bottom center; animation: flameFlicker 1.8s ease-in-out infinite; }
-
-    /* Scroll Reveal Animations */
-    .reveal-on-scroll {
-      opacity: 0;
-      transform: translateY(32px) scale(0.98);
-      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0) scale(1); }
-
-    .btn-royal-gold {
-      background: linear-gradient(135deg, #aa771c 0%, #f3d078 50%, #aa771c 100%);
-      background-size: 200% auto;
-      color: #260307;
-      transition: all 0.4s ease;
-    }
-    .btn-royal-gold:hover {
-      background-position: right center;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.45);
-    }
+    .hidden { display: none !important; }
   </style>
 </head>
-<body class="antialiased selection:bg-gold-500 selection:text-maroon-950">
+<body data-native-card="true">
 
-  <!-- AMBIENT FALLING PETALS CANVAS -->
-  <canvas id="petalsCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-30"></canvas>
+  <canvas id="petalCanvas"></canvas>
 
-  <!-- ROYAL TOAST NOTIFICATION -->
-  <div id="royalToast" class="fixed top-5 left-1/2 -translate-x-1/2 z-[70] pointer-events-none opacity-0 transition-all duration-500 transform -translate-y-4">
-    <div class="bg-maroon-900/95 border border-gold-400/70 text-ivory-100 px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 backdrop-blur-md">
-      <span class="text-gold-300 text-lg">✦</span>
-      <span id="royalToastMsg" class="font-poppins text-xs sm:text-sm tracking-wide">Blessing added!</span>
-      <span class="text-gold-300 text-lg">✦</span>
-    </div>
+  <!-- Preview Watermark (Hidden automatically after ₹29 Unlock) -->
+  <div id="nativeWatermark" class="hidden">
+    <div class="wm-line">PREVIEW ONLY • PAY ₹29 • ROYAL E-INVITE PREVIEW</div>
+    <div class="wm-line">ROYAL E-INVITE PREVIEW • PAY ₹29 • PREVIEW ONLY</div>
+    <div class="wm-line">PREVIEW ONLY • PAY ₹29 • ROYAL E-INVITE PREVIEW</div>
   </div>
 
-  <!-- 1. INTERACTIVE ROYAL VELVET CURTAIN ENTRANCE -->
-  <div id="curtainOverlay" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
-    <div class="curtain-panel curtain-left absolute inset-y-0 left-0 w-1/2 border-r-4 border-gold-500/80 shadow-[15px_0_45px_rgba(0,0,0,0.85)] flex items-center justify-end">
-      <div class="h-full w-4 sm:w-7 border-l border-gold-400/40 bg-gradient-to-b from-gold-700/30 via-gold-400/25 to-gold-700/30 flex flex-col justify-around items-center py-8">
-        <span class="text-gold-300/70 text-xs">❖</span><span class="text-gold-300/70 text-xs">❖</span><span class="text-gold-300/70 text-xs">❖</span><span class="text-gold-300/70 text-xs">❖</span><span class="text-gold-300/70 text-xs">❖</span>
-      </div>
-    </div>
-
-    <div class="curtain-panel curtain-right absolute inset-y-0 right-0 w-1/2 border-l-4 border-gold-500/80 shadow-[-15px_0_45px_rgba(0,0,0,0.85)] flex items-center justify-start">
-      <div class="h-full w-4 sm:w-7 border-r border-gold-400/40 bg-gradient-to-b from-gold-700/30 via-gold-400/25 to-gold-700/30 flex flex-col justify-around items-center py-8">
-        <span class="text-gold-300/70 text-xs">❖</span><span class="text-gold-300/70 text-xs">❖</span><span class="text-gold-300/70 text-xs">❖</span><span class="text-gold-300/70 text-xs">❖</span><span class="text-gold-300/70 text-xs">❖</span>
-      </div>
-    </div>
-
-    <div class="curtain-center-seal relative z-10 flex flex-col items-center text-center px-4 transition-all duration-1000">
-      <p class="font-hindi text-gold-300 text-sm sm:text-base tracking-widest mb-3 drop-shadow">॥ श्री गणेशाय नमः ॥</p>
-
-      <div class="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center mb-6">
-        <svg class="absolute inset-0 w-full h-full animate-spin-slow text-gold-400/40" viewBox="0 0 200 200" fill="none">
-          <circle cx="100" cy="100" r="92" stroke="currentColor" stroke-width="0.8" stroke-dasharray="3 3" />
-          <circle cx="100" cy="100" r="82" stroke="currentColor" stroke-width="1.2" />
-          <polygon points="100,18 122,78 182,100 122,122 100,182 78,122 18,100 78,78" stroke="currentColor" stroke-width="0.7" fill="none" />
-          <polygon points="100,18 122,78 182,100 122,122 100,182 78,122 18,100 78,78" stroke="currentColor" stroke-width="0.7" fill="none" transform="rotate(22.5 100 100)" />
+  <!-- 1. HERO SECTION -->
+  <header class="royal-section hero-section">
+    <div class="section-inner">
+      <div class="mandala-halo">
+        <svg viewBox="0 0 120 120" fill="none" stroke="#d4af37" stroke-width="1">
+          <circle cx="60" cy="60" r="54" stroke-dasharray="3 3" />
+          <circle cx="60" cy="60" r="42" />
+          <circle cx="60" cy="60" r="28" stroke-dasharray="2 2" />
         </svg>
+        <span style="position:absolute;font-size:30px;color:#f6dc8d;">ॐ</span>
+      </div>
 
-        <div class="relative w-44 h-44 sm:w-52 sm:h-52 rounded-full bg-gradient-to-br from-maroon-800 via-maroon-950 to-maroon-900 border-2 border-gold-400 animate-pulse-glow flex flex-col items-center justify-center p-4 shadow-2xl">
-          <div class="absolute inset-2 rounded-full border border-gold-300/40"></div>
-          <span class="font-cinzel text-[10px] sm:text-xs tracking-[0.28em] text-gold-300 uppercase mb-1">Shubh Vivah</span>
-          <div class="font-cinzel text-3xl sm:text-4xl font-bold gold-shimmer-text tracking-wider">
-            R <span class="font-vibes text-2xl sm:text-3xl">&amp;</span> K
+      <p class="eyebrow">|| SHRI GANESHAY NAMAH ||</p>
+      <p class="section-sub">Together with their beloved families, we cordially invite you to the royal union of</p>
+
+      <h1 class="hero-couple-script">
+        <span id="heroGroom">Dulha</span>
+        <span class="hero-amp">&amp;</span>
+        <span id="heroBride">Dulhan</span>
+      </h1>
+
+      <div class="hero-date-pill" id="heroDateVenue">SHUBH VIVAH</div>
+    </div>
+  </header>
+
+  <!-- 2. SHAHI JODI -->
+  <section class="royal-section">
+    <div class="section-inner">
+      <p class="eyebrow">THE ROYAL UNION</p>
+      <h2 class="section-title gold-gradient-text">SHAHI JODI</h2>
+      <div class="ornament-divider"><span></span>❖<span></span></div>
+
+      <div class="couple-grid">
+        <div class="royal-card-box">
+          <div class="arch-frame">
+            <div class="arch-inner">
+              <img id="groomPhotoImg" class="hidden" alt="Groom" />
+              <span id="groomFallbackIcon" style="font-size:56px;">🤴</span>
+            </div>
           </div>
-          <div class="w-16 h-[1px] bg-gradient-to-r from-transparent via-gold-400 to-transparent my-2"></div>
-          <span class="font-cormorant italic text-ivory-200 text-sm sm:text-base">Rahul &amp; Kanika</span>
+          <h3 class="person-name" id="cardGroomName">Dulha</h3>
+          <p class="person-parents" id="cardGroomParents"></p>
+        </div>
+
+        <div class="royal-card-box">
+          <div class="arch-frame">
+            <div class="arch-inner">
+              <img id="bridePhotoImg" class="hidden" alt="Bride" />
+              <span id="brideFallbackIcon" style="font-size:56px;">👸</span>
+            </div>
+          </div>
+          <h3 class="person-name" id="cardBrideName">Dulhan</h3>
+          <p class="person-parents" id="cardBrideParents"></p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <button id="openInvitationBtn" type="button" class="btn-royal-gold font-cinzel font-bold text-xs sm:text-sm tracking-[0.2em] uppercase px-8 py-4 rounded-full shadow-2xl cursor-pointer flex items-center gap-3 active:scale-95">
-        <span>✦</span><span>Tap to Open Invitation</span><span>✦</span>
+  <!-- 3. SHUBH MUHURAT COUNTDOWN -->
+  <section class="royal-section">
+    <div class="section-inner">
+      <p class="eyebrow">COUNTING DOWN TO FOREVER</p>
+      <h2 class="section-title gold-gradient-text">SHUBH MUHURAT</h2>
+      <p class="section-sub" id="fullMuhuratDate"></p>
+      <div class="ornament-divider"><span></span>❖<span></span></div>
+
+      <div class="countdown-grid">
+        <div class="cd-item"><div class="cd-val" id="cdDays">00</div><div class="cd-label">Days</div></div>
+        <div class="cd-item"><div class="cd-val" id="cdHours">00</div><div class="cd-label">Hours</div></div>
+        <div class="cd-item"><div class="cd-val" id="cdMins">00</div><div class="cd-label">Minutes</div></div>
+        <div class="cd-item"><div class="cd-val" id="cdSecs">00</div><div class="cd-label">Seconds</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SHUBH KARYAKRAM (EVENTS IN MATCHING ROYAL PALACE DESIGN) -->
+  <section class="royal-section">
+    <div class="section-inner">
+      <p class="eyebrow">ROYAL CELEBRATIONS</p>
+      <h2 class="section-title gold-gradient-text">SHUBH KARYAKRAM</h2>
+      <p class="section-sub">Join us as we celebrate love, tradition, and togetherness</p>
+      <div class="ornament-divider"><span></span>❖<span></span></div>
+
+      <div class="events-grid" id="royalEventsGrid"></div>
+
+      <button type="button" id="editEventsTrigger" class="edit-events-btn hidden" onclick="window.openRoyalEventsEditor && window.openRoyalEventsEditor(window.ROYAL_CARD)">
+        ✎ Add / Edit Events
       </button>
-
-      <p class="font-poppins text-[11px] text-gold-200/75 mt-3 tracking-wider">
-        Tap to unfold the royal celebration &amp; auspicious melody
-      </p>
     </div>
-  </div>
+  </section>
 
-  <!-- FLOATING AUDIO CONTROLLER -->
-  <div class="fixed bottom-24 right-4 z-40 flex flex-col items-end gap-2.5">
-    <button id="musicToggleBtn" type="button" aria-label="Toggle Royal Music" class="w-12 h-12 rounded-full bg-gradient-to-br from-maroon-800 to-maroon-950 border-2 border-gold-400 text-gold-300 shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all cursor-pointer animate-pulse-glow">
-      <svg id="iconSoundOn" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-      </svg>
-      <svg id="iconSoundOff" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-      </svg>
-    </button>
-  </div>
+  <!-- 5. PALACE VENUE -->
+  <section class="royal-section">
+    <div class="section-inner">
+      <p class="eyebrow">ROYAL DESTINATION</p>
+      <h2 class="section-title gold-gradient-text">WEDDING VENUE</h2>
+      <div class="ornament-divider"><span></span>❖<span></span></div>
 
-  <!-- MAIN ROYAL WEDDING INVITATION CONTENT -->
-  <main class="relative z-10 damask-pattern overflow-hidden pb-20">
-    <!-- Top Floating Pill Navigation -->
-    <nav class="sticky top-3 z-30 flex justify-center px-3 pointer-events-none">
-      <div class="pointer-events-auto bg-maroon-950/85 border border-gold-500/40 backdrop-blur-md rounded-full px-4 sm:px-7 py-2 shadow-2xl flex items-center gap-4 sm:gap-7 font-cinzel text-[11px] sm:text-xs tracking-widest text-gold-200">
-        <a href="#home" class="hover:text-gold-400 transition-colors">Home</a><span class="text-gold-500/40">•</span>
-        <a href="#couple" class="hover:text-gold-400 transition-colors">Couple</a><span class="text-gold-500/40">•</span>
-        <a href="#events" class="hover:text-gold-400 transition-colors">Events</a><span class="text-gold-500/40">•</span>
-        <a href="#venue" class="hover:text-gold-400 transition-colors">Venue</a><span class="text-gold-500/40">•</span>
-        <a href="#rsvp" class="hover:text-gold-400 transition-colors">RSVP</a>
+      <div class="royal-card-box venue-box">
+        <h3 class="person-name" id="venueTitle" style="font-size:22px;">Royal Palace</h3>
+        <p class="person-parents" id="venueAddr" style="margin-top:8px;"></p>
+        <a id="googleMapLink" href="https://www.google.com/maps" target="_blank" rel="noopener" class="map-btn">
+          📍 OPEN IN GOOGLE MAPS
+        </a>
       </div>
-    </nav>
-
-    <!-- 2. HERO SECTION -->
-    <section id="home" class="relative min-h-screen flex flex-col items-center justify-between pt-4 pb-16 px-4 sm:px-8 royal-velvet-bg border-b-2 border-gold-500/40 overflow-hidden">
-      <div class="w-full max-w-6xl mx-auto animate-sway pointer-events-none -mt-2">
-        <svg viewBox="0 0 1200 110" class="w-full h-14 sm:h-24 overflow-visible" fill="none">
-          <defs>
-            <linearGradient id="goldGradToran" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#aa771c" /><stop offset="50%" stop-color="#f6e27a" /><stop offset="100%" stop-color="#aa771c" />
-            </linearGradient>
-          </defs>
-          <path d="M0,8 Q150,75 300,8 Q450,75 600,8 Q750,75 900,8 Q1050,75 1200,8" stroke="url(#goldGradToran)" stroke-width="3" fill="none" />
-          <path d="M0,14 Q150,88 300,14 Q450,88 600,14 Q750,88 900,14 Q1050,88 1200,14" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 6" fill="none" />
-          <g fill="#f59e0b">
-            <circle cx="150" cy="48" r="8" /><circle cx="150" cy="64" r="6" fill="#d97706" /><polygon points="150,72 143,86 157,86" fill="url(#goldGradToran)" />
-            <circle cx="450" cy="48" r="8" /><circle cx="450" cy="64" r="6" fill="#d97706" /><polygon points="450,72 443,86 457,86" fill="url(#goldGradToran)" />
-            <circle cx="750" cy="48" r="8" /><circle cx="750" cy="64" r="6" fill="#d97706" /><polygon points="750,72 743,86 757,86" fill="url(#goldGradToran)" />
-            <circle cx="1050" cy="48" r="8" /><circle cx="1050" cy="64" r="6" fill="#d97706" /><polygon points="1050,72 1043,86 1057,86" fill="url(#goldGradToran)" />
-          </g>
-        </svg>
-      </div>
-
-      <div class="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center my-auto pt-4">
-        <div class="animate-float mb-2">
-          <svg class="w-16 h-14 sm:w-20 sm:h-16 mx-auto" viewBox="0 0 120 90" fill="none">
-            <defs>
-              <linearGradient id="lotusGold" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#fceabb" /><stop offset="50%" stop-color="#d4af37" /><stop offset="100%" stop-color="#aa771c" />
-              </linearGradient>
-            </defs>
-            <path d="M60 14 C68 32, 72 48, 60 66 C48 48, 52 32, 60 14 Z" fill="url(#lotusGold)" />
-            <path d="M60 66 C42 54, 34 38, 42 22 C52 34, 56 48, 60 66 Z" fill="url(#lotusGold)" opacity="0.85" />
-            <path d="M60 66 C78 54, 86 38, 78 22 C68 34, 64 48, 60 66 Z" fill="url(#lotusGold)" opacity="0.85" />
-            <path d="M25 74 Q60 84 95 74" stroke="url(#lotusGold)" stroke-width="2" stroke-linecap="round" />
-            <circle cx="60" cy="8" r="3" fill="#f9e79f" />
-          </svg>
-        </div>
-
-        <p class="font-hindi text-gold-300 text-lg sm:text-2xl font-bold tracking-wider drop-shadow mb-1">॥ श्री गणेशाय नमः ॥</p>
-        <p class="font-hindi text-ivory-200/80 text-xs sm:text-sm tracking-wide mb-5">
-          मंगलम भगवान विष्णुः, मंगलम गरुणध्वजः। मंगलम पुण्डरी काक्षः, मंगलाय तनो हरिः॥
-        </p>
-
-        <p class="font-cinzel text-[11px] sm:text-xs tracking-[0.26em] uppercase text-gold-200/90 mb-4 max-w-xl">
-          Together with their loving families, cordially invite you to celebrate the royal union of
-        </p>
-
-        <div class="my-2 sm:my-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6">
-          <div class="text-center">
-            <h1 id="heroGroomName" class="font-vibes text-6xl sm:text-8xl md:text-9xl gold-shimmer-text leading-tight px-2">Rahul</h1>
-            <p id="heroGroomParents" class="font-cormorant italic text-ivory-200/85 text-sm sm:text-base -mt-1">S/o Mrs. Sunita &amp; Mr. Rajesh Sharma</p>
-          </div>
-
-          <div class="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center my-1 sm:my-0">
-            <svg class="absolute inset-0 w-full h-full animate-spin-reverse-slow text-gold-400/70" viewBox="0 0 100 100" fill="none">
-              <circle cx="50" cy="50" r="44" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3" />
-              <polygon points="50,4 62,38 96,50 62,62 50,96 38,62 4,50 38,38" stroke="currentColor" stroke-width="0.9" />
-            </svg>
-            <span class="font-vibes text-2xl sm:text-3xl text-gold-200 drop-shadow">weds</span>
-          </div>
-
-          <div class="text-center">
-            <h1 id="heroBrideName" class="font-vibes text-6xl sm:text-8xl md:text-9xl gold-shimmer-text leading-tight px-2">Kanika</h1>
-            <p id="heroBrideParents" class="font-cormorant italic text-ivory-200/85 text-sm sm:text-base -mt-1">D/o Mrs. Meena &amp; Mr. Anil Verma</p>
-          </div>
-        </div>
-
-        <div class="mt-5 mb-7 inline-flex items-center gap-3 sm:gap-5 px-6 py-2.5 rounded-full bg-maroon-950/75 border border-gold-400/50 shadow-xl">
-          <span class="font-cinzel text-xs sm:text-sm tracking-[0.2em] text-gold-300 uppercase">Save The Date</span>
-          <span class="text-gold-400">✦</span>
-          <span id="heroDateDisplay" class="font-cormorant font-bold text-lg sm:text-xl text-ivory-50 tracking-wide">Saturday, 12th December 2026</span>
-        </div>
-
-        <!-- Countdown Timer -->
-        <div class="w-full max-w-xl mx-auto">
-          <p class="font-cinzel text-[10px] sm:text-xs tracking-[0.25em] text-gold-300/90 uppercase mb-3">Counting Down To The Royal Muhurat</p>
-          <div class="grid grid-cols-4 gap-2.5 sm:gap-4">
-            <div class="bg-maroon-950/85 gold-border-glow rounded-2xl p-3 sm:p-4 flex flex-col items-center">
-              <div class="w-8 h-[2px] bg-gold-400/60 mb-1.5 rounded-full"></div>
-              <span id="cdDays" class="font-cinzel text-2xl sm:text-4xl font-bold gold-shimmer-text">00</span>
-              <span class="font-poppins text-[10px] sm:text-xs uppercase tracking-widest text-ivory-200/80 mt-1">Days</span>
-            </div>
-            <div class="bg-maroon-950/85 gold-border-glow rounded-2xl p-3 sm:p-4 flex flex-col items-center">
-              <div class="w-8 h-[2px] bg-gold-400/60 mb-1.5 rounded-full"></div>
-              <span id="cdHours" class="font-cinzel text-2xl sm:text-4xl font-bold gold-shimmer-text">00</span>
-              <span class="font-poppins text-[10px] sm:text-xs uppercase tracking-widest text-ivory-200/80 mt-1">Hours</span>
-            </div>
-            <div class="bg-maroon-950/85 gold-border-glow rounded-2xl p-3 sm:p-4 flex flex-col items-center">
-              <div class="w-8 h-[2px] bg-gold-400/60 mb-1.5 rounded-full"></div>
-              <span id="cdMinutes" class="font-cinzel text-2xl sm:text-4xl font-bold gold-shimmer-text">00</span>
-              <span class="font-poppins text-[10px] sm:text-xs uppercase tracking-widest text-ivory-200/80 mt-1">Mins</span>
-            </div>
-            <div class="bg-maroon-950/85 gold-border-glow rounded-2xl p-3 sm:p-4 flex flex-col items-center">
-              <div class="w-8 h-[2px] bg-gold-400/60 mb-1.5 rounded-full"></div>
-              <span id="cdSeconds" class="font-cinzel text-2xl sm:text-4xl font-bold gold-shimmer-text">00</span>
-              <span class="font-poppins text-[10px] sm:text-xs uppercase tracking-widest text-ivory-200/80 mt-1">Secs</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Palace Silhouette -->
-      <div class="w-full max-w-6xl mx-auto mt-10 pointer-events-none opacity-85">
-        <svg viewBox="0 0 1200 170" class="w-full h-24 sm:h-36" fill="none">
-          <defs>
-            <linearGradient id="palaceGold" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#f3d078" stop-opacity="0.55" /><stop offset="100%" stop-color="#2d0408" stop-opacity="0.95" />
-            </linearGradient>
-          </defs>
-          <path d="M520 170 L520 95 Q600 20 680 95 L680 170 Z" fill="url(#palaceGold)" stroke="#d4af37" stroke-width="1.2" />
-          <path d="M390 170 L390 110 Q435 65 480 110 L480 170 Z" fill="url(#palaceGold)" stroke="#d4af37" stroke-width="1" />
-          <path d="M720 170 L720 110 Q765 65 810 110 L810 170 Z" fill="url(#palaceGold)" stroke="#d4af37" stroke-width="1" />
-          <path d="M120 170 L120 125 Q160 90 200 125 L200 170 Z" fill="url(#palaceGold)" stroke="#d4af37" stroke-width="0.9" />
-          <path d="M1000 170 L1000 125 Q1040 90 1080 125 L1080 170 Z" fill="url(#palaceGold)" stroke="#d4af37" stroke-width="0.9" />
-          <rect x="200" y="132" width="190" height="38" fill="url(#palaceGold)" stroke="#d4af37" stroke-width="0.8" />
-          <rect x="810" y="132" width="190" height="38" fill="url(#palaceGold)" stroke="#d4af37" stroke-width="0.8" />
-          <line x1="0" y1="169" x2="1200" y2="169" stroke="#d4af37" stroke-width="2" />
-        </svg>
-      </div>
-    </section>
-
-    <!-- 3. BRIDE & GROOM SHOWCASE -->
-    <section id="couple" class="relative py-20 sm:py-28 px-4 sm:px-8 max-w-6xl mx-auto">
-      <div class="text-center mb-16 reveal-on-scroll">
-        <span class="font-cinzel text-xs tracking-[0.3em] uppercase text-gold-400">Two Souls, One Destiny</span>
-        <h2 class="font-cinzel text-3xl sm:text-5xl font-bold gold-shimmer-text mt-2">The Royal Couple</h2>
-        <div class="flex items-center justify-center gap-3 mt-4">
-          <div class="h-[1px] w-16 sm:w-28 bg-gradient-to-r from-transparent to-gold-400"></div>
-          <span class="text-gold-300 text-lg">❖</span>
-          <div class="h-[1px] w-16 sm:w-28 bg-gradient-to-l from-transparent to-gold-400"></div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <!-- GROOM -->
-        <div class="reveal-on-scroll flex flex-col items-center text-center group">
-          <div class="relative w-72 sm:w-80 h-[400px] sm:h-[440px] flex items-center justify-center mb-6">
-            <div class="relative w-full h-full rounded-t-full rounded-b-3xl p-2.5 bg-gradient-to-b from-gold-300 via-gold-500 to-gold-700 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
-              <div class="relative w-full h-full rounded-t-full rounded-b-2xl overflow-hidden bg-maroon-950 border-2 border-gold-200/60">
-                <div class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-maroon-800 to-maroon-950 text-gold-300 p-6">
-                  <span class="font-cinzel text-sm tracking-widest">The Royal Groom</span>
-                </div>
-                <img id="groomPhotoImg" src="" alt="The Royal Groom" onerror="this.style.display='none'" class="relative z-10 w-full h-full object-cover object-top" />
-                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 bg-maroon-950/90 border border-gold-400/70 px-4 py-1 rounded-full">
-                  <span class="font-cinzel text-[10px] tracking-[0.25em] uppercase text-gold-300">Dulha Raja</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <h3 id="cardGroomName" class="font-vibes text-5xl sm:text-6xl gold-shimmer-text">Rahul</h3>
-          <p class="font-cormorant text-lg text-ivory-200/90 max-w-sm leading-relaxed mt-2">
-            A gentle heart with royal grace, stepping into a lifetime of love, laughter, and togetherness with his soulmate.
-          </p>
-        </div>
-
-        <!-- BRIDE -->
-        <div class="reveal-on-scroll flex flex-col items-center text-center group" style="transition-delay: 150ms;">
-          <div class="relative w-72 sm:w-80 h-[400px] sm:h-[440px] flex items-center justify-center mb-6">
-            <div class="relative w-full h-full rounded-t-full rounded-b-3xl p-2.5 bg-gradient-to-b from-gold-300 via-gold-500 to-gold-700 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
-              <div class="relative w-full h-full rounded-t-full rounded-b-2xl overflow-hidden bg-maroon-950 border-2 border-gold-200/60">
-                <div class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-maroon-800 to-maroon-950 text-gold-300 p-6">
-                  <span class="font-cinzel text-sm tracking-widest">The Royal Bride</span>
-                </div>
-                <img id="bridePhotoImg" src="" alt="The Royal Bride" onerror="this.style.display='none'" class="relative z-10 w-full h-full object-cover object-top" />
-                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 bg-maroon-950/90 border border-gold-400/70 px-4 py-1 rounded-full">
-                  <span class="font-cinzel text-[10px] tracking-[0.25em] uppercase text-gold-300">Dulhan Rani</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <h3 id="cardBrideName" class="font-vibes text-5xl sm:text-6xl gold-shimmer-text">Kanika</h3>
-          <p class="font-cormorant text-lg text-ivory-200/90 max-w-sm leading-relaxed mt-2">
-            Radiant in crimson and gold, bringing warmth, elegance, and timeless grace into the heart of our family.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. WEDDING FUNCTIONS TIMELINE -->
-    <section id="events" class="relative py-20 sm:py-28 px-4 sm:px-8 bg-black/25 border-y border-gold-500/30">
-      <div class="max-w-5xl mx-auto">
-        <div class="text-center mb-16 reveal-on-scroll">
-          <span class="font-cinzel text-xs tracking-[0.3em] uppercase text-gold-400">Auspicious Celebrations</span>
-          <h2 class="font-cinzel text-3xl sm:text-5xl font-bold gold-shimmer-text mt-2">Shubh Vivah Karyakram</h2>
-          <p class="font-cormorant italic text-lg sm:text-xl text-ivory-200/85 mt-2">Join us as every ritual unfolds in colors, music, and royal splendour</p>
-        </div>
-
-        <div class="relative">
-          <div class="absolute left-5 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-gold-400 to-transparent md:-translate-x-1/2"></div>
-          <div class="space-y-12 sm:space-y-16">
-
-            <div data-event-card="haldi" class="reveal-on-scroll relative flex flex-col md:flex-row items-start md:items-center justify-between pl-14 md:pl-0">
-              <div class="absolute left-5 md:left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-amber-500 border-4 border-maroon-950 flex items-center justify-center z-10 text-maroon-950 font-bold text-sm">☀</div>
-              <div class="w-full md:w-[45%] bg-gradient-to-br from-amber-950/90 via-maroon-900/95 to-maroon-950 border border-amber-400/50 rounded-3xl p-6 sm:p-7 shadow-2xl">
-                <span class="inline-block font-poppins text-[10px] uppercase tracking-widest bg-amber-500/20 text-amber-300 border border-amber-400/40 px-3 py-1 rounded-full mb-2">Morning Ritual</span>
-                <h3 class="font-cinzel text-2xl sm:text-3xl font-bold text-amber-300 mb-3">Haldi Ceremony</h3>
-                <div class="space-y-1.5 font-poppins text-xs sm:text-sm text-ivory-100/90 mb-3">
-                  <p class="flex items-center gap-2 text-amber-200 font-medium"><span>📅</span> 10th Dec 2026 • 10:30 AM</p>
-                  <p class="flex items-center gap-2 text-ivory-200/80"><span>📍</span> Poolside Courtyard</p>
-                </div>
-                <p class="font-cormorant text-base sm:text-lg text-ivory-200/90">A splash of sunshine, fragrant turmeric, marigold petals, and joyous folk songs.</p>
-              </div>
-              <div class="hidden md:block md:w-[45%]"></div>
-            </div>
-
-            <div data-event-card="sangeet" class="reveal-on-scroll relative flex flex-col md:flex-row items-start md:items-center justify-between pl-14 md:pl-0">
-              <div class="absolute left-5 md:left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-emerald-500 border-4 border-maroon-950 flex items-center justify-center z-10 text-maroon-950 font-bold text-sm">♫</div>
-              <div class="hidden md:block md:w-[45%]"></div>
-              <div class="w-full md:w-[45%] bg-gradient-to-br from-emerald-950/90 via-maroon-900/95 to-maroon-950 border border-emerald-400/50 rounded-3xl p-6 sm:p-7 shadow-2xl">
-                <span class="inline-block font-poppins text-[10px] uppercase tracking-widest bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 px-3 py-1 rounded-full mb-2">Musical Evening</span>
-                <h3 class="font-cinzel text-2xl sm:text-3xl font-bold text-emerald-300 mb-3">Mehendi &amp; Sangeet</h3>
-                <div class="space-y-1.5 font-poppins text-xs sm:text-sm text-ivory-100/90 mb-3">
-                  <p class="flex items-center gap-2 text-emerald-200 font-medium"><span>📅</span> 11th Dec 2026 • 6:30 PM</p>
-                  <p class="flex items-center gap-2 text-ivory-200/80"><span>📍</span> Emerald Darbar Hall</p>
-                </div>
-                <p class="font-cormorant text-base sm:text-lg text-ivory-200/90">Intricate henna hues, rhythmic dholak beats, and electrifying family dance performances.</p>
-              </div>
-            </div>
-
-            <div data-event-card="vivah" class="reveal-on-scroll relative flex flex-col md:flex-row items-start md:items-center justify-between pl-14 md:pl-0">
-              <div class="absolute left-5 md:left-1/2 -translate-x-1/2 w-11 h-11 rounded-full bg-gradient-to-br from-gold-300 to-gold-600 border-4 border-maroon-950 flex items-center justify-center z-10 text-maroon-950 font-bold text-base">🔥</div>
-              <div class="w-full md:w-[45%] bg-gradient-to-br from-crimson-velvet via-maroon-900 to-maroon-950 border-2 border-gold-400/80 rounded-3xl p-6 sm:p-7 shadow-2xl">
-                <span class="inline-block font-poppins text-[10px] uppercase tracking-widest bg-gold-400/20 text-gold-300 border border-gold-400/50 px-3 py-1 rounded-full mb-2">Auspicious Muhurat</span>
-                <h3 class="font-cinzel text-2xl sm:text-3xl font-bold gold-shimmer-text mb-3">Baraat &amp; Shubh Vivah</h3>
-                <div class="space-y-1.5 font-poppins text-xs sm:text-sm text-ivory-100/90 mb-3">
-                  <p class="flex items-center gap-2 text-gold-300 font-medium"><span>📅</span> 12th Dec 2026 • 7:00 PM</p>
-                  <p class="flex items-center gap-2 text-ivory-200/80"><span>📍</span> Grand Lotus Mandap</p>
-                </div>
-                <p class="font-cormorant text-base sm:text-lg text-ivory-100/95">Under a canopy of blossoms and sacred Vedic chants, taking seven eternal vows around the holy fire.</p>
-              </div>
-              <div class="hidden md:block md:w-[45%]"></div>
-            </div>
-
-            <div data-event-card="reception" class="reveal-on-scroll relative flex flex-col md:flex-row items-start md:items-center justify-between pl-14 md:pl-0">
-              <div class="absolute left-5 md:left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-rose-600 border-4 border-maroon-950 flex items-center justify-center z-10 text-ivory-50 font-bold text-sm">✦</div>
-              <div class="hidden md:block md:w-[45%]"></div>
-              <div class="w-full md:w-[45%] bg-gradient-to-br from-rose-950/90 via-maroon-900/95 to-maroon-950 border border-rose-400/50 rounded-3xl p-6 sm:p-7 shadow-2xl">
-                <span class="inline-block font-poppins text-[10px] uppercase tracking-widest bg-rose-500/20 text-rose-200 border border-rose-400/40 px-3 py-1 rounded-full mb-2">Royal Gala Banquet</span>
-                <h3 class="font-cinzel text-2xl sm:text-3xl font-bold text-rose-200 mb-3">Grand Reception</h3>
-                <div class="space-y-1.5 font-poppins text-xs sm:text-sm text-ivory-100/90 mb-3">
-                  <p class="flex items-center gap-2 text-rose-200 font-medium"><span>📅</span> 13th Dec 2026 • 7:30 PM</p>
-                  <p class="flex items-center gap-2 text-ivory-200/80"><span>📍</span> Sheesh Mahal Lawns</p>
-                </div>
-                <p class="font-cormorant text-base sm:text-lg text-ivory-200/90">An evening of candlelit elegance, royal hospitality, and warm blessings for the newlyweds.</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. VENUE & RSVP -->
-    <section id="venue" class="relative py-20 sm:py-28 px-4 sm:px-8 max-w-6xl mx-auto">
-      <div class="reveal-on-scroll bg-black/30 gold-border-glow rounded-3xl p-7 sm:p-12 text-center mb-20">
-        <span class="font-cinzel text-xs tracking-[0.3em] uppercase text-gold-400">The Royal Destination</span>
-        <h2 class="font-cinzel text-3xl sm:text-4xl font-bold gold-shimmer-text mt-2 mb-4">Wedding Venue</h2>
-        <p id="venueDisplayTitle" class="font-cormorant text-2xl sm:text-3xl font-bold text-ivory-50 mb-2">The Royal Heritage Palace &amp; Lawns</p>
-        <p id="venueAddressDisplay" class="font-poppins text-xs sm:text-sm text-ivory-200/80 max-w-xl mx-auto mb-8"></p>
-
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a id="googleMapsLink" href="#" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto btn-royal-gold font-cinzel font-bold text-xs tracking-[0.18em] uppercase px-7 py-3.5 rounded-full shadow-xl">
-            Open in Google Maps
-          </a>
-          <button id="downloadIcsBtn" type="button" class="w-full sm:w-auto bg-maroon-950/90 hover:bg-maroon-800 text-gold-300 border border-gold-400/70 font-cinzel font-bold text-xs tracking-[0.18em] uppercase px-7 py-3.5 rounded-full cursor-pointer">
-            Add to Calendar (.ics)
-          </button>
-        </div>
-      </div>
-
-      <!-- RSVP & BLESSINGS WALL -->
-      <div id="rsvp" class="reveal-on-scroll">
-        <div class="text-center mb-12">
-          <span class="font-cinzel text-xs tracking-[0.3em] uppercase text-gold-400">Your Presence Is Our Greatest Gift</span>
-          <h2 class="font-cinzel text-3xl sm:text-5xl font-bold gold-shimmer-text mt-2">RSVP &amp; Royal Blessings</h2>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div class="lg:col-span-5 bg-black/30 gold-border-glow rounded-3xl p-6 sm:p-8">
-            <h3 class="font-cinzel text-xl text-gold-300 font-bold mb-4">Send Your Wishes &amp; RSVP</h3>
-            <form id="rsvpForm" class="space-y-4 font-poppins text-xs sm:text-sm">
-              <input id="guestName" type="text" required placeholder="Your Full Name *" class="w-full bg-maroon-950/90 border border-gold-500/40 rounded-xl px-4 py-3 text-ivory-100" />
-              <div class="grid grid-cols-2 gap-3">
-                <select id="guestStatus" class="w-full bg-maroon-950/90 border border-gold-500/40 rounded-xl px-3 py-3 text-ivory-100">
-                  <option value="Joyfully Attending">Joyfully Attending 🎉</option>
-                  <option value="Sending Warm Blessings">Sending Blessings 💐</option>
-                </select>
-                <select id="guestCount" class="w-full bg-maroon-950/90 border border-gold-500/40 rounded-xl px-3 py-3 text-ivory-100">
-                  <option value="1 Guest">1 Guest</option>
-                  <option value="2 Guests" selected>2 Guests</option>
-                  <option value="3 Guests">3 Guests</option>
-                  <option value="4+ Family">4+ Family</option>
-                </select>
-              </div>
-              <textarea id="guestWish" rows="3" placeholder="Your Wedding Blessing / Message" class="w-full bg-maroon-950/90 border border-gold-500/40 rounded-xl px-4 py-3 text-ivory-100"></textarea>
-              <button type="submit" class="w-full btn-royal-gold font-cinzel font-bold text-xs tracking-[0.16em] uppercase py-3.5 rounded-xl cursor-pointer">
-                ✦ Post Blessing to Wall
-              </button>
-              <button id="whatsappRsvpBtn" type="button" class="w-full bg-emerald-800/90 hover:bg-emerald-700 text-ivory-50 border border-emerald-400/50 font-cinzel font-bold text-xs tracking-[0.16em] uppercase py-3.5 rounded-xl cursor-pointer">
-                💬 Confirm via WhatsApp
-              </button>
-            </form>
-          </div>
-
-          <div class="lg:col-span-7 bg-black/25 gold-border-glow rounded-3xl p-6 sm:p-8">
-            <div class="flex items-center justify-between mb-6">
-              <h3 class="font-cinzel text-xl text-gold-300 font-bold">Family &amp; Friends Blessings</h3>
-              <span id="blessingCounter" class="bg-gold-500/20 border border-gold-400/40 text-gold-300 font-poppins text-xs px-3 py-1 rounded-full">0 Wishes</span>
-            </div>
-            <div id="blessingsList" class="space-y-4 max-h-[430px] overflow-y-auto pr-1"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="relative bg-black/40 border-t border-gold-500/40 py-14 px-4 text-center">
-      <div class="max-w-3xl mx-auto">
-        <p class="font-cinzel text-xs tracking-[0.28em] uppercase text-gold-400 mb-2">Awaiting Your Gracious Presence</p>
-        <h3 id="footerCoupleNames" class="font-vibes text-5xl sm:text-6xl gold-shimmer-text mb-3">Rahul &amp; Kanika</h3>
-      </div>
-    </footer>
-  </main>
-
-  <!-- BIG LOW-OPACITY WATERMARK OVERLAY (Shows only when unpaid) -->
-  <div id="previewWatermark">
-    <div class="wm-text">PREVIEW ONLY • PAY ₹29</div>
-    <div class="wm-text">ROYAL E-INVITE PREVIEW</div>
-    <div class="wm-text">PREVIEW ONLY • PAY ₹29</div>
-  </div>
-
-  <!-- FLOATING PAY ₹29 TO UNLOCK BAR -->
-  <div id="unlockBar">
-    <div style="font-size: 12px; line-height: 1.35;">
-      <strong style="color: #f3d078; display: block;">Free Preview (1 Hr)</strong>
-      <span style="opacity: 0.85;">Watermark hatayein &amp; 15 din ke liye share karein</span>
     </div>
-    <button id="payUnlockBtn" type="button">Pay ₹29 &amp; Unlock</button>
+  </section>
+
+  <!-- 6. RSVP & ROYAL BLESSINGS (EXACT ORIGINAL 2-COLUMN DESIGN) -->
+  <section class="royal-section">
+    <div class="section-inner">
+      <p class="eyebrow">YOUR PRESENCE IS OUR GREATEST GIFT</p>
+      <h2 class="section-title gold-gradient-text">RSVP &amp; ROYAL BLESSINGS</h2>
+      <div class="ornament-divider"><span></span>❖<span></span></div>
+
+      <div class="rsvp-grid">
+        <!-- Left Column: Send Wishes -->
+        <div class="royal-card-box">
+          <div class="card-heading-row">
+            <h3 class="card-heading">SEND YOUR WISHES &amp; RSVP</h3>
+          </div>
+          <form id="rsvpBlessingForm">
+            <input type="text" id="guestName" required placeholder="Your Full Name *" class="royal-field" />
+            <div class="field-row-2">
+              <select id="guestStatus" class="royal-field">
+                <option value="Joyfully Attending">Joyfully Attending</option>
+                <option value="Sending Warm Blessings">Sending Warm Blessings</option>
+              </select>
+              <select id="guestCount" class="royal-field">
+                <option value="1 Guest">1 Guest</option>
+                <option value="2 Guests" selected>2 Guests</option>
+                <option value="3 Guests">3 Guests</option>
+                <option value="4 Guests">4 Guests</option>
+                <option value="5+ Family">5+ Family</option>
+              </select>
+            </div>
+            <textarea id="guestWish" rows="3" placeholder="Your Wedding Blessing / Message" class="royal-field"></textarea>
+            <button type="submit" class="btn-post-gold">✦ POST BLESSING TO WALL</button>
+            <button type="button" id="whatsappRsvpBtn" class="btn-wa-green">💬 CONFIRM VIA WHATSAPP</button>
+          </form>
+        </div>
+
+        <!-- Right Column: Blessings Wall -->
+        <div class="royal-card-box">
+          <div class="card-heading-row">
+            <h3 class="card-heading">FAMILY &amp; FRIENDS BLESSINGS</h3>
+            <span class="wishes-pill" id="wishesCountBadge">1 Wishes</span>
+          </div>
+          <div class="blessings-list" id="blessingsWallList"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. SIGNATURE FOOTER -->
+  <footer class="signature-footer">
+    <p class="eyebrow">AWAITING YOUR GRACIOUS PRESENCE</p>
+    <div class="footer-script-names" id="footerCoupleScript">Dulha &amp; Dulhan</div>
+  </footer>
+
+  <!-- FLOATING AUDIO BUTTON -->
+  <button type="button" id="audioToggleBtn" title="Toggle Royal Music">🔇</button>
+
+  <!-- SINGLE CLEAN BOTTOM BAR -->
+  <div id="nativeBottomBar" class="hidden">
+    <div id="unpaidStateBar" class="hidden" style="display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#f6dc8d;">Free Preview (1 Hr)</div>
+        <div style="font-size:10.5px;color:rgba(247,238,220,0.8);">Watermark hatayein &amp; 15 din ke liye share karein</div>
+      </div>
+      <button type="button" id="unlockRazorpayBtn" style="background:linear-gradient(135deg,#f6dc8d,#c99a2e);color:#240408;border:none;border-radius:10px;padding:10px 15px;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;">
+        Pay ₹29 &amp; Unlock
+      </button>
+    </div>
+
+    <div id="paidStateBar" class="hidden" style="display:flex;width:100%;gap:8px;">
+      <button type="button" id="shareWaBtn" style="flex:1;background:#0f6b4e;color:#fff;border:none;border-radius:10px;padding:10px;font-weight:700;font-size:12px;cursor:pointer;">
+        💬 Share on WhatsApp
+      </button>
+      <button type="button" id="copyLinkBtn" style="background:#3d0811;color:#f6dc8d;border:1px solid #d4af37;border-radius:10px;padding:10px 14px;font-weight:700;font-size:12px;cursor:pointer;">
+        🔗 Copy Link
+      </button>
+    </div>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const state = {
-        groom: 'Rahul',
-        bride: 'Kanika',
-        weddingDate: '2026-12-12T19:00:00',
-        whatsappNumber: '919876543210',
-        venue: 'The Royal Heritage Palace & Lawns',
-        musicPlaying: false,
-        audioCtx: null,
-        melodyTimer: null,
-        droneTimer: null
-      };
+    const cardId = window.location.pathname.split('/').filter(Boolean).pop();
+    let state = {
+      groom: 'Dulha',
+      bride: 'Dulhan',
+      whatsappNumber: '',
+      weddingDate: new Date(Date.now() + 30 * 86400000),
+      blessings: []
+    };
 
-      const toastEl = document.getElementById('royalToast');
-      const toastMsgEl = document.getElementById('royalToastMsg');
-      let toastTimeout = null;
-      function showToast(message) {
-        toastMsgEl.textContent = message;
-        toastEl.classList.remove('opacity-0', '-translate-y-4');
-        toastEl.classList.add('opacity-100', 'translate-y-0');
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {
-          toastEl.classList.remove('opacity-100', 'translate-y-0');
-          toastEl.classList.add('opacity-0', '-translate-y-4');
-        }, 3400);
+    function esc(str) {
+      return String(str || '').replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+    }
+
+    function applyPalaceTheme(theme) {
+      const r = document.documentElement.style;
+      if (theme === 'peacock-emerald') {
+        r.setProperty('--bg-deep', '#021715');
+        r.setProperty('--bg-mid', '#073b37');
+        r.setProperty('--bg-card', 'rgba(4, 34, 31, 0.82)');
+      } else if (theme === 'banarasi-gold') {
+        r.setProperty('--bg-deep', '#1a0d01');
+        r.setProperty('--bg-mid', '#472303');
+        r.setProperty('--bg-card', 'rgba(38, 18, 2, 0.82)');
       }
+    }
 
-      // Music Synth
-      function startIndianAmbientMusic() {
-        try {
-          if (!state.audioCtx) {
-            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-            state.audioCtx = new AudioContextClass();
-          }
-          if (state.audioCtx.state === 'suspended') state.audioCtx.resume();
-          if (state.musicPlaying) return;
-          state.musicPlaying = true;
-          updateMusicIcons();
+    function renderEvents(events) {
+      const icons = ['🌼', '🌿', '🎶', '👑', '🪔', '✨'];
+      const list = (Array.isArray(events) && events.length > 0) ? events : [
+        { name: 'Haldi Ceremony', time: '11:00 AM', venue: 'Royal Courtyard' },
+        { name: 'Mehendi & Sangeet', time: '07:00 PM', venue: 'Sheesh Mahal' },
+        { name: 'Shubh Vivah & Pheras', time: '08:30 PM', venue: 'Grand Darbar Hall' }
+      ];
 
-          const ctx = state.audioCtx;
-          const masterGain = ctx.createGain();
-          masterGain.gain.setValueAtTime(0.08, ctx.currentTime);
-          masterGain.connect(ctx.destination);
+      document.getElementById('royalEventsGrid').innerHTML = list.map((ev, i) => `
+        <div class="event-card">
+          <div class="event-icon">${icons[i % icons.length]}</div>
+          <div class="event-name">${esc(ev.name || ev.title)}</div>
+          <div class="event-time">${esc(ev.time || ev.date || '')}</div>
+          <div class="event-venue">${esc(ev.venue || '')}</div>
+        </div>
+      `).join('');
+    }
 
-          const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
-          let step = 0;
-          const pattern = [0, 2, 4, 5, 4, 2, 1, 3, 5, 7, 5, 4, 2, 1, 0];
+    function renderBlessings() {
+      const listEl = document.getElementById('blessingsWallList');
+      const countEl = document.getElementById('wishesCountBadge');
+      countEl.textContent = `${state.blessings.length} Wishes`;
 
-          function playPluck(freq, duration = 2.6, vol = 0.25) {
-            if (!state.musicPlaying) return;
-            const now = ctx.currentTime;
-            const osc1 = ctx.createOscillator();
-            const noteGain = ctx.createGain();
-            osc1.type = 'sine';
-            osc1.frequency.setValueAtTime(freq, now);
-            noteGain.gain.setValueAtTime(0.001, now);
-            noteGain.gain.exponentialRampToValueAtTime(vol, now + 0.04);
-            noteGain.gain.exponentialRampToValueAtTime(0.0008, now + duration);
-            osc1.connect(noteGain);
-            noteGain.connect(masterGain);
-            osc1.start(now);
-            osc1.stop(now + duration + 0.05);
-          }
-
-          playPluck(notes[pattern[0]], 2.8, 0.22);
-          state.melodyTimer = setInterval(() => {
-            if (!state.musicPlaying) return;
-            step = (step + 1) % pattern.length;
-            playPluck(notes[pattern[step]], 2.8, 0.22);
-          }, 1350);
-        } catch (err) {
-          state.musicPlaying = false;
-          updateMusicIcons();
-        }
-      }
-
-      function stopIndianAmbientMusic() {
-        state.musicPlaying = false;
-        clearInterval(state.melodyTimer);
-        updateMusicIcons();
-      }
-
-      function updateMusicIcons() {
-        document.getElementById('iconSoundOn').classList.toggle('hidden', !state.musicPlaying);
-        document.getElementById('iconSoundOff').classList.toggle('hidden', state.musicPlaying);
-      }
-
-      document.getElementById('musicToggleBtn').addEventListener('click', () => {
-        if (state.musicPlaying) { stopIndianAmbientMusic(); showToast('Music Muted'); }
-        else { startIndianAmbientMusic(); showToast('Royal Melody Playing ♪'); }
-      });
-
-      // Curtain Entrance
-      const curtainOverlay = document.getElementById('curtainOverlay');
-      document.getElementById('openInvitationBtn').addEventListener('click', () => {
-        curtainOverlay.classList.add('curtain-opened');
-        burstGoldenSparkles();
-        startIndianAmbientMusic();
-        setTimeout(() => { curtainOverlay.style.display = 'none'; }, 1700);
-      });
-
-      // Petals Canvas
-      const canvas = document.getElementById('petalsCanvas');
-      const ctx2d = canvas.getContext('2d');
-      let width = (canvas.width = window.innerWidth);
-      let height = (canvas.height = window.innerHeight);
-      window.addEventListener('resize', () => { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; });
-
-      const particles = [];
-      const petalColors = ['#9b111e', '#be123c', '#e11d48', '#f59e0b', '#fbbf24'];
-      function createParticle(isBurst = false) {
-        const isGold = isBurst || Math.random() < 0.35;
-        return {
-          x: isBurst ? width / 2 + (Math.random() - 0.5) * 180 : Math.random() * width,
-          y: isBurst ? height / 2 + (Math.random() - 0.5) * 180 : -20 - Math.random() * height,
-          size: isGold ? 1.5 + Math.random() * 2.5 : 6 + Math.random() * 7,
-          speedY: isBurst ? (Math.random() - 0.5) * 6 : 0.7 + Math.random() * 1.3,
-          speedX: isBurst ? (Math.random() - 0.5) * 8 : (Math.random() - 0.5) * 0.9,
-          swayAngle: Math.random() * Math.PI * 2,
-          swaySpeed: 0.015 + Math.random() * 0.025,
-          rotation: Math.random() * Math.PI * 2,
-          rotationSpeed: (Math.random() - 0.5) * 0.04,
-          isGold,
-          color: isGold ? '#f9e79f' : petalColors[Math.floor(Math.random() * petalColors.length)],
-          alpha: isGold ? 0.5 + Math.random() * 0.5 : 0.65 + Math.random() * 0.3,
-          life: isBurst ? 90 : Infinity
-        };
-      }
-      for (let i = 0; i < (width < 640 ? 25 : 42); i++) { const p = createParticle(false); p.y = Math.random() * height; particles.push(p); }
-      function burstGoldenSparkles() { for (let i = 0; i < 40; i++) particles.push(createParticle(true)); }
-      function renderParticles() {
-        ctx2d.clearRect(0, 0, width, height);
-        for (let i = particles.length - 1; i >= 0; i--) {
-          const p = particles[i];
-          p.swayAngle += p.swaySpeed;
-          p.x += p.speedX + Math.sin(p.swayAngle) * 0.6;
-          p.y += p.speedY;
-          p.rotation += p.rotationSpeed;
-          if (p.life !== Infinity) { p.life--; p.alpha *= 0.97; if (p.life <= 0) { particles.splice(i, 1); continue; } }
-          else if (p.y > height + 25) { p.y = -20; p.x = Math.random() * width; }
-          ctx2d.save();
-          ctx2d.translate(p.x, p.y);
-          ctx2d.rotate(p.rotation);
-          ctx2d.globalAlpha = Math.max(0, p.alpha);
-          ctx2d.fillStyle = p.color;
-          ctx2d.beginPath();
-          if (p.isGold) ctx2d.arc(0, 0, p.size, 0, Math.PI * 2);
-          else {
-            ctx2d.moveTo(0, -p.size);
-            ctx2d.bezierCurveTo(p.size, -p.size, p.size * 1.1, p.size * 0.6, 0, p.size);
-            ctx2d.bezierCurveTo(-p.size * 1.1, p.size * 0.6, -p.size, -p.size, 0, -p.size);
-          }
-          ctx2d.fill();
-          ctx2d.restore();
-        }
-        requestAnimationFrame(renderParticles);
-      }
-      renderParticles();
-
-      // Countdown
-      function updateCountdown() {
-        const diff = Math.max(0, new Date(state.weddingDate).getTime() - Date.now());
-        document.getElementById('cdDays').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
-        document.getElementById('cdHours').textContent = String(Math.floor((diff / 3600000) % 24)).padStart(2, '0');
-        document.getElementById('cdMinutes').textContent = String(Math.floor((diff / 60000) % 60)).padStart(2, '0');
-        document.getElementById('cdSeconds').textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
-      }
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-
-      // Scroll Reveal
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('is-visible'); });
-      }, { threshold: 0.12 });
-      document.querySelectorAll('.reveal-on-scroll').forEach((el) => observer.observe(el));
-
-      // ICS Calendar Download
-      document.getElementById('downloadIcsBtn').addEventListener('click', () => {
-        const startObj = new Date(state.weddingDate);
-        const endObj = new Date(startObj.getTime() + 4 * 60 * 60 * 1000);
-        const fmt = (d) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-        const ics = [
-          'BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT',
-          `DTSTART:${fmt(startObj)}`, `DTEND:${fmt(endObj)}`,
-          `SUMMARY:${state.groom} weds ${state.bride} - Royal Wedding`,
-          `LOCATION:${state.venue}`, 'END:VEVENT', 'END:VCALENDAR'
-        ].join('\r\n');
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
-        link.download = `${state.groom}_weds_${state.bride}.ics`;
-        link.click();
-        showToast('Calendar Invitation Downloaded!');
-      });
-
-      // Blessings Rendering
-      let blessings = [];
-      const blessingsListEl = document.getElementById('blessingsList');
-      const blessingCounterEl = document.getElementById('blessingCounter');
-      function escapeHtml(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
-      function renderBlessings() {
-        blessingCounterEl.textContent = `${blessings.length} Wishes`;
-        blessingsListEl.innerHTML = blessings.map((item) => `
-          <div class="bg-maroon-950/85 border border-gold-500/30 rounded-2xl p-4 sm:p-5">
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-              <h4 class="font-cinzel text-sm sm:text-base font-bold text-gold-300">${escapeHtml(item.name)}</h4>
-              <span class="font-poppins text-[10px] px-2.5 py-0.5 rounded-full bg-gold-500/15 text-gold-200 border border-gold-400/30">${escapeHtml(item.status)}</span>
-            </div>
-            <p class="font-cormorant italic text-base sm:text-lg text-ivory-100/90">“${escapeHtml(item.wish)}”</p>
+      listEl.innerHTML = state.blessings.map(b => `
+        <div class="blessing-item">
+          <div class="blessing-top">
+            <span class="blessing-author">${esc(b.name)}</span>
+            <span class="blessing-status">${esc(b.status || 'Joyfully Attending')}</span>
           </div>
-        `).join('');
+          <p class="blessing-quote">“${esc(b.wish)}”</p>
+        </div>
+      `).join('');
+    }
+
+    function hydrateCard(card) {
+      if (!card) return;
+      applyPalaceTheme(card.theme);
+
+      state.groom = card.groomName || 'Dulha';
+      state.bride = card.brideName || 'Dulhan';
+      state.whatsappNumber = card.whatsappNumber || '';
+      state.blessings = Array.isArray(card.blessings) ? card.blessings : [];
+
+      document.title = `${state.groom} & ${state.bride} — Royal Vivah Nimantran`;
+      document.getElementById('heroGroom').textContent = state.groom;
+      document.getElementById('heroBride').textContent = state.bride;
+      document.getElementById('cardGroomName').textContent = state.groom;
+      document.getElementById('cardBrideName').textContent = state.bride;
+      document.getElementById('footerCoupleScript').textContent = `${state.groom} & ${state.bride}`;
+
+      if (card.groomParents) document.getElementById('cardGroomParents').textContent = card.groomParents;
+      if (card.brideParents) document.getElementById('cardBrideParents').textContent = card.brideParents;
+
+      if (card.groomPhoto) {
+        const img = document.getElementById('groomPhotoImg');
+        img.src = card.groomPhoto;
+        img.classList.remove('hidden');
+        document.getElementById('groomFallbackIcon').classList.add('hidden');
+      }
+      if (card.bridePhoto) {
+        const img = document.getElementById('bridePhotoImg');
+        img.src = card.bridePhoto;
+        img.classList.remove('hidden');
+        document.getElementById('brideFallbackIcon').classList.add('hidden');
       }
 
-      // LOAD CARD FROM SERVER + WATERMARK & PAY ₹29 UNLOCK
-      const pathParts = window.location.pathname.split('/').filter(Boolean);
-      const cardId = pathParts[0] === 'card' ? pathParts[1] : null;
+      const venueName = card.venueName || 'Royal Palace';
+      const fullAddr = [venueName, card.venueAddress].filter(Boolean).join(', ');
+      document.getElementById('venueTitle').textContent = venueName;
+      document.getElementById('venueAddr').textContent = card.venueAddress || '';
+      document.getElementById('googleMapLink').href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddr)}`;
 
-      async function loadDynamicCard() {
-        if (!cardId) return;
-        try {
-          const res = await fetch(`/api/card/${cardId}`);
-          if (!res.ok) {
-            document.body.innerHTML = `
-              <div class="min-h-screen flex flex-col items-center justify-center text-center p-6 bg-[#1f0205] text-[#fdf8f0]">
-                <h1 class="font-cinzel text-3xl text-[#f3d078] mb-3">Invitation Expired</h1>
-                <p class="font-poppins text-sm text-[#f7eedc]/80 max-w-md mb-6">Ye wedding card expire ho chuka hai ya delete ho gaya hai.</p>
-                <a href="/" class="btn-royal-gold font-cinzel font-bold text-xs px-6 py-3 rounded-full uppercase">Naya Card Banayein</a>
-              </div>`;
-            return;
-          }
-
-          const data = await res.json();
-
-          // 1. Apply Selected Theme
-          document.documentElement.setAttribute('data-theme', data.theme || 'royal-maroon');
-          
-          document.documentElement.setAttribute('data-design', data.design || 'royal-palace');
-
-          // 2. Watermark & Pay ₹29 Unlock Bar (if unpaid)
-          const wm = document.getElementById('previewWatermark');
-          const bar = document.getElementById('unlockBar');
-          const payBtn = document.getElementById('payUnlockBtn');
-
-          if (!data.isPaid) {
-            wm.style.display = 'flex';
-            bar.style.display = 'flex';
-
-            payBtn.onclick = async () => {
-              payBtn.disabled = true;
-              payBtn.textContent = 'Opening...';
-              try {
-                const orderRes = await fetch('/api/create-order', { method: 'POST' });
-                const orderData = await orderRes.json();
-                if (!orderRes.ok) throw new Error(orderData.error || 'Payment setup error');
-
-                const rzp = new Razorpay({
-                  key: orderData.keyId,
-                  amount: orderData.amount,
-                  currency: 'INR',
-                  name: 'Royal Wedding E-Invite',
-                  description: 'Remove Watermark & Unlock for 15 Days',
-                  order_id: orderData.orderId,
-                  handler: async function (response) {
-                    payBtn.textContent = 'Unlocking...';
-                    const unlockRes = await fetch('/api/unlock-card', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        cardId: data.id,
-                        razorpay_order_id: response.razorpay_order_id,
-                        razorpay_payment_id: response.razorpay_payment_id,
-                        razorpay_signature: response.razorpay_signature
-                      })
-                    });
-                    const unlockData = await unlockRes.json();
-                    if (!unlockRes.ok) throw new Error(unlockData.error || 'Unlock failed');
-
-                    // Remove Watermark & Show Copy Link
-                    wm.style.display = 'none';
-                    bar.innerHTML = `
-                      <div style="font-size:12px;"><strong style="color:#6ee7b7;">🎉 Card Unlocked (15 Days)!</strong></div>
-                      <button id="copyShareBtn" type="button" style="background:#10b981;color:#fff;font-weight:700;font-size:12px;padding:8px 14px;border-radius:10px;border:none;cursor:pointer;">Copy Share Link</button>
-                    `;
-                    document.getElementById('copyShareBtn').onclick = () => {
-                      navigator.clipboard.writeText(window.location.href);
-                      document.getElementById('copyShareBtn').textContent = 'Copied ✓';
-                    };
-                    showToast('Payment Successful! Watermark Removed 🎉');
-                  },
-                  modal: {
-                    ondismiss: () => {
-                      payBtn.disabled = false;
-                      payBtn.textContent = 'Pay ₹29 & Unlock';
-                    }
-                  },
-                  theme: { color: '#700914' }
-                });
-                rzp.open();
-              } catch (err) {
-                alert(err.message);
-                payBtn.disabled = false;
-                payBtn.textContent = 'Pay ₹29 & Unlock';
-              }
-            };
-          }
-
-          // 3. Populate Card Data
-          state.groom = data.groomName;
-          state.bride = data.brideName;
-          state.weddingDate = data.weddingDate;
-          state.venue = data.venueName;
-          if (data.whatsappNumber) state.whatsappNumber = data.whatsappNumber;
-
-          document.title = `${data.groomName} weds ${data.brideName} | Royal Wedding Invitation`;
-          document.querySelector('.curtain-center-seal .font-cinzel.text-3xl').innerHTML =
-            `${data.groomName[0].toUpperCase()} <span class="font-vibes text-2xl sm:text-3xl">&amp;</span> ${data.brideName[0].toUpperCase()}`;
-          document.querySelector('.curtain-center-seal .italic').textContent = `${data.groomName} & ${data.brideName}`;
-
-          document.getElementById('heroGroomName').textContent = data.groomName;
-          document.getElementById('heroBrideName').textContent = data.brideName;
-          document.getElementById('cardGroomName').textContent = data.groomName;
-          document.getElementById('cardBrideName').textContent = data.brideName;
-          document.getElementById('footerCoupleNames').textContent = `${data.groomName} & ${data.brideName}`;
-
-          if (data.groomParents) document.getElementById('heroGroomParents').textContent = data.groomParents;
-          if (data.brideParents) document.getElementById('heroBrideParents').textContent = data.brideParents;
-
-          if (data.groomPhoto) {
-            const gImg = document.getElementById('groomPhotoImg');
-            gImg.src = data.groomPhoto;
-            gImg.style.display = 'block';
-          }
-          if (data.bridePhoto) {
-            const bImg = document.getElementById('bridePhotoImg');
-            bImg.src = data.bridePhoto;
-            bImg.style.display = 'block';
-          }
-
-          const d = new Date(data.weddingDate);
-          document.getElementById('heroDateDisplay').textContent = d.toLocaleDateString('en-US', {
-            weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-          });
-          document.getElementById('venueDisplayTitle').textContent = data.venueName;
-          document.getElementById('venueAddressDisplay').textContent = data.venueAddress || '';
-          document.getElementById('googleMapsLink').href =
-            `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.venueName + ' ' + (data.venueAddress || ''))}`;
-
-          if (Array.isArray(data.events) && data.events.length > 0) {
-            const selectedMap = {};
-            data.events.forEach((ev) => (selectedMap[ev.type] = ev));
-            document.querySelectorAll('[data-event-card]').forEach((cardEl) => {
-              const type = cardEl.getAttribute('data-event-card');
-              if (!selectedMap[type]) cardEl.style.display = 'none';
-              else {
-                const ev = selectedMap[type];
-                const pTags = cardEl.querySelectorAll('.font-poppins p');
-                if (ev.date && pTags[0]) pTags[0].innerHTML = `<span>📅</span> ${ev.date}`;
-                if (ev.venue && pTags[pTags.length - 1]) pTags[pTags.length - 1].innerHTML = `<span>📍</span> ${ev.venue}`;
-              }
-            });
-          }
-
-          if (Array.isArray(data.blessings)) {
-            blessings = data.blessings;
-            renderBlessings();
-          }
-
+      if (card.weddingDate) {
+        const parsed = new Date(card.weddingDate);
+        if (!isNaN(parsed.getTime())) {
+          state.weddingDate = parsed;
+          const dateStr = parsed.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+          const timeStr = parsed.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+          document.getElementById('heroDateVenue').textContent = `${dateStr} • ${venueName}`;
+          document.getElementById('fullMuhuratDate').textContent = `${dateStr} at ${timeStr}`;
           updateCountdown();
-        } catch (err) {
-          console.error('Card load error:', err);
         }
       }
 
-      loadDynamicCard();
+      renderEvents(card.events);
+      renderBlessings();
 
-      // Save Blessing to Server
-      document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const name = document.getElementById('guestName').value.trim();
-        const status = document.getElementById('guestStatus').value;
-        const wish = document.getElementById('guestWish').value.trim() || `Best wishes to ${state.groom} & ${state.bride}!`;
-        if (!name) return;
+      document.getElementById('nativeBottomBar').classList.remove('hidden');
+      if (card.isPaid) {
+        document.getElementById('paidStateBar').classList.remove('hidden');
+      } else {
+        document.getElementById('nativeWatermark').classList.remove('hidden');
+        document.getElementById('unpaidStateBar').classList.remove('hidden');
+        document.getElementById('editEventsTrigger').classList.remove('hidden');
+      }
+    }
 
-        if (cardId) {
-          try {
-            const res = await fetch(`/api/card/${cardId}/blessing`, {
+    window.addEventListener('royalCardReady', e => hydrateCard(e.detail));
+    if (window.ROYAL_CARD) hydrateCard(window.ROYAL_CARD);
+
+    /* Countdown */
+    function updateCountdown() {
+      const diff = Math.max(0, state.weddingDate.getTime() - Date.now());
+      document.getElementById('cdDays').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+      document.getElementById('cdHours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+      document.getElementById('cdMins').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+      document.getElementById('cdSecs').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+    }
+    setInterval(updateCountdown, 1000);
+
+    /* Post Blessing */
+    document.getElementById('rsvpBlessingForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('guestName').value.trim();
+      const status = document.getElementById('guestStatus').value;
+      const count = document.getElementById('guestCount').value;
+      const wish = document.getElementById('guestWish').value.trim() || `Wishing ${state.groom} & ${state.bride} a lifetime of love and royal togetherness!`;
+      if (!name) return;
+
+      try {
+        const res = await fetch(`/api/card/${encodeURIComponent(cardId)}/blessing`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, status: `${status} (${count})`, wish })
+        });
+        const data = await res.json();
+        if (data.blessings) state.blessings = data.blessings;
+      } catch (_) {
+        state.blessings.unshift({ name, status: `${status} (${count})`, wish });
+      }
+      renderBlessings();
+      document.getElementById('guestWish').value = '';
+    });
+
+    /* Confirm via WhatsApp */
+    document.getElementById('whatsappRsvpBtn').addEventListener('click', () => {
+      const name = document.getElementById('guestName').value.trim() || 'A Well-Wisher';
+      const status = document.getElementById('guestStatus').value;
+      const count = document.getElementById('guestCount').value;
+      const wish = document.getElementById('guestWish').value.trim() || `Wishing ${state.groom} & ${state.bride} a very happy married life!`;
+      const msg = `|| Shri Ganeshay Namah ||\n*Royal Wedding RSVP — ${state.groom} weds ${state.bride}*\n\n• *Guest Name:* ${name}\n• *Response:* ${status}\n• *Guests:* ${count}\n• *Blessing:* "${wish}"`;
+      window.open(`https://wa.me/${state.whatsappNumber}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+    });
+
+    /* Razorpay ₹29 Unlock */
+    document.getElementById('unlockRazorpayBtn').addEventListener('click', async function () {
+      const btn = this;
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+      try {
+        const orderRes = await fetch('/api/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cardId })
+        });
+        const order = await orderRes.json();
+        if (!orderRes.ok) throw new Error(order.error || 'Order failed');
+
+        const rzp = new Razorpay({
+          key: order.keyId,
+          amount: order.amount,
+          currency: 'INR',
+          name: 'Royal Wedding Invitations',
+          description: 'Unlock Royal Palace Card (15 Days)',
+          order_id: order.orderId,
+          handler: async function (response) {
+            const vRes = await fetch('/api/unlock-card', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ name, status, wish })
+              body: JSON.stringify({
+                cardId,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
+              })
             });
-            const data = await res.json();
-            if (data.blessings) blessings = data.blessings;
-          } catch (err) {
-            blessings.unshift({ name, status, wish });
-          }
-        } else {
-          blessings.unshift({ name, status, wish });
+            const vData = await vRes.json();
+            if (vData.success) {
+              alert('🎉 Card Unlocked! Invoice & link sent to your email.');
+              window.location.reload();
+            } else {
+              alert(vData.error || 'Verification failed');
+            }
+          },
+          theme: { color: '#4a0b16' }
+        });
+        rzp.open();
+      } catch (err) {
+        alert(err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Pay ₹29 & Unlock';
+      }
+    });
+
+    /* Share & Copy Link */
+    document.getElementById('shareWaBtn').addEventListener('click', () => {
+      const msg = `👑 *Shahi Nimantran* 👑\nYou are cordially invited to the wedding of *${state.groom} & ${state.bride}*.\nOpen your royal invitation:\n${window.location.href}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+    });
+    document.getElementById('copyLinkBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href);
+      const b = document.getElementById('copyLinkBtn');
+      b.textContent = '✅ Copied!';
+      setTimeout(() => (b.textContent = '🔗 Copy Link'), 2000);
+    });
+
+    /* Gentle Floating Golden & Crimson Petals */
+    (function initPetals() {
+      const canvas = document.getElementById('petalCanvas');
+      const ctx = canvas.getContext('2d');
+      let w, h;
+      function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+      window.addEventListener('resize', resize);
+      resize();
+
+      const colors = ['#d4af37', '#f6dc8d', '#c81e3a', '#e07a1f'];
+      const petals = Array.from({ length: 24 }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: 3 + Math.random() * 4,
+        vy: 0.4 + Math.random() * 0.7,
+        vx: (Math.random() - 0.5) * 0.5,
+        a: Math.random() * Math.PI * 2,
+        c: colors[Math.floor(Math.random() * colors.length)]
+      }));
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        for (const p of petals) {
+          p.y += p.vy;
+          p.x += p.vx + Math.sin(p.a += 0.015) * 0.35;
+          if (p.y > h + 10) { p.y = -10; p.x = Math.random() * w; }
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.a);
+          ctx.globalAlpha = 0.65;
+          ctx.fillStyle = p.c;
+          ctx.beginPath();
+          ctx.ellipse(0, 0, p.r, p.r * 0.55, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
         }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
 
-        renderBlessings();
-        burstGoldenSparkles();
-        showToast('Your Royal Blessing has been added!');
-        document.getElementById('guestWish').value = '';
-      });
-
-      // WhatsApp RSVP
-      document.getElementById('whatsappRsvpBtn').addEventListener('click', () => {
-        const name = document.getElementById('guestName').value.trim() || 'A Well-Wisher';
-        const status = document.getElementById('guestStatus').value;
-        const count = document.getElementById('guestCount').value;
-        const wish = document.getElementById('guestWish').value.trim() || `Wishing ${state.groom} & ${state.bride} a very happy married life!`;
-        const message = `॥ श्री गणेशाय नमः ॥\n*Royal Wedding RSVP — ${state.groom} weds ${state.bride}*\n\n• *Guest Name:* ${name}\n• *Response:* ${status}\n• *Guests:* ${count}\n• *Blessing:* "${wish}"`;
-        window.open(`https://wa.me/${state.whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
-      });
+    /* WebAudio Royal Chimes */
+    let audioCtx = null, isPlaying = false, chimeTimer = null;
+    document.getElementById('audioToggleBtn').addEventListener('click', function () {
+      if (!isPlaying) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!audioCtx) audioCtx = new Ctx();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const notes = [261.63, 329.63, 392.00, 493.88, 392.00, 329.63];
+        let i = 0;
+        chimeTimer = setInterval(() => {
+          if (!isPlaying) return;
+          const now = audioCtx.currentTime;
+          const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(notes[i++ % notes.length], now);
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.linearRampToValueAtTime(0.06, now + 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.9);
+          osc.connect(gain); gain.connect(audioCtx.destination);
+          osc.start(now); osc.stop(now + 0.95);
+        }, 700);
+        isPlaying = true;
+        this.textContent = '🔊';
+      } else {
+        isPlaying = false;
+        clearInterval(chimeTimer);
+        this.textContent = '🔇';
+      }
     });
   </script>
   <script src="/card-bridge.js"></script>
