@@ -53,7 +53,6 @@
     .hidden { display: none !important; }
 
     .font-cinzel { font-family: 'Cinzel', Georgia, serif; }
-    .font-serif-royal { font-family: 'Cormorant Garamond', Georgia, serif; }
     .font-hindi { font-family: 'Noto Serif Devanagari', serif; }
     .font-ui { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
 
@@ -67,7 +66,6 @@
     }
     @keyframes goldFlow { to { background-position: 200% center; } }
 
-    /* Continuous Falling Gold Particles Canvas across Card */
     #goldParticlesCanvas {
       position: fixed;
       inset: 0;
@@ -77,9 +75,7 @@
       z-index: 45;
     }
 
-    /* =====================================================================
-       1. TAP-TO-START 9:16 VIDEO INTRO STAGE
-       ===================================================================== */
+    /* 1. TAP-TO-START 9:16 VIDEO INTRO STAGE */
     #videoIntroStage {
       position: fixed;
       inset: 0;
@@ -173,9 +169,7 @@
       cursor: pointer;
     }
 
-    /* =====================================================================
-       2. TOP FLOATING CONTROLS (BGM & REPLAY)
-       ===================================================================== */
+    /* 2. TOP FLOATING CONTROLS */
     .top-controls-bar {
       position: fixed;
       top: 12px;
@@ -208,9 +202,7 @@
       backdrop-filter: blur(8px);
     }
 
-    /* =====================================================================
-       3. CLEAN SIMPLE COUPLE NAMES + HALDI/MEHENDI SLIDEABLE EVENTS
-       ===================================================================== */
+    /* 3. CLEAN SIMPLE COUPLE NAMES + HALDI/MEHENDI SLIDEABLE EVENTS */
     .invite-wrap {
       width: 100%;
       max-width: 520px;
@@ -243,7 +235,6 @@
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.72), inset 0 0 35px rgba(229, 184, 75, 0.08);
     }
 
-    /* Clean, Simple, Legible Couple Names */
     .simple-couple-name {
       font-family: 'Cinzel', Georgia, serif;
       font-size: clamp(24px, 6.8vw, 34px);
@@ -316,7 +307,6 @@
       background: linear-gradient(90deg, transparent, var(--gold-mid), transparent);
     }
 
-    /* Couple Arch Grid */
     .jodi-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -343,7 +333,6 @@
       object-fit: cover;
     }
 
-    /* Countdown */
     .cd-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -370,9 +359,7 @@
       margin-top: 3px;
     }
 
-    /* =====================================================================
-       SLIDEABLE HALDI (TURMERIC GOLD) & MEHENDI (EMERALD GREEN) EVENTS
-       ===================================================================== */
+    /* Slideable Haldi & Mehendi Events */
     .slide-viewport {
       position: relative;
       width: 100%;
@@ -398,10 +385,8 @@
       border-radius: 18px;
       padding: 18px 14px;
       text-align: center;
-      transition: transform 0.25s ease;
     }
 
-    /* Haldi Theme Card (Warm Marigold & Turmeric Gold) */
     .slide-event-card.haldi-card {
       background: linear-gradient(160deg, #6b3b04 0%, #3b1e02 100%);
       border: 1.5px solid #fbbf24;
@@ -415,7 +400,6 @@
     .slide-event-card.haldi-card .ev-name { color: #fef08a; }
     .slide-event-card.haldi-card .ev-time { color: #fbbf24; }
 
-    /* Mehendi Theme Card (Lush Emerald & Henna Green) */
     .slide-event-card.mehendi-card {
       background: linear-gradient(160deg, #0b4a36 0%, #05261c 100%);
       border: 1.5px solid #34d399;
@@ -478,6 +462,19 @@
       cursor: pointer;
     }
 
+    .add-ev-inline-btn {
+      margin-top: 12px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(229, 184, 75, 0.6);
+      background: rgba(22, 11, 2, 0.78);
+      color: var(--gold-bright);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
     .gold-btn {
       display: inline-block;
       padding: 12px 24px;
@@ -510,7 +507,6 @@
 </head>
 <body class="video-locked">
 
-  <!-- CONTINUOUS FALLING GOLD PARTICLES OVER CARD -->
   <canvas id="goldParticlesCanvas"></canvas>
 
   <!-- 1. TAP-TO-START 9:16 VIDEO STAGE -->
@@ -553,7 +549,6 @@
         Together with our beloved families, we invite you to the wedding of
       </p>
 
-      <!-- Simple, Clean Couple Names -->
       <div class="fade-reveal" style="--d: 0.45s; margin:14px 0;">
         <h1 id="heroGroom" class="simple-couple-name gold-foil">Dulha</h1>
         <span class="weds-separator">&amp;</span>
@@ -617,8 +612,8 @@
 
     <!-- SLIDEABLE HALDI & MEHENDI EVENTS -->
     <section class="glass-card">
-      <p class="eyebrow">Slide Functions</p>
-      <h2 class="gold-foil sec-title">HALDI &amp; MEHENDI UTAV</h2>
+      <p class="eyebrow">Slide Functions (<span id="eventsTotalCount">0</span>)</p>
+      <h2 class="gold-foil sec-title">HALDI &amp; MEHENDI UTSAV</h2>
       <div class="gold-divider"></div>
 
       <div class="slide-viewport" id="eventsSlideViewport">
@@ -630,6 +625,10 @@
         <span class="font-ui" style="font-size:10.5px;color:#fff0b8;opacity:0.8;letter-spacing:0.1em;">Swipe or Tap Arrows</span>
         <button type="button" class="slide-arrow-btn" onclick="slideEvents(1)" aria-label="Next event">▶</button>
       </div>
+
+      <button type="button" id="videoAddEventsBtn" class="add-ev-inline-btn hidden" onclick="window.openRoyalEventsEditor && window.openRoyalEventsEditor(window.ROYAL_CARD)">
+        + Add / Edit Events
+      </button>
     </section>
 
     <!-- VENUE -->
@@ -693,7 +692,7 @@
       return String(s || '').replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
     }
 
-    /* ===== 1. TAP TO START VIDEO + INDIAN BGM ===== */
+    /* 1. TAP TO START VIDEO + INDIAN BGM */
     videoEl.src = INTRO_VIDEO_URL;
 
     function tapToStartVideo() {
@@ -740,7 +739,7 @@
       videoEl.currentTime = 0;
     }
 
-    /* ===== 2. BUILT-IN INDIAN WEDDING BGM (WEB AUDIO) ===== */
+    /* 2. BUILT-IN INDIAN WEDDING BGM */
     function startIndianBgm() {
       if (!bgmEnabled) return;
       try {
@@ -749,7 +748,6 @@
         if (audioCtx.state === 'suspended') audioCtx.resume();
         if (bgmTimer) return;
 
-        // Raag Yaman / Bhupali festive sequence
         const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 440.00, 392.00, 329.63, 293.66];
         let idx = 0;
 
@@ -795,19 +793,21 @@
       document.getElementById('cardBgmBtn').textContent = txt;
     }
 
-    /* ===== 3. SLIDEABLE HALDI & MEHENDI EVENTS ===== */
+    /* 3. SLIDEABLE HALDI & MEHENDI EVENTS (RENDERS EVERY EVENT IN ARRAY) */
     function renderEvents(events) {
-      const list = (Array.isArray(events) && events.length > 0) ? events : [
+      const hasCustom = Array.isArray(events) && events.length > 0;
+      const list = hasCustom ? events : [
         { name: 'Haldi Ceremony', time: '11:00 AM', venue: 'Marigold Courtyard' },
-        { name: 'Mehendi Rasam', time: '04:30 PM', venue: 'Emerald Garden' },
-        { name: 'Haldi & Sangeet', time: '07:00 PM', venue: 'Royal Darbar' },
-        { name: 'Mehendi & Pheras', time: '08:30 PM', venue: 'Grand Mandap' }
+        { name: 'Mehendi Rasam', time: '04:30 PM', venue: 'Emerald Garden' }
       ];
 
+      document.getElementById('eventsTotalCount').textContent = list.length;
+
       document.getElementById('eventsSlideTrack').innerHTML = list.map((ev, idx) => {
-        const isMehendi = idx % 2 === 1;
+        const rawLabel = String(ev.name || ev.title || '').toLowerCase();
+        const isMehendi = rawLabel.includes('mehendi') || rawLabel.includes('mehndi') || rawLabel.includes('sangeet') || (idx % 2 === 1);
         const themeClass = isMehendi ? 'mehendi-card' : 'haldi-card';
-        const tagText = isMehendi ? 'Mehendi • Green' : 'Haldi • Gold';
+        const tagText = isMehendi ? `Mehendi • 0${idx + 1}` : `Haldi • 0${idx + 1}`;
         const emoji = isMehendi ? '🌿' : '🌼';
 
         return `
@@ -820,6 +820,8 @@
           </article>
         `;
       }).join('');
+
+      document.getElementById('eventsSlideViewport').scrollLeft = 0;
     }
     renderEvents([]);
 
@@ -828,7 +830,7 @@
       vp.scrollBy({ left: dir * 257, behavior: 'smooth' });
     }
 
-    /* ===== 4. HYDRATE DYNAMIC CARD DATA ===== */
+    /* 4. HYDRATE DYNAMIC CARD DATA */
     function applyCardData(card) {
       if (!card) return;
       const groom = card.groomName || 'Dulha';
@@ -874,12 +876,16 @@
       }
 
       renderEvents(card.events);
+
+      if (!card.isPaid) {
+        document.getElementById('videoAddEventsBtn').classList.remove('hidden');
+      }
     }
 
     window.addEventListener('royalCardReady', e => applyCardData(e.detail));
     if (window.ROYAL_CARD) applyCardData(window.ROYAL_CARD);
 
-    /* ===== 5. COUNTDOWN & RSVP ===== */
+    /* 5. COUNTDOWN & RSVP */
     function tickCountdown() {
       const diff = Math.max(0, weddingTarget.getTime() - Date.now());
       document.getElementById('cdD').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
@@ -901,7 +907,7 @@
       document.getElementById('rsvpDone').classList.remove('hidden');
     });
 
-    /* ===== 6. CONTINUOUS FALLING GOLD PARTICLES ACROSS CARD ===== */
+    /* 6. CONTINUOUS FALLING GOLD PARTICLES */
     (function startFallingGoldParticles() {
       const c = document.getElementById('goldParticlesCanvas');
       const ctx = c.getContext('2d');
