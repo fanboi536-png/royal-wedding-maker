@@ -75,6 +75,26 @@ function uploadToCloudinary(buffer) {
   });
 }
 
+// HELPER: NORMALIZE EVENTS SO EVERY TEMPLATE READS THEM PROPERLY
+function normalizeEvents(rawList) {
+  if (!Array.isArray(rawList)) return [];
+  return rawList
+    .filter((ev) => ev && (ev.name || ev.title))
+    .slice(0, 12)
+    .map((ev) => {
+      const evName = String(ev.name || ev.title || '').trim().slice(0, 60);
+      const evTime = String(ev.time || ev.date || '').trim().slice(0, 50);
+      const evVenue = String(ev.venue || '').trim().slice(0, 80);
+      return {
+        name: evName,
+        title: evName,
+        time: evTime,
+        date: evTime,
+        venue: evVenue
+      };
+    });
+}
+
 // HELPER: READ TEMPLATES LIST DYNAMICALLY
 function getTemplatesList() {
   try {
@@ -87,7 +107,9 @@ function getTemplatesList() {
   return [
     { id: 'royal-palace', name: 'Royal Palace', file: 'card.html' },
     { id: 'shahi-scroll', name: 'Shahi Scroll', file: 'scroll-card.html' },
-    { id: 'shahi-darbar', name: 'Shahi Darbar', file: 'darbar-card.html' }
+    { id: 'shahi-darbar', name: 'Shahi Darbar', file: 'darbar-card.html' },
+    { id: 'shahi-parda', name: 'Shahi Parda', file: 'curtain-card.html' },
+    { id: 'pre-wedding-album', name: 'Photo Album', file: 'album-card.html' }
   ];
 }
 
@@ -188,6 +210,14 @@ app.post(
         bridePhotoUrl = await uploadToCloudinary(req.files['bridePhoto'][0].buffer);
       }
 
+      let rawEvents = [];
+      try {
+        rawEvents = JSON.parse(eventsJson || req.body.events || '[]');
+      } catch (_) {
+        rawEvents = [];
+      }
+      const normalizedEvents = normalizeEvents(rawEvents);
+
       const clean = (str) => str.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 15) || 'royal';
       const cardId = `${clean(groomName)}-weds-${clean(brideName)}-${crypto.randomBytes(3).toString('hex')}`;
       const oneHourLater = new Date(Date.now() + 60 * 60 * 1000);
@@ -204,7 +234,7 @@ app.post(
         whatsappNumber: (whatsappNumber || '').replace(/\D/g, ''),
         groomPhoto: groomPhotoUrl,
         bridePhoto: bridePhotoUrl,
-        events: JSON.parse(eventsJson || '[]'),
+        events: normalizedEvents,
         theme: theme || 'royal-maroon',
         design: design || 'royal-palace',
         isPaid: false,
@@ -336,6 +366,21 @@ app.post('/api/card/:id/blessing', async (req, res) => {
     res.json({ success: true, blessings: card.blessings });
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// 8B. API: EVENTS ADD / EDIT KAREIN (Generated card ke baad bhi)
+app.post('/api/card/:id/events', async (req, res) => {
+  try {
+    const card = await Card.findOne({ id: req.params.id });
+    if (!card) return res.status(404).json({ error: 'Card not found' });
+
+    card.events = normalizeEvents(req.body.events);
+    await card.save();
+
+    res.json({ success: true, events: card.events });
+  } catch (err) {
+    res.status(500).json({ error: 'Events update karne mein error aaya.' });
   }
 });
 
