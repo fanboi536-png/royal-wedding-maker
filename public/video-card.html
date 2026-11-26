@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Shahi Portal — Royal Wedding Invitation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Noto+Serif+Devanagari:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-vortex-dark: #160c02;
+      --bg-vortex-warm: #3b2106;
+      --card-surface: rgba(34, 18, 4, 0.86);
+      --gold-bright: #fff0b8;
+      --gold-mid: #e5b84b;
+      --gold-deep: #9c6f16;
+      --cream-text: #fdf4df;
+      --gold-line: rgba(229, 184, 75, 0.38);
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html[data-theme="peacock-emerald"] {
+      --bg-vortex-dark: #031715;
+      --bg-vortex-warm: #083d38;
+      --card-surface: rgba(5, 36, 33, 0.88);
+    }
+
+    html[data-theme="banarasi-gold"] {
+      --bg-vortex-dark: #1c0e01;
+      --bg-vortex-warm: #4a2604;
+      --card-surface: rgba(42, 21, 3, 0.88);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(229, 184, 75, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 50% 45%, var(--bg-vortex-warm) 0%, var(--bg-vortex-dark) 80%);
+      color: var(--cream-text);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      overflow-x: hidden;
+    }
+    body.video-locked {
+      overflow: hidden;
+      height: 100vh;
+      height: 100dvh;
+    }
+    .hidden { display: none !important; }
+
+    .font-cinzel { font-family: 'Cinzel', Georgia, serif; }
+    .font-script { font-family: 'Great Vibes', cursive; }
+    .font-hindi { font-family: 'Noto Serif Devanagari', serif; }
+    .font-ui { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    .gold-foil {
+      background: linear-gradient(120deg, var(--gold-deep) 0%, var(--gold-bright) 35%, var(--gold-mid) 58%, #fff8dc 75%, var(--gold-deep) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: goldFlow 5s linear infinite;
+    }
+    @keyframes goldFlow { to { background-position: 200% center; } }
+
+    /* =====================================================================
+       1. FULL-BLEED 9:16 VIDEO STAGE WITH SMOOTH CROSSFADE
+       ===================================================================== */
+    #videoIntroStage {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 80;
+      background: #140a02;
+      overflow: hidden;
+      opacity: 1;
+      transform: scale3d(1, 1, 1);
+      transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+      will-change: opacity, transform;
+    }
+    #videoIntroStage.fade-out {
+      opacity: 0;
+      transform: scale3d(1.07, 1.07, 1);
+      pointer-events: none;
+    }
+    #videoIntroStage.gone {
+      display: none;
+    }
+
+    #introVideoEl {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .video-controls-bar {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      padding: 0 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 5;
+    }
+
+    .vid-pill {
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: rgba(22, 12, 2, 0.72);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 240, 184, 0.55);
+      color: var(--gold-bright);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    #setupFallbackBox {
+      position: relative;
+      z-index: 6;
+      max-width: 360px;
+      margin: 24px auto;
+      padding: 24px 20px;
+      border-radius: 16px;
+      background: rgba(34, 18, 4, 0.95);
+      border: 1px solid var(--gold-mid);
+      text-align: center;
+    }
+
+    /* =====================================================================
+       2. GOLD PARTICLE VORTEX MATCHING CARD & FADE-IN SEQUENCE
+       ===================================================================== */
+    .replay-fab {
+      position: fixed;
+      top: 12px;
+      right: 14px;
+      z-index: 60;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+    body.card-revealed .replay-fab {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .invite-wrap {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 46px 16px 104px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .fade-reveal {
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+      transition: opacity 0.95s var(--ease-out) var(--d, 0s),
+                  transform 0.95s var(--ease-out) var(--d, 0s);
+      will-change: opacity, transform;
+    }
+    body.card-revealed .fade-reveal {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .vortex-hero {
+      text-align: center;
+      padding: 42px 20px 32px;
+      border-radius: 140px 140px 24px 24px;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(255, 220, 120, 0.14) 0%, rgba(46, 25, 6, 0.88) 70%),
+        var(--card-surface);
+      border: 1px solid var(--gold-line);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.72), inset 0 0 35px rgba(229, 184, 75, 0.08);
+    }
+
+    .couple-title {
+      font-size: clamp(46px, 12vw, 72px);
+      line-height: 1.12;
+      color: var(--gold-bright);
+      margin: 10px 0;
+      text-shadow: 0 4px 26px rgba(245, 190, 65, 0.35);
+    }
+
+    .weds-word {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 0.28em;
+      color: var(--gold-mid);
+      margin: 4px 0;
+    }
+
+    .muhurat-card {
+      margin-top: 20px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(18, 9, 2, 0.65);
+      border: 1px solid var(--gold-line);
+    }
+
+    .scroll-note {
+      margin-top: 24px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-bright);
+      animation: bobDown 2s ease-in-out infinite;
+    }
+    @keyframes bobDown { 50% { transform: translateY(6px); } }
+
+    .glass-card {
+      margin-top: 22px;
+      padding: 26px 18px;
+      border-radius: 20px;
+      background: var(--card-surface);
+      border: 1px solid var(--gold-line);
+      text-align: center;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .eyebrow {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold-mid);
+    }
+
+    .sec-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      margin-top: 4px;
+    }
+
+    .gold-divider {
+      width: 130px;
+      height: 1px;
+      margin: 12px auto 20px;
+      background: linear-gradient(90deg, transparent, var(--gold-mid), transparent);
+    }
+
+    .jodi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .arch-frame {
+      aspect-ratio: 3 / 3.7;
+      border-radius: 95px 95px 12px 12px;
+      padding: 3.5px;
+      background: linear-gradient(145deg, var(--gold-bright), var(--gold-deep));
+    }
+    .arch-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 91px 91px 9px 9px;
+      overflow: hidden;
+      background: #1d0f03;
+      display: grid;
+      place-items: center;
+    }
+    .arch-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cd-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .cd-box {
+      padding: 12px 4px;
+      border-radius: 12px;
+      background: rgba(18, 9, 2, 0.72);
+      border: 1px solid var(--gold-line);
+    }
+    .cd-val {
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold-bright);
+    }
+    .cd-lbl {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold-mid);
+      margin-top: 3px;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 390px) {
+      .events-grid { grid-template-columns: 1fr; }
+    }
+    .event-card {
+      padding: 16px 10px;
+      border-radius: 14px;
+      background: rgba(18, 9, 2, 0.75);
+      border: 1px solid var(--gold-line);
+    }
+
+    .gold-btn {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+      color: #211102;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .rsvp-input {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 10px;
+      border: 1px solid var(--gold-line);
+      background: rgba(18, 9, 2, 0.85);
+      color: var(--cream-text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      margin-bottom: 10px;
+      outline: none;
+    }
+  </style>
+</head>
+<body class="video-locked">
+
+  <!-- 1. FULL-BLEED 9:16 5-SEC ENVELOPE & GOLD VORTEX VIDEO -->
+  <section id="videoIntroStage">
+    <video id="introVideoEl" autoplay muted playsinline preload="auto"></video>
+
+    <div id="setupFallbackBox" class="hidden">
+      <p class="font-cinzel" style="color:#fff0b8;font-size:15px;font-weight:700;">5-Sec Video Link</p>
+      <p class="font-ui" style="font-size:12px;opacity:0.85;margin:8px 0 16px;line-height:1.5;">
+        <code>public/video-card.html</code> mein <code>INTRO_VIDEO_URL</code> ke andar apna Cloudinary <code>.mp4</code> link paste karein.
+      </p>
+      <button type="button" class="gold-btn" onclick="crossfadeToInvitation()">Open Invitation ➔</button>
+    </div>
+
+    <div class="video-controls-overlay" id="videoControls">
+      <button type="button" class="vid-pill" id="vidMuteBtn" onclick="toggleMute()">🔇 Unmute</button>
+      <button type="button" class="vid-pill" onclick="crossfadeToInvitation()">Skip ➔</button>
+    </div>
+  </section>
+
+  <!-- REPLAY INTRO BUTTON -->
+  <div class="replay-fab">
+    <button type="button" class="vid-pill" onclick="replayVideo()">▶ Replay Video</button>
+  </div>
+
+  <!-- 2. GOLD PARTICLE FADE-IN HERO + FULL SCROLLABLE INVITATION -->
+  <main class="invite-wrap">
+
+    <header class="vortex-hero">
+      <p class="font-hindi fade-reveal" style="--d: 0.1s; color:#fff0b8; font-size:16px;">
+        ॥ श्री गणेशाय नमः ॥
+      </p>
+
+      <p class="fade-reveal" style="--d: 0.3s; font-style:italic; font-size:17px; opacity:0.88; margin-top:10px;">
+        Together with our beloved families, we cordially invite you to the royal union of
+      </p>
+
+      <div class="fade-reveal" style="--d: 0.55s; margin:12px 0;">
+        <h1 id="heroGroom" class="font-script couple-title gold-foil">Dulha</h1>
+        <span class="weds-word">&amp;</span>
+        <h1 id="heroBride" class="font-script couple-title gold-foil">Dulhan</h1>
+      </div>
+
+      <div class="muhurat-card fade-reveal" style="--d: 0.8s;">
+        <div id="heroDate" class="font-cinzel" style="font-size:13px;color:#fff0b8;letter-spacing:0.14em;">SHUBH VIVAH</div>
+        <div id="heroVenue" style="font-size:17px;margin-top:4px;opacity:0.92;">Royal Palace</div>
+      </div>
+
+      <div class="scroll-note fade-reveal" style="--d: 1.05s;">
+        Scroll Down for Details ↓
+      </div>
+    </header>
+
+    <!-- SHAHI JODI -->
+    <section class="glass-card">
+      <p class="eyebrow">The Royal Union</p>
+      <h2 class="font-cinzel gold-foil sec-title">SHAHI JODI</h2>
+      <div class="gold-divider"></div>
+
+      <div class="jodi-grid">
+        <div>
+          <div class="arch-frame">
+            <div class="arch-inner">
+              <img id="groomImg" class="hidden" alt="Dulha" />
+              <span id="groomIcon" style="font-size:48px;">🤴</span>
+            </div>
+          </div>
+          <h3 id="jodiGroom" class="font-cinzel" style="font-size:14px;color:#fff0b8;margin-top:10px;">Dulha</h3>
+          <p id="groomParents" style="font-style:italic;font-size:14px;opacity:0.82;margin-top:2px;"></p>
+        </div>
+
+        <div>
+          <div class="arch-frame">
+            <div class="arch-inner">
+              <img id="brideImg" class="hidden" alt="Dulhan" />
+              <span id="brideIcon" style="font-size:48px;">👸</span>
+            </div>
+          </div>
+          <h3 id="jodiBride" class="font-cinzel" style="font-size:14px;color:#fff0b8;margin-top:10px;">Dulhan</h3>
+          <p id="brideParents" style="font-style:italic;font-size:14px;opacity:0.82;margin-top:2px;"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COUNTDOWN -->
+    <section class="glass-card">
+      <p class="eyebrow">Counting Down To Forever</p>
+      <h2 class="font-cinzel gold-foil sec-title">SHUBH MUHURAT</h2>
+      <div class="gold-divider"></div>
+
+      <div class="cd-grid">
+        <div class="cd-box"><div id="cdD" class="cd-val">00</div><div class="cd-lbl">Days</div></div>
+        <div class="cd-box"><div id="cdH" class="cd-val">00</div><div class="cd-lbl">Hours</div></div>
+        <div class="cd-box"><div id="cdM" class="cd-val">00</div><div class="cd-lbl">Mins</div></div>
+        <div class="cd-box"><div id="cdS" class="cd-val">00</div><div class="cd-lbl">Secs</div></div>
+      </div>
+    </section>
+
+    <!-- SHUBH KARYAKRAM (EVENTS) -->
+    <section class="glass-card">
+      <p class="eyebrow">Royal Celebrations</p>
+      <h2 class="font-cinzel gold-foil sec-title">SHUBH KARYAKRAM</h2>
+      <div class="gold-divider"></div>
+
+      <div id="eventsGrid" class="events-grid"></div>
+    </section>
+
+    <!-- VENUE -->
+    <section class="glass-card">
+      <p class="eyebrow">Palace Destination</p>
+      <h2 class="font-cinzel gold-foil sec-title">WEDDING VENUE</h2>
+      <div class="gold-divider"></div>
+
+      <h3 id="venueTitle" class="font-cinzel" style="font-size:17px;color:#fff0b8;">Royal Palace</h3>
+      <p id="venueAddr" style="font-size:16px;opacity:0.86;margin:6px 0 18px;"></p>
+      <a id="mapLink" href="https://www.google.com/maps" target="_blank" rel="noopener" class="gold-btn">
+        📍 Open in Google Maps
+      </a>
+    </section>
+
+    <!-- RSVP & BLESSINGS -->
+    <section class="glass-card" style="text-align:left;">
+      <div style="text-align:center;">
+        <p class="eyebrow">Confirm Your Presence</p>
+        <h2 class="font-cinzel gold-foil sec-title">RSVP &amp; BLESSINGS</h2>
+        <div class="gold-divider"></div>
+      </div>
+
+      <form id="rsvpForm">
+        <input type="text" id="rsvpName" required placeholder="Your Full Name *" class="rsvp-input" />
+        <select id="rsvpGuests" class="rsvp-input">
+          <option value="1 Guest">1 Guest</option>
+          <option value="2 Guests" selected>2 Guests</option>
+          <option value="3 Guests">3 Guests</option>
+          <option value="4+ Family">4+ Family</option>
+        </select>
+        <textarea id="rsvpWish" rows="2" placeholder="Write your blessings for the couple..." class="rsvp-input"></textarea>
+        <button type="submit" class="gold-btn" style="width:100%;padding:13px;">
+          ✦ Confirm Presence &amp; Send Wishes
+        </button>
+      </form>
+
+      <div id="rsvpDone" class="hidden" style="text-align:center;padding:12px 0;">
+        <h3 class="font-cinzel" style="color:#fff0b8;font-size:17px;">✦ Dhanyavaad! RSVP Recorded ✦</h3>
+        <p style="font-size:16px;margin-top:6px;">We look forward to celebrating together with you.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* =====================================================================
+       APNA 5-SEC 9:16 CLOUDINARY .MP4 VIDEO LINK YAHAN PASTE KAREIN
+       ===================================================================== */
+    const INTRO_VIDEO_URL = "https://res.cloudinary.com/yukd1mlb/video/upload/q_auto,f_mp4/v1795694817/IMG_0816.mov";
+
+    let revealed = false;
+    let weddingTarget = new Date(Date.now() + 30 * 86400000);
+
+    const videoStage = document.getElementById('videoIntroStage');
+    const videoEl = document.getElementById('introVideoEl');
+    const setupFallbackBox = document.getElementById('setupFallbackBox');
+    const videoControls = document.getElementById('videoControls');
+
+    function esc(s) {
+      return String(s || '').replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+    }
+
+    function startPortalVideo() {
+      if (!INTRO_VIDEO_URL || !INTRO_VIDEO_URL.trim()) {
+        videoEl.classList.add('hidden');
+        videoControls.classList.add('hidden');
+        setupFallbackBox.classList.remove('hidden');
+        return;
+      }
+
+      videoEl.src = INTRO_VIDEO_URL.trim();
+      videoEl.play().catch(() => crossfadeToInvitation());
+
+      // For a 5s video, crossfade during the final 0.9s (around 4.1s) into the golden particle card
+      videoEl.addEventListener('timeupdate', () => {
+        if (!revealed && videoEl.duration && (videoEl.duration - videoEl.currentTime <= 0.9)) {
+          crossfadeToInvitation();
+        }
+      });
+
+      videoEl.addEventListener('ended', crossfadeToInvitation);
+      videoEl.addEventListener('error', crossfadeToInvitation);
+    }
+
+    function crossfadeToInvitation() {
+      if (revealed) return;
+      revealed = true;
+
+      videoStage.classList.add('fade-out');
+      document.body.classList.add('card-revealed');
+
+      setTimeout(() => {
+        videoEl.pause();
+        videoStage.classList.add('gone');
+        document.body.classList.remove('video-locked');
+      }, 920);
+    }
+
+    function replayVideo() {
+      if (!INTRO_VIDEO_URL) return;
+      window.scrollTo(0, 0);
+      revealed = false;
+      document.body.classList.add('video-locked');
+      document.body.classList.remove('card-revealed');
+      videoStage.classList.remove('gone', 'fade-out');
+      videoEl.currentTime = 0;
+      videoEl.play().catch(() => {});
+    }
+
+    function toggleMute() {
+      const btn = document.getElementById('vidMuteBtn');
+      videoEl.muted = !videoEl.muted;
+      btn.textContent = videoEl.muted ? '🔇 Unmute' : '🔊 Sound On';
+    }
+
+    startPortalVideo();
+
+    /* ===== BIND DYNAMIC CARD DATA FROM CARD-BRIDGE.JS ===== */
+    function renderEvents(events) {
+      const icons = ['🌼', '🌿', '🎶', '👑', '🪔', '✨'];
+      const list = (Array.isArray(events) && events.length > 0) ? events : [
+        { name: 'Haldi Ceremony', time: '11:00 AM', venue: 'Royal Courtyard' },
+        { name: 'Mehendi & Sangeet', time: '07:00 PM', venue: 'Sheesh Mahal' },
+        { name: 'Shubh Vivah & Pheras', time: '08:30 PM', venue: 'Grand Darbar Hall' }
+      ];
+
+      document.getElementById('eventsGrid').innerHTML = list.map((ev, i) => `
+        <div class="event-card">
+          <div style="font-size:22px;margin-bottom:4px;">${icons[i % icons.length]}</div>
+          <div class="font-cinzel" style="font-size:13px;color:#fff0b8;font-weight:700;">${esc(ev.name || ev.title)}</div>
+          <div class="font-ui" style="font-size:10px;color:#e5b84b;margin-top:4px;letter-spacing:0.08em;">${esc(ev.time || ev.date || '')}</div>
+          <div style="font-style:italic;font-size:14px;opacity:0.88;margin-top:3px;">${esc(ev.venue || '')}</div>
+        </div>
+      `).join('');
+    }
+    renderEvents([]);
+
+    function applyCardData(card) {
+      if (!card) return;
+      const groom = card.groomName || 'Dulha';
+      const bride = card.brideName || 'Dulhan';
+
+      document.title = `${groom} & ${bride} — Royal Wedding Invitation`;
+      document.getElementById('heroGroom').textContent = groom;
+      document.getElementById('heroBride').textContent = bride;
+      document.getElementById('jodiGroom').textContent = groom;
+      document.getElementById('jodiBride').textContent = bride;
+
+      if (card.groomParents) document.getElementById('groomParents').textContent = card.groomParents;
+      if (card.brideParents) document.getElementById('brideParents').textContent = card.brideParents;
+
+      if (card.groomPhoto) {
+        const img = document.getElementById('groomImg');
+        img.src = card.groomPhoto;
+        img.classList.remove('hidden');
+        document.getElementById('groomIcon').classList.add('hidden');
+      }
+      if (card.bridePhoto) {
+        const img = document.getElementById('brideImg');
+        img.src = card.bridePhoto;
+        img.classList.remove('hidden');
+        document.getElementById('brideIcon').classList.add('hidden');
+      }
+
+      const venue = card.venueName || 'Royal Palace';
+      const fullAddr = [venue, card.venueAddress].filter(Boolean).join(', ');
+      document.getElementById('heroVenue').textContent = venue;
+      document.getElementById('venueTitle').textContent = venue;
+      document.getElementById('venueAddr').textContent = card.venueAddress || '';
+      document.getElementById('mapLink').href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddr)}`;
+
+      if (card.weddingDate) {
+        const d = new Date(card.weddingDate);
+        if (!isNaN(d.getTime())) {
+          weddingTarget = d;
+          const dateStr = d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+          document.getElementById('heroDate').textContent = dateStr.toUpperCase();
+          tickCountdown();
+        }
+      }
+
+      renderEvents(card.events);
+    }
+
+    window.addEventListener('royalCardReady', e => applyCardData(e.detail));
+    if (window.ROYAL_CARD) applyCardData(window.ROYAL_CARD);
+
+    /* ===== COUNTDOWN & RSVP ===== */
+    function tickCountdown() {
+      const diff = Math.max(0, weddingTarget.getTime() - Date.now());
+      document.getElementById('cdD').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+      document.getElementById('cdH').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+      document.getElementById('cdM').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+      document.getElementById('cdS').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+    }
+    setInterval(tickCountdown, 1000);
+
+    document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('rsvpName').value.trim();
+      const guests = document.getElementById('rsvpGuests').value;
+      const wish = document.getElementById('rsvpWish').value.trim() || 'Heartiest Royal Blessings!';
+      if (typeof window.saveRoyalBlessing === 'function') {
+        try { await window.saveRoyalBlessing(name, `Attending (${guests})`, wish); } catch (_) {}
+      }
+      document.getElementById('rsvpForm').classList.add('hidden');
+      document.getElementById('rsvpDone').classList.remove('hidden');
+    });
+  </script>
+  <script src="/card-bridge.js"></script>
+</body>
+</html>
