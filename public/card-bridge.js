@@ -3,7 +3,6 @@
   const cardId = pathParts[pathParts.length - 1];
   if (!cardId || cardId === 'card') return;
 
-  // UNIVERSAL COLOR THEMES (Sabhi purane aur naye cards par automatic chalenge)
   const THEMES = {
     'royal-maroon': {
       bg: '#1c0205',
@@ -48,7 +47,6 @@
     document.documentElement.style.setProperty('--theme-border', t.border);
     document.documentElement.style.setProperty('--theme-accent', t.accent);
 
-    // Royal Maroon default hai, baaki themes ke liye automatic color palette override
     if (key === 'royal-maroon') return;
 
     let styleEl = document.getElementById('royal-universal-theme-css');
@@ -59,57 +57,26 @@
     }
 
     styleEl.textContent = `
-      body {
-        background: ${t.bg} !important;
-        background-image: ${t.bgGradient} !important;
+      body { background: ${t.bg} !important; background-image: ${t.bgGradient} !important; }
+      .mahal-viewport, #shahiDarwaza, .scroll-wrapper, .card-container {
+        background: ${t.bgGradient} !important; border-color: ${t.border} !important;
       }
-      .mahal-viewport,
-      #shahiDarwaza,
-      .scroll-wrapper,
-      .card-container {
-        background: ${t.bgGradient} !important;
-        border-color: ${t.border} !important;
-      }
-      .hero-arch-card,
-      .event-arch,
-      .crest-medallion,
-      .hud-pill,
-      .ctrl-btn,
-      .pill-btn,
-      #floatingBar,
-      #actionBar,
-      #rb-action-bar,
-      .game-frame,
-      .game-overlay {
-        background: ${t.surface} !important;
-        border-color: ${t.border} !important;
+      .hero-arch-card, .event-arch, .crest-medallion, .hud-pill, .ctrl-btn, .pill-btn,
+      #floatingBar, #actionBar, #rb-action-bar, .game-frame, .game-overlay {
+        background: ${t.surface} !important; border-color: ${t.border} !important;
       }
       .palace-door {
         background: linear-gradient(180deg, ${t.surfaceAlt} 0%, ${t.surface} 45%, ${t.bg} 100%) !important;
       }
-      .sandstone-card,
-      .cd-box,
-      .parchment-box {
-        background: ${t.lightBg} !important;
-        border-color: ${t.border} !important;
-        color: ${t.lightText} !important;
+      .sandstone-card, .cd-box, .parchment-box {
+        background: ${t.lightBg} !important; border-color: ${t.border} !important; color: ${t.lightText} !important;
       }
-      .sandstone-card h2,
-      .sandstone-card h3,
-      .sandstone-card label,
-      .cd-num {
-        color: ${t.lightText} !important;
-      }
+      .sandstone-card h2, .sandstone-card h3, .sandstone-card label, .cd-num { color: ${t.lightText} !important; }
       .sandstone-card button[type="submit"] {
-        background: ${t.surface} !important;
-        color: ${t.accent} !important;
-        border-color: ${t.border} !important;
+        background: ${t.surface} !important; color: ${t.accent} !important; border-color: ${t.border} !important;
       }
-      .gold-foil,
-      .crest-pill p:first-child,
-      .event-arch h3 {
-        color: ${t.accent} !important;
-        -webkit-text-fill-color: ${t.accent} !important;
+      .gold-foil, .crest-pill p:first-child, .event-arch h3 {
+        color: ${t.accent} !important; -webkit-text-fill-color: ${t.accent} !important;
       }
     `;
   }
@@ -145,16 +112,22 @@
         width: 100%; max-width: 480px; z-index: 99999;
         background: rgba(15, 6, 8, 0.95); backdrop-filter: blur(10px);
         border-top: 1px solid rgba(212, 175, 55, 0.65);
-        padding: 10px 14px; display: flex; align-items: center;
-        justify-content: space-between; gap: 10px;
+        padding: 10px 12px; display: flex; align-items: center;
+        justify-content: space-between; gap: 8px;
         font-family: system-ui, -apple-system, sans-serif;
         box-shadow: 0 -8px 25px rgba(0,0,0,0.75);
       }
       .rb-btn-gold {
         background: linear-gradient(135deg, #f6dc8d, #c99a2e);
         color: #240907; border: none; border-radius: 10px;
-        padding: 10px 16px; font-weight: 700; font-size: 12px;
-        text-transform: uppercase; letter-spacing: 0.06em;
+        padding: 9px 13px; font-weight: 700; font-size: 11px;
+        text-transform: uppercase; letter-spacing: 0.05em;
+        cursor: pointer; white-space: nowrap;
+      }
+      .rb-btn-sub {
+        background: #3d0811; color: #f6dc8d;
+        border: 1px solid rgba(212,175,55,0.6); border-radius: 10px;
+        padding: 9px 10px; font-weight: 700; font-size: 11px;
         cursor: pointer; white-space: nowrap;
       }
       .rb-btn-wa {
@@ -167,8 +140,99 @@
         border: 1px solid #d4af37; border-radius: 10px;
         padding: 10px 14px; font-weight: 700; font-size: 12px; cursor: pointer;
       }
+      #rb-events-modal {
+        position: fixed; inset: 0; z-index: 100005;
+        background: rgba(0,0,0,0.82); backdrop-filter: blur(6px);
+        display: none; align-items: center; justify-content: center;
+        padding: 16px; font-family: system-ui, sans-serif;
+      }
+      #rb-events-modal.open { display: flex; }
+      .rb-modal-box {
+        width: 100%; max-width: 420px; background: #240409;
+        border: 1.5px solid #d4af37; border-radius: 16px;
+        padding: 16px; color: #fffaf0; max-height: 85vh; overflow-y: auto;
+      }
+      .rb-ev-row {
+        display: grid; grid-template-columns: 1.2fr 0.9fr 1fr auto;
+        gap: 6px; margin-bottom: 8px; align-items: center;
+      }
+      .rb-ev-row input {
+        width: 100%; background: #120204; border: 1px solid rgba(212,175,55,0.4);
+        border-radius: 8px; padding: 7px 8px; color: #fff; font-size: 12px;
+      }
     `;
     document.head.appendChild(style);
+  }
+
+  function openEventsEditor(card) {
+    let modal = document.getElementById('rb-events-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'rb-events-modal';
+      modal.innerHTML = `
+        <div class="rb-modal-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <strong style="color:#f6dc8d;font-size:15px;">🪔 Events Add / Edit Karein</strong>
+            <button type="button" id="rb-ev-close" style="background:none;border:none;color:#f6dc8d;font-size:18px;cursor:pointer;">✕</button>
+          </div>
+          <div id="rb-ev-rows"></div>
+          <div style="display:flex;gap:8px;margin-top:12px;">
+            <button type="button" id="rb-ev-add" class="rb-btn-sub" style="flex:1;">+ Add Event</button>
+            <button type="button" id="rb-ev-save" class="rb-btn-gold" style="flex:1;">Save Events</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      document.getElementById('rb-ev-close').onclick = () => modal.classList.remove('open');
+      document.getElementById('rb-ev-add').onclick = () => addModalRow({ name: '', time: '', venue: '' });
+      document.getElementById('rb-ev-save').onclick = async function () {
+        this.disabled = true;
+        this.textContent = 'Saving...';
+        const list = [];
+        document.querySelectorAll('#rb-ev-rows .rb-ev-row').forEach((r) => {
+          const inputs = r.querySelectorAll('input');
+          const name = inputs[0].value.trim();
+          const time = inputs[1].value.trim();
+          const venue = inputs[2].value.trim();
+          if (name) list.push({ name, time, venue });
+        });
+        try {
+          const res = await fetch(`/api/card/${encodeURIComponent(cardId)}/events`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ events: list })
+          });
+          if (res.ok) window.location.reload();
+        } catch (e) {
+          alert('Save nahi ho paya');
+        } finally {
+          this.disabled = false;
+          this.textContent = 'Save Events';
+        }
+      };
+    }
+
+    const rowsEl = document.getElementById('rb-ev-rows');
+    rowsEl.innerHTML = '';
+    const existing = Array.isArray(card.events) && card.events.length
+      ? card.events
+      : [{ name: 'Haldi Ceremony', time: '11:00 AM', venue: 'Royal Courtyard' }];
+    existing.forEach(addModalRow);
+    modal.classList.add('open');
+  }
+
+  function addModalRow(ev) {
+    const rowsEl = document.getElementById('rb-ev-rows');
+    const row = document.createElement('div');
+    row.className = 'rb-ev-row';
+    row.innerHTML = `
+      <input type="text" placeholder="Event Name" value="${(ev.name || ev.title || '').replace(/"/g, '&quot;')}" />
+      <input type="text" placeholder="Time" value="${(ev.time || ev.date || '').replace(/"/g, '&quot;')}" />
+      <input type="text" placeholder="Venue" value="${(ev.venue || '').replace(/"/g, '&quot;')}" />
+      <button type="button" onclick="this.parentElement.remove()" style="background:none;border:none;color:#f87171;font-weight:bold;cursor:pointer;">✕</button>
+    `;
+    rowsEl.appendChild(row);
   }
 
   function autoBindFields(card) {
@@ -211,7 +275,6 @@
   function renderBars(card) {
     injectBridgeStyles();
 
-    // Agar card mein pehle se watermark/bar nahi hai tabhi inject karein
     if (!card.isPaid) {
       if (!document.getElementById('previewWatermark') && !document.getElementById('rb-watermark')) {
         const wm = document.createElement('div');
@@ -226,14 +289,18 @@
         const bar = document.createElement('div');
         bar.id = 'rb-action-bar';
         bar.innerHTML = `
-          <div>
-            <div style="color:#f6dc8d;font-size:11px;font-weight:700;text-transform:uppercase;">1-Hour Free Preview</div>
-            <div style="color:#f7eedc;font-size:10px;opacity:0.8;">Remove watermark & keep for 15 days</div>
+          <div style="min-width:0;">
+            <div style="color:#f6dc8d;font-size:10px;font-weight:700;text-transform:uppercase;">1-Hr Preview</div>
+            <div style="color:#f7eedc;font-size:9.5px;opacity:0.8;">Unlock 15 days</div>
           </div>
-          <button id="rb-pay-btn" class="rb-btn-gold">Pay ₹29 & Unlock</button>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <button id="rb-edit-ev-btn" class="rb-btn-sub">🪔 Events</button>
+            <button id="rb-pay-btn" class="rb-btn-gold">Pay ₹29 & Unlock</button>
+          </div>
         `;
         document.body.appendChild(bar);
 
+        document.getElementById('rb-edit-ev-btn').addEventListener('click', () => openEventsEditor(card));
         document.getElementById('rb-pay-btn').addEventListener('click', async function () {
           const btn = this;
           btn.disabled = true;
@@ -323,6 +390,15 @@
       const res = await fetch(`/api/card/${encodeURIComponent(cardId)}`);
       if (!res.ok) return;
       const card = await res.json();
+      if (Array.isArray(card.events)) {
+        card.events = card.events.map((ev) => ({
+          name: ev.name || ev.title || '',
+          title: ev.title || ev.name || '',
+          time: ev.time || ev.date || '',
+          date: ev.date || ev.time || '',
+          venue: ev.venue || ''
+        }));
+      }
       window.ROYAL_CARD = card;
       applyUniversalTheme(card.theme);
       autoBindFields(card);
