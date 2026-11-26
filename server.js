@@ -281,7 +281,7 @@ app.post('/api/create-order', async (req, res) => {
 // 6. API: PAYMENT VERIFY -> UNLOCK -> SEND INVOICE & CARD LINK EMAIL
 app.post('/api/unlock-card', async (req, res) => {
   try {
-    const { cardId, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    const { cardId, buyerEmail: formEmail, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
     const expectedSig = crypto
       .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
@@ -292,12 +292,14 @@ app.post('/api/unlock-card', async (req, res) => {
       return res.status(400).json({ error: 'Payment verification failed!' });
     }
 
-    let buyerEmail = '';
-    try {
-      const paymentDetails = await razorpay.payments.fetch(razorpay_payment_id);
-      buyerEmail = paymentDetails.email || '';
-    } catch (fetchErr) {
-      console.error('Razorpay payment fetch warning:', fetchErr.message);
+    let buyerEmail = String(formEmail || '').trim();
+    if (!buyerEmail) {
+      try {
+        const paymentDetails = await razorpay.payments.fetch(razorpay_payment_id);
+        buyerEmail = paymentDetails.email || '';
+      } catch (fetchErr) {
+        console.error('Razorpay payment fetch warning:', fetchErr.message);
+      }
     }
 
     const fifteenDaysLater = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000);
@@ -330,7 +332,66 @@ app.post('/api/unlock-card', async (req, res) => {
       console.error('Mail send error:', mailErr);
     }
 
-    res.json({ success: true, cardUrl: `/card/${card.id}` });
+    res.json({ success: true, buyerEmail, cardUrl: `/card/${card.id}` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Card unlock karne mein error aaya.' });
+  }
+});// 6. API: PAYMENT VERIFY -> UNLOCK -> SEND INVOICE & CARD LINK EMAIL
+app.post('/api/unlock-card', async (req, res) => {
+  try {
+    const { cardId, buyerEmail: formEmail, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+    const expectedSig = crypto
+      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest('hex');
+
+    if (expectedSig !== razorpay_signature) {
+      return res.status(400).json({ error: 'Payment verification failed!' });
+    }
+
+    let buyerEmail = String(formEmail || '').trim();
+    if (!buyerEmail) {
+      try {
+        const paymentDetails = await razorpay.payments.fetch(razorpay_payment_id);
+        buyerEmail = paymentDetails.email || '';
+      } catch (fetchErr) {
+        console.error('Razorpay payment fetch warning:', fetchErr.message);
+      }
+    }
+
+    const fifteenDaysLater = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000);
+
+    const card = await Card.findOneAndUpdate(
+      { id: cardId },
+      {
+        isPaid: true,
+        paymentId: razorpay_payment_id,
+        buyerEmail,
+        expireAt: fifteenDaysLater
+      },
+      { new: true }
+    );
+
+    if (!card) return res.status(404).json({ error: 'Card nahi mila.' });
+
+    const baseUrl = `${req.headers['x-forwarded-proto'] || req.protocol}://${req.get('host')}`;
+    const fullCardLink = `${baseUrl}/card/${card.id}`;
+
+    try {
+      await sendInvoiceEmail({
+        toEmail: buyerEmail,
+        card,
+        paymentId: razorpay_payment_id,
+        orderId: razorpay_order_id,
+        cardLink: fullCardLink
+      });
+    } catch (mailErr) {
+      console.error('Mail send error:', mailErr);
+    }
+
+    res.json({ success: true, buyerEmail, cardUrl: `/card/${card.id}` });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Card unlock karne mein error aaya.' });
