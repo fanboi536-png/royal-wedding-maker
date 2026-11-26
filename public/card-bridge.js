@@ -123,6 +123,15 @@
         font-family: system-ui, -apple-system, sans-serif;
         box-shadow: 0 -8px 25px rgba(0,0,0,0.75);
       }
+      #rb-floating-ev-btn {
+        position: fixed; top: 14px; left: 14px; z-index: 99998;
+        background: rgba(42, 6, 12, 0.92); color: #f6dc8d;
+        border: 1px solid rgba(212, 175, 55, 0.75);
+        border-radius: 999px; padding: 8px 14px;
+        font-family: system-ui, sans-serif; font-size: 11px; font-weight: 700;
+        cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.65);
+        backdrop-filter: blur(8px);
+      }
       .rb-btn-gold {
         background: linear-gradient(135deg, #f6dc8d, #c99a2e);
         color: #240907; border: none; border-radius: 10px;
@@ -166,82 +175,83 @@
         width: 100%; background: #120204; border: 1px solid rgba(212,175,55,0.4);
         border-radius: 8px; padding: 7px 8px; color: #fff; font-size: 12px;
       }
-      #rb-auto-events-box {
-        margin: 20px auto; max-width: 440px; padding: 18px 14px;
+      #rb-auto-events-section {
+        width: 100%; clear: both; padding: 36px 16px;
+        position: relative; z-index: 2; box-sizing: border-box;
+      }
+      .rb-auto-events-inner {
+        max-width: 680px; margin: 0 auto; padding: 24px 18px;
         background: rgba(42, 6, 12, 0.92);
         border: 1.5px solid rgba(212, 175, 55, 0.65);
-        border-radius: 16px; text-align: center;
+        border-radius: 18px; text-align: center;
         color: #fffaf0; font-family: Georgia, serif;
       }
       .rb-auto-ev-grid {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px;
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px; margin-top: 16px;
       }
       .rb-auto-ev-card {
-        background: rgba(18, 2, 4, 0.75);
+        background: rgba(18, 2, 4, 0.78);
         border: 1px solid rgba(212, 175, 55, 0.45);
-        border-radius: 12px; padding: 10px 8px;
+        border-radius: 12px; padding: 14px 10px;
       }
     `;
     document.head.appendChild(style);
   }
 
-  /* Auto-render events on older cards (Royal Palace / Shahi Scroll) if missing */
+  /* Safe standalone <section> injection ONLY if template didn't render events */
   function ensureEventsVisible(card) {
     if (!card || !Array.isArray(card.events) || card.events.length === 0) return;
-    if (document.getElementById('rb-auto-events-box')) return;
+    if (document.getElementById('rb-auto-events-section')) return;
 
     const firstEventName = (card.events[0].name || card.events[0].title || '').trim();
     if (!firstEventName) return;
 
-    // Check if the card template already rendered the event name
+    // If template already displays the event name anywhere on page, do nothing
     const pageText = document.body ? document.body.innerText : '';
     if (pageText.includes(firstEventName)) return;
 
-    // Look for an empty known events container first
+    // Populate empty native events container if present
     const knownSelectors = ['#eventsList', '#eventsContainer', '#karyakramList', '#eventsGrid', '[data-events]'];
     for (const sel of knownSelectors) {
       const box = document.querySelector(sel);
       if (box && box.children.length === 0) {
         box.innerHTML = card.events.map((ev) => `
-          <div style="padding:10px;border:1px solid rgba(212,175,55,0.45);border-radius:12px;background:rgba(0,0,0,0.28);text-align:center;margin-bottom:8px;">
-            <div style="font-weight:700;color:#f6dc8d;font-size:14px;">🪔 ${esc(ev.name || ev.title)}</div>
-            <div style="font-size:11px;color:#fde68a;margin-top:3px;">${esc(ev.time || ev.date || '')}</div>
-            <div style="font-size:12px;opacity:0.9;margin-top:2px;">${esc(ev.venue || '')}</div>
+          <div style="padding:12px;border:1px solid rgba(212,175,55,0.45);border-radius:12px;background:rgba(0,0,0,0.28);text-align:center;">
+            <div style="font-weight:700;color:#f6dc8d;font-size:15px;">🪔 ${esc(ev.name || ev.title)}</div>
+            <div style="font-size:11px;color:#fde68a;margin-top:4px;">${esc(ev.time || ev.date || '')}</div>
+            <div style="font-size:12px;opacity:0.9;margin-top:3px;">${esc(ev.venue || '')}</div>
           </div>
         `).join('');
         return;
       }
     }
 
-    // Otherwise inject a clean Royal Events block inside main/card container
-    const section = document.createElement('div');
-    section.id = 'rb-auto-events-box';
+    // Insert strictly as a full-width <section> BEFORE the RSVP <section> (never inside a grid div)
+    const section = document.createElement('section');
+    section.id = 'rb-auto-events-section';
     section.innerHTML = `
-      <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#f6dc8d;font-family:system-ui,sans-serif;">Shubh Karyakram</div>
-      <h3 style="margin:4px 0 0;font-size:19px;color:#f9e79f;">🪔 Wedding Events</h3>
-      <div class="rb-auto-ev-grid">
-        ${card.events.map((ev) => `
-          <div class="rb-auto-ev-card">
-            <div style="font-weight:700;color:#f6dc8d;font-size:13px;">${esc(ev.name || ev.title)}</div>
-            <div style="font-size:10px;color:#fde68a;margin-top:3px;font-family:system-ui,sans-serif;">${esc(ev.time || ev.date || '')}</div>
-            <div style="font-size:11px;opacity:0.85;margin-top:3px;">${esc(ev.venue || '')}</div>
-          </div>
-        `).join('')}
+      <div class="rb-auto-events-inner">
+        <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#f6dc8d;font-family:system-ui,sans-serif;">Shubh Karyakram</div>
+        <h3 style="margin:6px 0 0;font-size:22px;color:#f9e79f;letter-spacing:0.06em;">🪔 Wedding Events</h3>
+        <div class="rb-auto-ev-grid">
+          ${card.events.map((ev) => `
+            <div class="rb-auto-ev-card">
+              <div style="font-weight:700;color:#f6dc8d;font-size:15px;">${esc(ev.name || ev.title)}</div>
+              <div style="font-size:11px;color:#fde68a;margin-top:4px;font-family:system-ui,sans-serif;">${esc(ev.time || ev.date || '')}</div>
+              <div style="font-size:12px;opacity:0.88;margin-top:4px;">${esc(ev.venue || '')}</div>
+            </div>
+          `).join('')}
+        </div>
       </div>
     `;
 
-    const anchor =
-      document.querySelector('#rsvpForm')?.closest('section, div') ||
-      document.querySelector('main') ||
-      document.querySelector('.card-container, .scroll-wrapper, .mahal-viewport') ||
-      document.body;
-
-    if (anchor === document.body) {
-      document.body.appendChild(section);
-    } else if (anchor.tagName === 'MAIN' || anchor.classList.contains('card-container') || anchor.classList.contains('scroll-wrapper')) {
-      anchor.appendChild(section);
+    const rsvpSection = document.querySelector('#rsvpForm')?.closest('section');
+    if (rsvpSection && rsvpSection.parentNode) {
+      rsvpSection.parentNode.insertBefore(section, rsvpSection);
     } else {
-      anchor.parentNode.insertBefore(section, anchor);
+      const mainEl = document.querySelector('main') || document.body;
+      mainEl.appendChild(section);
     }
   }
 
@@ -353,11 +363,20 @@
     }
   }
 
+  /* Detect if template (like card.html or scroll-card.html) already has its own Pay / Share bar */
+  function templateHasOwnBottomBar() {
+    if (document.getElementById('actionBar')) return true;
+    const btns = Array.from(document.querySelectorAll('button'));
+    return btns.some((b) => /pay\s*₹?29|unlock|share on whatsapp/i.test(b.textContent || ''));
+  }
+
   function renderBars(card) {
     injectBridgeStyles();
+    const hasNativeBar = templateHasOwnBottomBar();
 
     if (!card.isPaid) {
-      if (!document.getElementById('previewWatermark') && !document.getElementById('rb-watermark')) {
+      // Only add watermark if template doesn't already show "PREVIEW ONLY"
+      if (!document.getElementById('previewWatermark') && !document.getElementById('rb-watermark') && !/PREVIEW ONLY/i.test(document.body.innerText || '')) {
         const wm = document.createElement('div');
         wm.id = 'rb-watermark';
         wm.innerHTML = Array(5)
@@ -366,21 +385,15 @@
         document.body.appendChild(wm);
       }
 
-      const existingBar = document.getElementById('actionBar');
-      if (existingBar) {
-        // Inject "🪔 Events" button into existing bottom bar of Royal Palace / Shahi Scroll / Darbar
-        if (!document.getElementById('rb-edit-ev-btn')) {
-          const evBtn = document.createElement('button');
-          evBtn.type = 'button';
-          evBtn.id = 'rb-edit-ev-btn';
-          evBtn.className = 'rb-btn-sub';
-          evBtn.textContent = '🪔 Events';
-          evBtn.addEventListener('click', () => openEventsEditor(card));
-
-          const unpaidInner = document.getElementById('unpaidBar') || existingBar;
-          const payBtn = unpaidInner.querySelector('button');
-          if (payBtn) unpaidInner.insertBefore(evBtn, payBtn);
-          else unpaidInner.appendChild(evBtn);
+      if (hasNativeBar) {
+        // Template already has its own bottom Pay bar -> add sleek top-left "🪔 Edit Events" pill so bars never overlap
+        if (!document.getElementById('rb-floating-ev-btn')) {
+          const evPill = document.createElement('button');
+          evPill.type = 'button';
+          evPill.id = 'rb-floating-ev-btn';
+          evPill.textContent = '🪔 Edit Events';
+          evPill.addEventListener('click', () => openEventsEditor(card));
+          document.body.appendChild(evPill);
         }
       } else if (!document.getElementById('rb-action-bar')) {
         const bar = document.createElement('div');
@@ -449,7 +462,7 @@
           }
         });
       }
-    } else if (!document.getElementById('actionBar') && !document.getElementById('rb-action-bar')) {
+    } else if (!hasNativeBar && !document.getElementById('rb-action-bar')) {
       const bar = document.createElement('div');
       bar.id = 'rb-action-bar';
       bar.innerHTML = `
@@ -502,8 +515,7 @@
       renderBars(card);
       window.dispatchEvent(new CustomEvent('royalCardReady', { detail: card }));
 
-      // Wait briefly for native template scripts, then render events if still missing
-      setTimeout(() => ensureEventsVisible(card), 450);
+      setTimeout(() => ensureEventsVisible(card), 500);
     } catch (e) {
       console.error('Card bridge error:', e);
     }
